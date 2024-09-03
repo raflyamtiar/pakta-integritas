@@ -27,10 +27,16 @@
             <div class="login-left">
                 <img src="{{ asset('assets/logo smi.png') }}" alt="">
                 <h3>SISTEM MANAJEMEN INTEGRASI</h3>
-                <form action="">
+                @if ($errors->any())
+                    <div class="login-alert alert-danger">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
+                <form action="{{ route('admin.login.submit') }}" method="POST">
+                    @csrf
                     <div class="form-group-login">
-                        <label for="email">Email or Username</label>
-                        <input type="text" id="email" name="email" placeholder="Email or Username" required>
+                        <label for="login">Email or Username</label>
+                        <input type="text" id="login" name="login" placeholder="Email or Username" required>
                     </div>
                     <div class="form-group-login">
                         <label for="password">Password</label>
@@ -40,7 +46,7 @@
                         <input type="checkbox" id="show-password" onclick="togglePasswordVisibility()">
                         <label for="show-password">Lihat Password</label>
                     </div>
-                    <button type="submit">Login</button>
+                    <button class="btn-login" type="submit">Login</button>
                 </form>
             </div>
             <div class="login-right">

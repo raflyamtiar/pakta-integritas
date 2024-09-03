@@ -22,13 +22,28 @@ body {
     background-repeat: no-repeat;
 }
 
+.login-left .login-alert {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
 .container-login .login-content {
-    height: 60%;
+    height: 70%;
     width: 60%;
     display: flex;
     justify-content: center;
     border-radius: 20px;
-    margin: 9% 0 0 22%;
+    margin: 7% 0 0 22%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -44,8 +59,7 @@ body {
 }
 
 .login-left img {
-    width: 80px;
-    margin-bottom: 10px;
+    width: 100px;
 }
 
 .login-left h3 {
@@ -58,7 +72,7 @@ body {
     position: relative;
 }
 
-button {
+.btn-login {
     text-align: center;
     width: 30%;
     padding: 5px;
@@ -73,7 +87,7 @@ button {
     margin-left: 100px;
 }
 
-button:hover {
+.btn-login:hover {
     background-color: #fff;
     color: #0077b6;
 }

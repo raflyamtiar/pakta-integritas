@@ -30,8 +30,9 @@
             </div>
         </a>
         <div class="logout-admin">
-            <button class="logout-btn">Logout</button>
-            <form id="logout-form" action="" method="POST" style="display: none;">
+
+            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
+                <button class="logout-btn">Logout</button>
                 @csrf
             </form>
         </div>
@@ -76,7 +77,7 @@
                     <h2>Pakta Integritas Pegawai</h2>
                     <p>Jumlah</p>
                     <a href="{{ route('admin.role', ['role' => 'pegawai']) }}">
-                        <h3>{{ $countPegawai }}</h3>
+                        <h3>{{ $countPegawai ?? 0 }}</h3>
                     </a>
                     <hr>
                     <a href="{{ route('admin.role', ['role' => 'pegawai']) }}">
@@ -88,7 +89,7 @@
                     <h2>Pakta Integritas Penyedia Jasa</h2>
                     <p>Jumlah</p>
                     <a href="{{ route('admin.role', ['role' => 'penyedia-jasa']) }}">
-                        <h3>{{ $countPenyediaJasa }}</h3>
+                        <h3>{{ $countPenyediaJasa ?? 0 }}</h3>
                     </a>
                     <hr>
                     <a href="{{ route('admin.role', ['role' => 'penyedia-jasa']) }}">
@@ -100,7 +101,7 @@
                     <h2>Pakta Integritas Pengguna Jasa</h2>
                     <p>Jumlah</p>
                     <a href="{{ route('admin.role', ['role' => 'pengguna-jasa']) }}">
-                        <h3>{{ $countPenggunaJasa }}</h3>
+                        <h3>{{ $countPenggunaJasa ?? 0}}</h3>
                     </a>
                     <hr>
                     <a href="{{ route('admin.role', ['role' => 'pengguna-jasa']) }}">
@@ -112,7 +113,7 @@
                     <h2>Pakta Integritas Auditor</h2>
                     <p>Jumlah</p>
                     <a href="{{ route('admin.role', ['role' => 'auditor']) }}">
-                        <h3>{{ $countAuditor }}</h3>
+                        <h3>{{ $countAuditor ?? 0 }}</h3>
                     </a>
                     <hr>
                     <a href="{{ route('admin.role', ['role' => 'auditor']) }}">
