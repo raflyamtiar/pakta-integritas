@@ -31,6 +31,8 @@ class PaktaIntegritasController extends Controller
                 ->orWhere('no_whatsapp', 'like', '%' . $search . '%');
             });
         }
+        // Melakukan paginasi pada hasil query
+        $data = $query->paginate(10);
 
         // Kirimkan data ke view
         return view('admin.admin_' . strtolower($role), compact('data', 'role'));
@@ -38,9 +40,6 @@ class PaktaIntegritasController extends Controller
 
     public function itunginatuh(Request $request)
     {
-        // Melakukan paginasi pada hasil query
-        $data = $query->paginate(10);
-
         $roleCounts = PaktaIntegritas::select('role', DB::raw('count(*) as total'))
                                     ->groupBy('role')
                                     ->pluck('total', 'role');
