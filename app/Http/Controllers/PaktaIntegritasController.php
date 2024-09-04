@@ -32,10 +32,15 @@ class PaktaIntegritasController extends Controller
             });
         }
 
+        // Kirimkan data ke view
+        return view('admin.admin_' . strtolower($role), compact('data', 'role'));
+    }
+
+    public function itunginatuh(Request $request)
+    {
         // Melakukan paginasi pada hasil query
         $data = $query->paginate(10);
 
-        // Hitung jumlah data untuk setiap role
         $roleCounts = PaktaIntegritas::select('role', DB::raw('count(*) as total'))
                                     ->groupBy('role')
                                     ->pluck('total', 'role');
@@ -46,7 +51,7 @@ class PaktaIntegritasController extends Controller
         $countAuditor = $roleCounts['auditor'] ?? 0;
 
         // Kirimkan data ke view
-        return view('admin.admin_' . strtolower($role), compact('data', 'role', 'countPegawai', 'countPenyediaJasa', 'countPenggunaJasa', 'countAuditor'));
+        return view('admin.home', compact('countPegawai', 'countPenyediaJasa', 'countPenggunaJasa', 'countAuditor'));
     }
 
     public function store(Request $request)
@@ -74,11 +79,9 @@ class PaktaIntegritasController extends Controller
         $paktaIntegritas = PaktaIntegritas::create(array_merge($request->all(), ['no_whatsapp' => $noWhatsapp]));
 
         // Cek referer URL untuk menentukan redirect
-        if (strpos(URL::previous(), 'admin') !== false) {
-            // Jika request berasal dari halaman admin, redirect ke halaman admin sesuai role
+        if ($request->get('is_admin')) {
             return redirect()->route('admin.role', strtolower(str_replace(' ', '-', $request->role)))->with('success', 'Data Berhasil Disimpan');
         } else {
-            // Jika request berasal dari halaman index atau lainnya, redirect ke down_surat
             return redirect()->route('user.down-surat')->with('success', 'Data Berhasil Disimpan');
         }
     }
