@@ -25,8 +25,10 @@
     <div class="container-login" style="background-image: url('{{ asset('assets/login-bg.png') }}');">
         <div class="login-content">
             <div class="login-left">
-                <img src="{{ asset('assets/logo smi.png') }}" alt="">
-                <h3>SISTEM MANAJEMEN INTEGRASI</h3>
+                <a href="/">
+                    <img src="{{ asset('assets/logo smi.png') }}" alt="">
+                    <h3>SISTEM MANAJEMEN INTEGRASI</h3>
+                </a>
                 @if ($errors->any())
                     <div class="login-alert alert-danger">
                         {{ $errors->first() }}

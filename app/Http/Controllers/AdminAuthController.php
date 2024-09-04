@@ -33,7 +33,7 @@ class AdminAuthController extends Controller
         }
 
         // Jika login gagal, kembalikan ke halaman login dengan pesan error
-        return redirect()->back()->withErrors(['login' => 'Login gagal, periksa kembali email/username dan password Anda.']);
+        return redirect()->back()->withErrors(['login' => 'Login gagal, periksa kembali email/username dan password anda.']);
     }
 
     public function logout()

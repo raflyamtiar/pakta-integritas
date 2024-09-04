@@ -137,9 +137,9 @@
                     @endforeach
                 </tbody>
             </table>
-        @else
-            <p>Tidak ada data pakta integritas tersedia.</p>
-        @endif
+            @else
+                <p>Tidak ada data pakta integritas tersedia.</p>
+            @endif
         </div>
     </div>
 

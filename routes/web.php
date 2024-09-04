@@ -45,7 +45,7 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 
 // Prefix untuk Admin Routes
 Route::middleware(\App\Http\Middleware\AdminMiddleware::class)->prefix('admin')->group(function () {
-    route::get('/admin/home', [PaktaIntegritasController::class, 'itunginatuh'])->name('admin.home');
+    route::get('/admin/home', [PaktaIntegritasController::class, 'index'])->name('admin.home');
 
     Route::get('/{role}', [PaktaIntegritasController::class, 'index'])->name('admin.role');
     Route::post('/add/{role}', [PaktaIntegritasController::class, 'store'])->name('integritas.store.admin');

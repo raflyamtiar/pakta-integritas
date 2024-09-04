@@ -23,34 +23,31 @@ class PaktaIntegritasController extends Controller
         // Jika ada parameter pencarian, tambahkan ke query
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', '%' . $search . '%')
-                ->orWhere('jabatan', 'like', '%' . $search . '%')
-                ->orWhere('instansi', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%')
-                ->orWhere('no_whatsapp', 'like', '%' . $search . '%');
+                    ->orWhere('jabatan', 'like', '%' . $search . '%')
+                    ->orWhere('instansi', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('no_whatsapp', 'like', '%' . $search . '%');
             });
         }
         // Melakukan paginasi pada hasil query
         $data = $query->paginate(10);
 
-        // Kirimkan data ke view
-        return view('admin.admin_' . strtolower($role), compact('data', 'role'));
-    }
-
-    public function itunginatuh(Request $request)
-    {
         $roleCounts = PaktaIntegritas::select('role', DB::raw('count(*) as total'))
-                                    ->groupBy('role')
-                                    ->pluck('total', 'role');
+            ->groupBy('role')
+            ->pluck('total', 'role');
 
         $countPegawai = $roleCounts['pegawai'] ?? 0;
         $countPenyediaJasa = $roleCounts['penyedia-jasa'] ?? 0;
         $countPenggunaJasa = $roleCounts['pengguna-jasa'] ?? 0;
         $countAuditor = $roleCounts['auditor'] ?? 0;
 
-        // Kirimkan data ke view
-        return view('admin.home', compact('countPegawai', 'countPenyediaJasa', 'countPenggunaJasa', 'countAuditor'));
+        if ($role) {
+            return view('admin.admin_' . strtolower($role), compact('data', 'role', 'countPegawai', 'countPenyediaJasa', 'countPenggunaJasa', 'countAuditor'));
+        } else {
+            return view('admin.admin_home', compact('countPegawai', 'countPenyediaJasa', 'countPenggunaJasa', 'countAuditor'));
+        }
     }
 
     public function store(Request $request)
@@ -74,11 +71,27 @@ class PaktaIntegritasController extends Controller
             $noWhatsapp = '62' . ltrim($noWhatsapp, '0'); // Menghilangkan '0' di awal jika ada
         }
 
+         // Ubah huruf pertama setiap kata menjadi kapital menggunakan ucwords()
+        $nama = ucwords($request->input('nama'));
+        $jabatan = ucwords($request->input('jabatan'));
+        $instansi = ucwords($request->input('instansi'));
+        $kota = ucwords($request->input('kota'));
+
         // Menyimpan data ke database
-        $paktaIntegritas = PaktaIntegritas::create(array_merge($request->all(), ['no_whatsapp' => $noWhatsapp]));
+        $paktaIntegritas = PaktaIntegritas::create([
+            'nama' => $nama,
+            'jabatan' => $jabatan,
+            'instansi' => $instansi,
+            'alamat' => $request->input('alamat'),
+            'email' => $request->input('email'),
+            'kota' => $kota,
+            'tanggal' => $request->input('tanggal'),
+            'no_whatsapp' => $noWhatsapp,
+            'role' => $request->input('role'),
+        ]);
 
         // Cek referer URL untuk menentukan redirect
-        if ($request->get('is_admin')) {
+        if ($request->input('is_admin') == 'true') {
             return redirect()->route('admin.role', strtolower(str_replace(' ', '-', $request->role)))->with('success', 'Data Berhasil Disimpan');
         } else {
             return redirect()->route('user.down-surat')->with('success', 'Data Berhasil Disimpan');
@@ -87,7 +100,7 @@ class PaktaIntegritasController extends Controller
 
     public function userSurat()
     {
-        $paktaIntegritas = PaktaIntegritas::latest()->take(1)->get();
+        $paktaIntegritas = PaktaIntegritas::latest()->take(3)->get();
         return view('down_surat', compact('paktaIntegritas'));
     }
 
@@ -128,11 +141,26 @@ class PaktaIntegritasController extends Controller
             $noWhatsapp = '62' . ltrim($noWhatsapp, '0'); // Menghilangkan '0' di awal jika ada
         }
 
+        // Mengubah huruf pertama setiap kata menjadi kapital (capital each word) seperti di store
+        $nama = ucwords($request->input('nama'));
+        $jabatan = ucwords($request->input('jabatan'));
+        $instansi = ucwords($request->input('instansi'));
+        $kota = ucwords($request->input('kota'));
+
         // Mencari data berdasarkan ID
         $data = PaktaIntegritas::findOrFail($id);
 
         // Mengupdate data
-        $data->update(array_merge($request->all(), ['no_whatsapp' => $noWhatsapp]));
+        $data->update([
+            'nama' => $nama,
+            'jabatan' => $jabatan,
+            'instansi' => $instansi,
+            'alamat' => $request->input('alamat'),
+            'email' => $request->input('email'),
+            'kota' => $kota,
+            'tanggal' => $request->input('tanggal'),
+            'no_whatsapp' => $noWhatsapp,
+        ]);
 
         // Redirect kembali ke halaman tabel sesuai role
         return redirect()->route('admin.role', strtolower(str_replace(' ', '-', $role)))->with('success', 'Data berhasil diupdate');
@@ -177,11 +205,26 @@ class PaktaIntegritasController extends Controller
             $noWhatsapp = '62' . ltrim($noWhatsapp, '0'); // Menghilangkan '0' di awal jika ada
         }
 
-        // Temukan data berdasarkan ID
+        // Mengubah huruf pertama setiap kata menjadi kapital (capital each word) seperti di store
+        $nama = ucwords($request->input('nama'));
+        $jabatan = ucwords($request->input('jabatan'));
+        $instansi = ucwords($request->input('instansi'));
+        $kota = ucwords($request->input('kota'));
+
+        // Mencari data berdasarkan ID
         $data = PaktaIntegritas::findOrFail($id);
 
-        // Update data
-        $data->update(array_merge($request->all(), ['no_whatsapp' => $noWhatsapp]));
+        // Mengupdate data
+        $data->update([
+            'nama' => $nama,
+            'jabatan' => $jabatan,
+            'instansi' => $instansi,
+            'alamat' => $request->input('alamat'),
+            'email' => $request->input('email'),
+            'kota' => $kota,
+            'tanggal' => $request->input('tanggal'),
+            'no_whatsapp' => $noWhatsapp,
+        ]);
 
         // Redirect ke halaman down_surat dengan pesan sukses
         return redirect()->route('user.down-surat')->with('success', 'Data berhasil diupdate');

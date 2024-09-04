@@ -48,39 +48,6 @@ dropdowns.forEach((dropdown) => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-
-    form.addEventListener("submit", function (e) {
-        let isValid = true;
-        const fields = form.querySelectorAll(
-            "input[required], textarea[required]"
-        );
-
-        fields.forEach(function (field) {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.setCustomValidity("Field ini wajib diisi.");
-                field.reportValidity();
-            } else {
-                field.setCustomValidity("");
-            }
-        });
-
-        if (!isValid) {
-            e.preventDefault(); // Mencegah form dikirim jika ada kesalahan
-        }
-    });
-
-    form.querySelectorAll("input[required], textarea[required]").forEach(
-        function (input) {
-            input.addEventListener("input", function () {
-                this.setCustomValidity(""); // Menghapus pesan custom saat input mulai diisi
-            });
-        }
-    );
-});
-
-document.addEventListener("DOMContentLoaded", function () {
     const noWhatsappInput = document.getElementById("no_whatsapp");
 
     // Event listener saat pengguna mengetik pada input
@@ -124,3 +91,31 @@ function confirmDelete(itemId) {
         }
     });
 }
+
+//logout
+document.getElementById("logout-btn").addEventListener("click", function (e) {
+    e.preventDefault(); // Mencegah form logout langsung terkirim
+
+    Swal.fire({
+        title: "Apa kamu yakin?",
+        text: "Anda akan keluar dari akun!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, logout!",
+        cancelButtonText: "Tidak, batalkan!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Kirim form logout jika user mengkonfirmasi logout
+            document.getElementById("logout-form").submit();
+
+            // Optional: Menampilkan notifikasi logout berhasil
+            Swal.fire({
+                title: "Logout berhasil!",
+                text: "Anda telah keluar dari akun.",
+                icon: "success",
+            });
+        }
+    });
+});
