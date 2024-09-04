@@ -102,3 +102,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+//delete
+function confirmDelete(itemId) {
+    Swal.fire({
+        title: "Apa kamu yakin?",
+        text: "Data ini tidak dapat dikembalikan",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus ini!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById("delete-form-" + itemId).submit();
+            Swal.fire({
+                title: "Terhapus!",
+                text: "Data kamu berhasil terhapus.",
+                icon: "success",
+            });
+        }
+    });
+}

@@ -30,8 +30,8 @@
             </div>
         </a>
         <div class="logout-admin">
-            <button class="logout-btn">Logout</button>
-            <form id="logout-form" action="" method="POST" style="display: none;">
+            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
+                <button class="logout-btn">Logout</button>
                 @csrf
             </form>
         </div>
@@ -131,7 +131,6 @@
                 </div>
             </div>
         </div>
-
         <script src="{{ asset('script/script-admin.js') }}"></script>
 </body>
 

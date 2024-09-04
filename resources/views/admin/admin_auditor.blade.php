@@ -30,8 +30,8 @@
             </div>
         </a>
         <div class="logout-admin">
-            <button class="logout-btn">Logout</button>
-            <form id="logout-form" action="" method="POST" style="display: none;">
+            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
+                <button class="logout-btn">Logout</button>
                 @csrf
             </form>
         </div>
@@ -129,10 +129,14 @@
                         </td>
                         <td>
                             <!-- Tombol Hapus -->
-                            <form action="{{ route('integritas.destroy', ['role' => $role, 'id' => $item->id]) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                            <form id="delete-form-{{ $item->id }}" action="{{ route('integritas.destroy', ['role' => $role, 'id' => $item->id]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <div class="icon-action trash"><button type="submit"><i class="fa fa-trash"></i></button></div>
+                                <div class="icon-action trash">
+                                    <button type="button" onclick="confirmDelete({{ $item->id }})">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
                             </form>
                         </td>
                     </tr>
@@ -176,6 +180,7 @@
                 @endif
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ asset('script/script-admin.js') }}"></script>
 </body>
 
