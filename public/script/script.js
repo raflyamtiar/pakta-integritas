@@ -9,6 +9,61 @@ function togglePopup(popupId) {
     document.getElementById(popupId).classList.toggle("active");
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const dropdownToggles = document.querySelectorAll(".dropdown");
+
+    dropdownToggles.forEach((toggle) => {
+        const caret = toggle.querySelector(".fa-caret-down"); // Caret Icon
+        const dropdownLink = toggle.querySelector("a"); // Link
+
+        // Klik pada link atau caret untuk toggle dropdown
+        [caret, dropdownLink].forEach((element) => {
+            element.addEventListener("click", function (event) {
+                event.preventDefault(); // Mencegah navigasi
+
+                const dropdownContent =
+                    toggle.querySelector(".dropdown-content"); // Dropdown content
+
+                // Jika sudah terbuka, tutup
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                    caret.classList.remove("active"); // Hapus class 'active' dari caret untuk animasi
+                } else {
+                    // Tutup semua dropdown sebelum membuka yang diklik
+                    document
+                        .querySelectorAll(".dropdown-content")
+                        .forEach((content) => {
+                            content.style.display = "none";
+                        });
+                    document
+                        .querySelectorAll(".fa-caret-down")
+                        .forEach((icon) => {
+                            icon.classList.remove("active"); // Hapus animasi dari caret lain
+                        });
+
+                    // Buka dropdown yang diklik
+                    dropdownContent.style.display = "block";
+                    caret.classList.add("active"); // Tambah class 'active' untuk animasi caret
+                }
+            });
+        });
+    });
+
+    // Tutup dropdown saat mengklik di luar elemen dropdown
+    document.addEventListener("click", function (event) {
+        if (!event.target.closest(".dropdown")) {
+            document
+                .querySelectorAll(".dropdown-content")
+                .forEach((content) => {
+                    content.style.display = "none";
+                });
+            document.querySelectorAll(".fa-caret-down").forEach((icon) => {
+                icon.classList.remove("active"); // Hapus class 'active' dari semua caret
+            });
+        }
+    });
+});
+
 function showForm() {
     const selectedRole = document.getElementById("form-role").value;
     const formContainer = document.getElementById("form-container");

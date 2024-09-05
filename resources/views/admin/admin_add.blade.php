@@ -1,139 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMI BPMSPH</title>
+@section('title', 'Formulir Pakta Integritas - ' . ucfirst($role))
 
-    <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
+@section('content')
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+<header>
+    <h1>Silahkan Isi Formulir Berikut</h1>
+</header>
+<hr class="header-line">
 
-    <link rel="stylesheet" href="{{ asset('style/style_admin.css') }}" />
-</head>
+<div class="isi-form" id="isi-form">
+    <form action="{{ route('integritas.store', ['role' => $role]) }}" method="POST" id="form-container" class="form-container" autocomplete="off">
+        @csrf
+        <input type="hidden" name="role" value="{{ $role }}">
+        <input type="hidden" name="is_admin" value="true">
 
-<body>
-    <nav class="container-navbar-admin">
-        <a href="/">
-            <div class="logo">
-                <img src="/assets/logo smi.png" alt="Logo Image" class="logo-img">
-                <h3>SMI BPMSPH</h3>
-            </div>
-        </a>
-        <div class="logout-admin">
-            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
-                <button class="logout-btn">Logout</button>
-                @csrf
-            </form>
+        <h3>FORMULIR PAKTA INTEGRITAS</h3>
+        <div class="img-form">
+            <img src="{{ asset('assets/pembatas.png') }}" alt="">
         </div>
-    </nav> <!-- navbar end -->
+        <h3 id="role-title">{{ strtoupper($role) }}</h3>
 
-    <div class="container-admin">
-        <div class="sidebar-admin">
-            <a href="/admin/home">
-                <div class="box-admin">
-                    <h3>Beranda</h3>
-                </div>
-            </a>
-
-            <div class="dropdown-admin">
-                <div class="select-admin">
-                    <h5 class="selected">Pakta Integritas</h5>
-                    <div class="caret"></div>
-                </div>
-                <ul class="menu-admin">
-                    <li class="active">Pakta Integritas</li>
-                    <a href="/admin/pegawai">
-                        <li>Pegawai</li>
-                    </a>
-                    <a href="/admin/penyedia-jasa">
-                        <li>Penyedia Jasa</li>
-                    </a>
-                    <a href="/admin/pengguna-jasa">
-                        <li>Pengguna Jasa</li>
-                    </a>
-                    <a href="/admin/auditor">
-                        <li>Auditor</li>
-                    </a>
+        <!-- Error Message Handling -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
                 </ul>
             </div>
+        @endif
+
+        <div class="form-group">
+            <label for="nama">Nama Lengkap <span>*</span></label>
+            <input type="text" id="nama" name="nama" max-length="100" value="{{ old('nama') }}" required>
         </div>
-        <div class="content-admin-add">
-            <header>
-                <h1>Silahkan Isi Formulir Berikut</h1>
-            </header>
-            <hr class="header-line">
-            <div class="isi-form" id="isi-form">
-                    <!-- Form Container -->
-                        <form action="{{ route('integritas.store', ['role' => $role]) }}" method="POST" id="form-container" class="form-container" autocomplete="off">
-                            @csrf
-                         <input type="hidden" name="role" value="{{ $role }}">
-                        <h3>FORMULIR PAKTA INTEGRITAS</h3>
-                        <div class="img-form"><img src="{{ asset('assets/pembatas.png') }}" alt=""></div>
-                        <h3 id="role-title">{{ strtoupper($role) }}</h3>
-
-                        @csrf
-
-                        <div class="form-group">
-                            <label for="nama">Nama Lengkap <span>*</span></label>
-                            <input type="text" id="nama" name="nama" max-length="100" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="jabatan">Jabatan <span>*</span></label>
-                            <input type="text" id="jabatan" name="jabatan" max-length="70" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="instansi">Instansi <span>*</span></label>
-                            <input type="text" id="instansi" name="instansi" max-length="70" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="alamat">Alamat Lengkap <span>*</span></label>
-                            <textarea id="alamat" name="alamat" max-length="255" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email <span>*</span></label>
-                            <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="kota">Kota <span>*</span></label>
-                            <input type="text" id="kota" name="kota" max-length="35" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal <span>*</span></label>
-                            <input type="date" id="tanggal" name="tanggal" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="no_whatsapp">Nomor Handphone/WhatsApp <span>*</span>
-                                <small>Contoh: 81234567899</small>
-                            </label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">+62</div>
-                                <input type="tel" id="no_whatsapp" name="no_whatsapp" class="form-control" placeholder="81234567899"
-                                    pattern="^\d{8,13}$" required>
-                            </div>
-                        </div>
-                        <div class="btn-send-form">
-                            <button type="submit">
-                                Kirim <i class="fa-solid fa-paper-plane"></i>
-                            </button>
-                        </div>
-                    </form>
+        <div class="form-group">
+            <label for="jabatan">Jabatan <span>*</span></label>
+            <input type="text" id="jabatan" name="jabatan" max-length="70" value="{{ old('jabatan') }}" required>
+        </div>
+        <div class="form-group">
+            <label for="instansi">Instansi <span>*</span></label>
+            <input type="text" id="instansi" name="instansi" max-length="70" value="{{ old('instansi') }}" required>
+        </div>
+        <div class="form-group">
+            <label for="alamat">Alamat Lengkap <span>*</span></label>
+            <textarea id="alamat" name="alamat" max-length="255" required>{{ old('alamat') }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="email">Email <span>*</span></label>
+            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com" required>
+        </div>
+        <div class="form-group">
+            <label for="kota">Kota <span>*</span></label>
+            <input type="text" id="kota" name="kota" max-length="35" value="{{ old('kota') }}" required>
+        </div>
+        <div class="form-group">
+            <label for="tanggal">Tanggal <span>*</span></label>
+            <input type="date" id="tanggal" name="tanggal" value="{{ old('tanggal') }}" required>
+        </div>
+        <div class="form-group">
+            <label for="no_whatsapp">Nomor Handphone/WhatsApp <span>*</span>
+                <small>Contoh: 81234567899</small>
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">+62</div>
+                <input type="tel" id="no_whatsapp" name="no_whatsapp" class="form-control" placeholder="81234567899"
+                    pattern="^\d{8,13}$" value="{{ old('no_whatsapp') }}" required>
             </div>
-         </div>
-
-
         </div>
 
-        <script src="{{ asset('script/script-admin.js') }}"></script>
-</body>
+        <div class="btn-send-form">
+            <button type="submit">
+                Kirim <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </form>
+</div>
 
-</html>
+@endsection
+
+@push('scripts')
+<script src="{{ asset('script/script-admin.js') }}"></script>
+@endpush
