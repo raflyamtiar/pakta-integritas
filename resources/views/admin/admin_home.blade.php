@@ -58,3 +58,7 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('script/script-admin.js') }}"></script>
+@endpush

@@ -8,8 +8,6 @@
     <figure class="mybg">
         <img src="assets/kantor.jpg" alt="">
     </figure>
-
-    <main>
         <div class="container-cara-melapor">
             <div class="cara-melapor-title">
                 <h2>LAYANAN PENGADUAN</h2>

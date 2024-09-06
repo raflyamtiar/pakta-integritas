@@ -28,10 +28,10 @@ Route::get('/edit_surat', function () {
 
 // User Routes
 Route::prefix('user')->group(function () {
-    Route::get('/edit-surat/{id}', [PaktaIntegritasController::class, 'editUserSurat'])->name('user.edit-surat');
-    Route::put('/update-surat/{id}', [PaktaIntegritasController::class, 'updateUserSurat'])->name('user.update-surat');
+    // Route::get('/edit-surat/{id}', [PaktaIntegritasController::class, 'editUserSurat'])->name('user.edit-surat');
+    // Route::put('/update-surat/{id}', [PaktaIntegritasController::class, 'updateUserSurat'])->name('user.update-surat');
     Route::post('/store', [PaktaIntegritasController::class, 'store'])->name('integritas.store.user');
-    Route::get('/down-surat', [PaktaIntegritasController::class, 'userSurat'])->name('user.down-surat');
+    // Route::get('/down-surat', [PaktaIntegritasController::class, 'userSurat'])->name('user.down-surat');
 
     // Rute untuk menyimpan data dari pengguna (dari halaman index)
     Route::post('/integritas/store', [PaktaIntegritasController::class, 'store'])->name('integritas.store');

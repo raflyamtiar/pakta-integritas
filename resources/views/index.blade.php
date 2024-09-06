@@ -367,7 +367,7 @@
                         </div>
                     </div>
                     <div class="btn-send-form">
-                        <button type="submit">
+                        <button type="submit" id="submit-btn">
                             Kirim <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </div>
@@ -379,5 +379,40 @@
 @endsection
 
 @push('scripts')
+    <!-- Include SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('form-container').addEventListener('submit', function (e) {
+            e.preventDefault(); // Mencegah pengiriman form secara langsung
+
+            // Tampilkan SweetAlert untuk konfirmasi
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Anda tidak bisa mengubah ini lagi!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, kirim!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna mengonfirmasi, submit form secara manual
+                    Swal.fire({
+                        title: "Terkirim!",
+                        text: "Formulir Anda telah dikirim.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    // Kirim form setelah 1.5 detik
+                    setTimeout(() => {
+                        e.target.submit(); // Submit form
+                    }, 1500);
+                }
+            });
+        });
+    </script>
 <script src="{{ asset('script/script.js') }}"></script>
 @endpush

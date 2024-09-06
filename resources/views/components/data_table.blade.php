@@ -40,8 +40,8 @@
                 <form id="delete-form-{{ $item->id }}" action="{{ route('integritas.destroy', ['role' => $role, 'id' => $item->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
+                    <button type="button" onclick="confirmDelete({{ $item->id }})">
                     <div class="icon-action trash">
-                        <button type="button" onclick="confirmDelete({{ $item->id }})">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>

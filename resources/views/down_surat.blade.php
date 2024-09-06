@@ -30,24 +30,30 @@
                 </thead>
                 <tbody>
                     @foreach ($paktaIntegritas as $item)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->nama }}</td>
-                        <td>{{ $item->jabatan }}</td>
-                        <td>{{ $item->instansi }}</td>
-                        <td>{{ $item->email }}</td>
-                        <td>{{ $item->no_whatsapp }}</td>
-                        <td>
-                            <a href="{{ route('integritas.download-pdf', ['role' => $item->role, 'id' => $item->id]) }}">
-                                <div class="icon-action print"><i class="fa fa-print"></i></div>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ route('user.edit-surat', ['id' => $item->id]) }}">
-                                <div class="icon-action pencil"><i class="fa fa-pencil"></i></div>
-                            </a>
-                        </td>
-                    </tr>
+                        @if (auth()->user()->email == $item->email)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->jabatan }}</td>
+                            <td>{{ $item->instansi }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->no_whatsapp }}</td>
+                            <td>
+                                <a href="{{ route('integritas.download-pdf', ['role' => $item->role, 'id' => $item->id]) }}">
+                                    <div class="icon-action print"><i class="fa fa-print"></i></div>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('user.edit-surat', ['id' => $item->id]) }}">
+                                    <div class="icon-action pencil"><i class="fa fa-pencil"></i></div>
+                                </a>
+                            </td>
+                        </tr>
+                        @else
+                        <tr>
+                            <td colspan="8">Anda tidak memiliki akses untuk melihat data ini.</td>
+                        </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>
