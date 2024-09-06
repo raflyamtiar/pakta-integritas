@@ -11,6 +11,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaktaIntegritasMail;
 
 class PaktaIntegritasController extends Controller
 {
@@ -90,11 +92,19 @@ class PaktaIntegritasController extends Controller
             'role' => $request->input('role'),
         ]);
 
-        // Cek referer URL untuk menentukan redirect
+        // Cek apakah yang melakukan request adalah admin
         if ($request->input('is_admin') == 'true') {
+            // Jika admin, hanya redirect tanpa kirim email
             return redirect()->route('admin.role', strtolower(str_replace(' ', '-', $request->role)))->with('success', 'Data Berhasil Disimpan');
         } else {
-            return redirect()->route('user.down-surat')->with('success', 'Data Berhasil Disimpan');
+            // Buat link download surat
+            $downloadLink = route('integritas.download-pdf', ['role' => $paktaIntegritas->role, 'id' => $paktaIntegritas->id]);
+
+            // Kirim email dengan mailable yang telah di-update
+            Mail::to($request->input('email'))->send(new PaktaIntegritasMail($paktaIntegritas, $downloadLink));
+
+            // Redirect ke halaman user setelah mengirim email
+            return redirect()->back()->with('success', 'Data Berhasil Disimpan dan Email Terkirim.');
         }
     }
 

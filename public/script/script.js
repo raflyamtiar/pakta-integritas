@@ -127,3 +127,37 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+// alert form
+// document.addEventListener("DOMContentLoaded", function () {
+//     const form = document.getElementById("form-container");
+
+//     form.addEventListener("submit", function (e) {
+//         e.preventDefault(); // Mencegah form terkirim langsung
+
+//         // Tampilkan SweetAlert untuk konfirmasi
+//         Swal.fire({
+//             title: "Are you sure?",
+//             text: "You won't be able to revert this!",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonColor: "#3085d6",
+//             cancelButtonColor: "#d33",
+//             confirmButtonText: "Yes, submit it!",
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 // Tampilkan pesan sukses sebelum submit
+//                 Swal.fire({
+//                     title: "Submitted!",
+//                     text: "Your form has been submitted.",
+//                     icon: "success",
+//                     showConfirmButton: false,
+//                     timer: 1500,
+//                 });
+
+//                 // Kirim form setelah konfirmasi
+//                 form.submit();
+//             }
+//         });
+//     });
+// });
