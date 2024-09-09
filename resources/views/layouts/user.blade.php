@@ -16,6 +16,7 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('style/style_index.css') }}">
+
 </head>
 
 <body>

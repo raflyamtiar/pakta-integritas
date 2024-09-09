@@ -111,8 +111,5 @@
         </div>
     </main>
 
-@endsection
-
-@push('scripts')
 <script src="script.js"></script>
-@endpush
+@endsection
