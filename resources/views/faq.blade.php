@@ -1,4 +1,25 @@
-<nav class="container-navbar">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Chatbot</title>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ asset('style/style_index.css') }}">
+
+</head>
+<body>
+    <nav class="container-navbar">
         <a href="/">
             <div class="logo">
                 <img src="assets/logo smi.png" alt="Logo Image" class="logo-img">
@@ -72,10 +93,32 @@
         </ul>
     </nav>
 
-<!-- icon langsung ke top -->
-<i id="scrollToTopBtn" title="Go to top" class="fa-solid fa-circle-up"></i>
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+    </div>
+    <main>
+    <div class="contentFAQ">
+        <div class="faqHeader">
+            <h2>Frequently Asked Question (FAQ)</h2>
+        </div>
+        <div class="chatBox" id="chatBox">
+            <ul class="chat-list">
+                <!-- Pesan akan muncul di sini -->
+            </ul>
+        </div>
+        <!-- Tombol Mulai -->
+        <button id="startBtn" style="display: none;" onclick="showOptions()">Mulai</button>
+    </div>
 
-<div id="loader" class="loader-container">
-    <div class="spinner"></div>
-</div>
+</main>
 
+<script src="{{ asset('script/faq.js') }}"></script>
+<script>
+window.addEventListener("load", function () {
+    var loader = document.getElementById("loader");
+    loader.style.display = "none"; // Sembunyikan loader setelah halaman dimuat
+});
+</script>
+
+</body>
+</html>

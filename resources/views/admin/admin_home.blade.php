@@ -57,8 +57,7 @@
         <img src="{{ asset('assets/icon-note-white.svg') }}" alt="Document Icon">
     </div>
 </div>
-@endsection
 
-@push('scripts')
+
 <script src="{{ asset('script/script-admin.js') }}"></script>
-@endpush
+@endsection

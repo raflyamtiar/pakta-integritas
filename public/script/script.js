@@ -129,35 +129,49 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // alert form
-// document.addEventListener("DOMContentLoaded", function () {
-//     const form = document.getElementById("form-container");
+function confirmationData(event) {
+    // Dapatkan elemen form
+    const form = document.getElementById("form-container");
 
-//     form.addEventListener("submit", function (e) {
-//         e.preventDefault(); // Mencegah form terkirim langsung
+    // Validasi form secara manual sebelum menampilkan SweetAlert
+    if (!form.checkValidity()) {
+        // Jika form tidak valid, tampilkan peringatan dan hentikan proses
+        Swal.fire({
+            title: "Error!",
+            text: "Pastikan semua field sudah diisi dengan benar.",
+            icon: "error",
+            confirmButtonText: "OK",
+        });
+        return; // Hentikan eksekusi jika form tidak valid
+    }
 
-//         // Tampilkan SweetAlert untuk konfirmasi
-//         Swal.fire({
-//             title: "Are you sure?",
-//             text: "You won't be able to revert this!",
-//             icon: "warning",
-//             showCancelButton: true,
-//             confirmButtonColor: "#3085d6",
-//             cancelButtonColor: "#d33",
-//             confirmButtonText: "Yes, submit it!",
-//         }).then((result) => {
-//             if (result.isConfirmed) {
-//                 // Tampilkan pesan sukses sebelum submit
-//                 Swal.fire({
-//                     title: "Submitted!",
-//                     text: "Your form has been submitted.",
-//                     icon: "success",
-//                     showConfirmButton: false,
-//                     timer: 1500,
-//                 });
+    // Jika form valid, lanjutkan ke SweetAlert konfirmasi
+    Swal.fire({
+        title: "Apakah Anda yakin?",
+        text: "Pastikan data dan email yang anda masukkan sudah benar!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, kirim!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Jika pengguna mengonfirmasi, submit form secara manual
+            Swal.fire({
+                title: "Terkirim!",
+                text: "Formulir Anda telah dikirim.",
+                icon: "success",
+                footer: '<a href="#">Pergi ke Email?</a>',
+                showConfirmButton: true,
+                timer: 10000,
+            });
+            // Submit form setelah konfirmasi
+            form.submit();
+        }
+    });
+}
 
-//                 // Kirim form setelah konfirmasi
-//                 form.submit();
-//             }
-//         });
-//     });
-// });
+window.addEventListener("load", function () {
+    var loader = document.getElementById("loader");
+    loader.style.display = "none"; // Sembunyikan loader setelah halaman dimuat
+});

@@ -404,4 +404,23 @@ class PaktaIntegritasController extends Controller
         return view('template.template_surat', compact('data', 'pernyataan', 'perjanjian', 'base64', 'judul', 'qrcodeBase64'));
     }
 
+    public function previewEmail()
+{
+    // Dummy data untuk simulasi tampilan
+    $paktaIntegritas = (object) [
+        'nama' => 'John Doe',
+        'jabatan' => 'Manajer',
+        'instansi' => 'PT. ABC',
+        'email' => 'johndoe@example.com',
+        'no_whatsapp' => '08123456789',
+    ];
+
+    // Buat link download dummy
+    $downloadLink = '#';
+
+    // Return view template email dengan data dummy
+    return view('template.template_email', compact('paktaIntegritas', 'downloadLink'));
+}
+
+
 }

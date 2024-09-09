@@ -53,7 +53,7 @@
                         <h4>Buka Website</h4>
                         <br>
                         <div class="tutorial-content-container">
-                            <p>Anda dapat membuat surat pakta integritas di website smi bpmsph</p>
+                            <p>Anda dapat membuat surat pakta integritas di website SMI BPMSPH</p>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                         <h4>Memilih Peran</h4>
                         <br>
                         <div class="tutorial-content-container">
-                            <p>Anda dapat memilih peran sesuai dengan peran/jabatan anda sendiri</p>
+                            <p>Memilih peran sesuai dengan peran/jabatan anda sendiri</p>
                         </div>
                     </div>
                 </div>
@@ -91,8 +91,20 @@
                         <h4>Mengisi Formulir</h4>
                         <br>
                         <div class="tutorial-content-container">
-                            <p>Anda dapat mengisi identitas anda pada formulir, lalu kirim dan surat dapat di
-                                download
+                            <p>Mengisi identitas anda pada formulir, pastikan <span class="tutor-4">data diri</span> dan <span class="tutor-4">email</span> yang anda masukkan sesuai.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tutorial-main">
+                    <div class="tutorial-title-container">
+                        <div class="tutorial-icon">
+                            <i class="fa fa-print"></i>
+                        </div>
+                        <h4>Download Surat</h4>
+                        <br>
+                        <div class="tutorial-content-container">
+                            <p>Surat dapat di download melalui email yang sudah anda isi diformulir tersebut.
                             </p>
                         </div>
                     </div>
@@ -345,9 +357,12 @@
                         <textarea id="alamat" name="alamat" max-length="255" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email <span>*</span></label>
+                        <label for="email">Email <span>*</span>
+                            <small style="color:red;">Pastikan email yang dimasukkan benar karena surat akan dikirim ke email ini.</small>
+                        </label>
                         <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
                     </div>
+
                     <div class="form-group">
                         <label for="kota">Kota <span>*</span></label>
                         <input type="text" id="kota" name="kota" max-length="35" required>
@@ -367,7 +382,7 @@
                         </div>
                     </div>
                     <div class="btn-send-form">
-                        <button type="submit" id="submit-btn">
+                        <button id="submit-btn" type="button" onclick="confirmationData();">
                             Kirim <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </div>
@@ -376,43 +391,8 @@
         </div>
     </main>
 
-@endsection
-
-@push('scripts')
-    <!-- Include SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        document.getElementById('form-container').addEventListener('submit', function (e) {
-            e.preventDefault(); // Mencegah pengiriman form secara langsung
-
-            // Tampilkan SweetAlert untuk konfirmasi
-            Swal.fire({
-                title: "Apakah Anda yakin?",
-                text: "Anda tidak bisa mengubah ini lagi!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, kirim!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika pengguna mengonfirmasi, submit form secara manual
-                    Swal.fire({
-                        title: "Terkirim!",
-                        text: "Formulir Anda telah dikirim.",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-
-                    // Kirim form setelah 1.5 detik
-                    setTimeout(() => {
-                        e.target.submit(); // Submit form
-                    }, 1500);
-                }
-            });
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('script/script.js') }}"></script>
-@endpush
+
+
+@endsection

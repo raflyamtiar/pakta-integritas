@@ -19,9 +19,6 @@
 <x-pagination :paginator="$data" />
 
 
-@endsection
-
-@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('script/script-admin.js') }}"></script>
-@endpush
+@endsection

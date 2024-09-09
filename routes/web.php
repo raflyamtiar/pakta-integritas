@@ -18,6 +18,10 @@ Route::get('/web', function () {
     return view('web');
 });
 
+Route::get('/faq', function () {
+    return view('faq');
+});
+
 Route::get('/down_surat', function () {
     return view('down_surat');
 });
@@ -25,6 +29,8 @@ Route::get('/down_surat', function () {
 Route::get('/edit_surat', function () {
     return view('edit_surat');
 });
+
+route::get('/preview-email', [PaktaIntegritasController::class, 'previewEmail']);
 
 // User Routes
 Route::prefix('user')->group(function () {
