@@ -26,4 +26,11 @@
             </a>
         </ul>
     </div>
+
+    <a href="{{ route('admin.account') }}">
+        <div class="box-admin-akun">
+            <h3>Pengaturan Akun</h3>
+            <i class="fa-solid fa-gear"></i>
+        </div>
+    </a>
 </div>

@@ -96,10 +96,16 @@
     <div id="loader" class="loader-container">
         <div class="spinner"></div>
     </div>
-    <main>
+
+    <div id="imageModal" class="modal">
+        <div id="caption"></div>
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+<main>
     <div class="contentFAQ">
         <div class="faqHeader">
-            <h2>Frequently Asked Question (FAQ)</h2>
+            <h2>Frequently Asked Question (FAQ) SMI BPMSPH</h2>
         </div>
         <div class="chatBox" id="chatBox">
             <ul class="chat-list">

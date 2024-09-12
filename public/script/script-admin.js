@@ -119,3 +119,16 @@ document.getElementById("logout-btn").addEventListener("click", function (e) {
         }
     });
 });
+
+function toggleForm() {
+    var form = document.getElementById("userForm");
+    var button = document.getElementById("toggleFormBtn");
+
+    if (form.style.display === "none") {
+        form.style.display = "block";
+        button.textContent = "Minimize Form";
+    } else {
+        form.style.display = "none";
+        button.textContent = "Tambah User Baru";
+    }
+}

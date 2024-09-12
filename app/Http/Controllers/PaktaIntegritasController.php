@@ -17,7 +17,7 @@ use App\Mail\PaktaIntegritasMail;
 class PaktaIntegritasController extends Controller
 {
 
-    public function index(Request $request, $role)
+    public function index(Request $request, $role = null)
     {
         // Memulai query untuk mendapatkan data berdasarkan role
         $query = PaktaIntegritas::where('role', $role)->orderBy('created_at', 'desc');
@@ -108,12 +108,6 @@ class PaktaIntegritasController extends Controller
         }
     }
 
-    public function userSurat()
-    {
-        $paktaIntegritas = PaktaIntegritas::latest()->take(3)->get();
-        return view('down_surat', compact('paktaIntegritas'));
-    }
-
     public function showForm($role)
     {
         return view('admin.admin_add', ['role' => $role]);
@@ -185,61 +179,6 @@ class PaktaIntegritasController extends Controller
         // Mengirimkan data ke view yang sesuai
         return view('admin.admin_edit', compact('data', 'role'));
     }
-
-    public function editUserSurat($id)
-    {
-        // Temukan data berdasarkan ID
-        $data = PaktaIntegritas::findOrFail($id);
-
-        // Kirimkan data ke view
-        return view('edit_surat', compact('data'));
-    }
-
-    public function updateUserSurat(Request $request, $id)
-    {
-        // Validasi data form
-        $request->validate([
-            'nama' => 'required|string|max:100',
-            'jabatan' => 'required|string|max:70',
-            'instansi' => 'required|string|max:70',
-            'alamat' => 'required|string|max:200',
-            'email' => 'required|email',
-            'kota' => 'required|string|max:35',
-            'tanggal' => 'required|date',
-            'no_whatsapp' => 'required|string',
-        ]);
-
-        // Pastikan nomor WhatsApp diawali dengan '62'
-        $noWhatsapp = $request->input('no_whatsapp');
-        if (!str_starts_with($noWhatsapp, '62')) {
-            $noWhatsapp = '62' . ltrim($noWhatsapp, '0'); // Menghilangkan '0' di awal jika ada
-        }
-
-        // Mengubah huruf pertama setiap kata menjadi kapital (capital each word) seperti di store
-        $nama = ucwords($request->input('nama'));
-        $jabatan = ucwords($request->input('jabatan'));
-        $instansi = ucwords($request->input('instansi'));
-        $kota = ucwords($request->input('kota'));
-
-        // Mencari data berdasarkan ID
-        $data = PaktaIntegritas::findOrFail($id);
-
-        // Mengupdate data
-        $data->update([
-            'nama' => $nama,
-            'jabatan' => $jabatan,
-            'instansi' => $instansi,
-            'alamat' => $request->input('alamat'),
-            'email' => $request->input('email'),
-            'kota' => $kota,
-            'tanggal' => $request->input('tanggal'),
-            'no_whatsapp' => $noWhatsapp,
-        ]);
-
-        // Redirect ke halaman down_surat dengan pesan sukses
-        return redirect()->route('user.down-surat')->with('success', 'Data berhasil diupdate');
-    }
-
 
     // export excel
     public function export($role)

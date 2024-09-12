@@ -19,16 +19,14 @@
                             Gratifikasi
                         </h6>
                         <p>
-                            pakta integritas adalah janji tertulis yang berisi komitmen untuk melaksanakan tugas dengan
-                            penuh
-                            integritas dan menghindari tindakan tercela seperti korupsi, kolusi, dan nepotisme (KKN).
-                            Untuk pengguna yang ingin berkomitmen dalam menjalankan tugas dengan jujur, transparan,
-                            dan tanpa korupsi di lingkungan BPMSPH. anda bisa mengisi formulir pakta integritas ini.
+                            Pakta integritas adalah janji tertulis untuk melaksanakan tugas dengan integritas dan menghindari praktik Kolusi, Korupsi dan Nepotisme (KKN). Jika Anda berkomitmen untuk bekerja jujur dan transparan di lingkungan BPMSPH, silakan isi formulir pakta integritas ini.
                         </p>
-                        <a href="#isi-form"><button>
-                                <i class="fa-regular fa-pen-to-square" ></i>
-                                Formulir Pakta Integritas
-                            </button></a>
+                        <div class="btn-form">
+                            <a href="#isi-form"><button>
+                                    <i class="fa-regular fa-pen-to-square" ></i>
+                                    Formulir Pakta Integritas
+                                </button></a>
+                        </div>
                     </div>
                     <div class="home-content-logo">
                         <img src="assets/logo smi.png" alt="logo smi">

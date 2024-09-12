@@ -41,4 +41,31 @@ class AdminAuthController extends Controller
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
     }
+
+    public function storeAdmin(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'name' => 'required|string|max:255|unique:admins',
+            'email' => 'required|string|email|max:255|unique:admins',
+            'password' => 'required|string|min:8', // Minimal password 8 karakter
+        ]);
+
+        // Simpan admin baru
+        Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password), // Enkripsi password
+        ]);
+
+        // Redirect kembali ke halaman admin dengan pesan sukses
+        return redirect()->route('admin.account')->with('success', 'Admin baru berhasil ditambahkan.');
+    }
+
+
+    public function showAdminAccount()
+    {
+        $admins = Admin::all(); // Ambil semua admin
+        return view('admin.admin_account', compact('admins')); // Kirim data admin ke view
+    }
 }

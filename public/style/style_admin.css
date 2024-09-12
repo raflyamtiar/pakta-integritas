@@ -231,8 +231,6 @@ nav {
     padding: 6px;
     width: 90%;
     margin: 40px 0 10px 10px;
-    margin-left: 10px;
-    margin-bottom: 10px;
     cursor: pointer;
     transition: background 0.3s;
 }
@@ -241,9 +239,35 @@ nav {
     font-size: 18px;
 }
 
-.box-admin:hover {
+.box-admin:hover,
+.box-admin-akun:hover {
     background: #0077b6;
     color: white;
+}
+
+.box-admin-akun {
+    background: #ffffff;
+    color: #0077b6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px black solid;
+    border-radius: 10px;
+    padding: 6px;
+    width: 90%;
+    margin: 300px 0 10px 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    vertical-align: middle;
+}
+
+.box-admin-akun h3 {
+    font-size: 14px;
+}
+
+.box-admin-akun i {
+    font-size: 18px;
+    margin-left: 10px;
 }
 
 .dropdown-admin {
@@ -643,9 +667,7 @@ header h1 {
 
 /* trash */
 .icon-action.trash {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-left: 5px;
     background-color: red;
 }
 
@@ -873,4 +895,144 @@ input:required {
     background-color: #d0d0d0;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
     transform: scale(0.98);
+}
+
+/* pengaturan account */
+.container-account {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.custom-btn {
+    background-color: #0077b6;
+    width: 23%;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    border: 1px solid #0077b6;
+}
+
+.custom-btn:hover {
+    background-color: #fff;
+    color: #0077b6;
+}
+
+.user-form {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.user-form h3 {
+    margin-bottom: 20px;
+}
+
+.form-group-account {
+    margin-bottom: 15px;
+}
+
+.custom-input,
+.custom-select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.custom-select {
+    height: 40px;
+}
+
+.btn-save {
+    background-color: #0077b6;
+    width: 15%;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    border: 1px solid #0077b6;
+    border-radius: 10px;
+}
+
+.btn-save:hover {
+    background-color: white;
+    color: #0077b6;
+}
+
+.table-admin-account {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-admin-account th,
+.table-admin-account td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top; /* Agar konten dalam kolom rata atas */
+}
+
+.table-admin-account th {
+    background-color: #0077b6;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.table-admin-account td {
+    color: black;
+    word-wrap: break-word; /* Membungkus kata jika terlalu panjang */
+    white-space: normal; /* Mengizinkan teks untuk berpindah baris */
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.table-admin-account a {
+    text-decoration: none;
+}
+
+.table-admin-account .icon-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: auto;
+}
+
+.icon-action.pencil {
+    background-color: #f6bc2f;
+    color: white;
+}
+
+.icon-action.pencil:hover {
+    color: black;
+}
+
+.icon-action.trash-account {
+    margin-left: 32px;
+    background-color: red;
+}
+
+.table-admin-account button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.table-admin-account button i {
+    font-size: 16px;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.table-admin-account button:hover i {
+    color: #000; /* Warna ikon saat di-hover */
 }
