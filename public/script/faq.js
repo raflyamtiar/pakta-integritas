@@ -78,13 +78,10 @@ const faqData = {
 
 // Fungsi untuk memulai chat
 function handleChat() {
-    // Menampilkan pesan sambutan saat halaman pertama kali dimuat
     createChatMessage(
         "Halo, selamat datang di Frequently Asked Question (FAQ) SMI BPMSPH. Silahkan tekan mulai untuk melihat pertanyaan yang sering ditanyakan.",
         "incoming"
     );
-
-    // Menampilkan tombol "Mulai" setelah pesan sambutan
     document.getElementById("startBtn").style.display = "block";
 }
 
@@ -100,8 +97,22 @@ function getDataByPath(data, pathArray) {
 function createChatMessage(message, className) {
     const chatMessage = document.createElement("div");
     chatMessage.className = `chat ${className}`;
-    // Ganti \n dengan <br> untuk pindah baris
-    chatMessage.innerHTML = message.replace(/\n/g, "<br>");
+
+    // Cek jika ada tag <img> di dalam pesan
+    const isImage = message.includes("<img");
+
+    if (isImage) {
+        chatMessage.innerHTML = message;
+        const img = chatMessage.querySelector("img");
+        if (img) {
+            img.style.cursor = "pointer";
+            img.onclick = function () {
+                openImageModal(img.src, img.alt);
+            };
+        }
+    } else {
+        chatMessage.innerHTML = message.replace(/\n/g, "<br>");
+    }
     appendMessage(chatMessage);
 }
 
@@ -119,9 +130,7 @@ function createChatOptions(options, currentPath = "") {
 
     let optionButtons = '<div class="chat-options">';
     for (const option in options) {
-        // Hanya buat tombol jika bukan properti "Deskripsi" atau "Gambar"
         if (option !== "Deskripsi" && option !== "Gambar") {
-            // Buat path baru
             const newPath = currentPath ? `${currentPath}/${option}` : option;
             optionButtons += `<button onclick="handleOption('${newPath}')">${option}</button>`;
         }
@@ -134,10 +143,7 @@ function createChatOptions(options, currentPath = "") {
 
 // Fungsi untuk menangani pilihan opsi dengan path
 function handleOption(fullPath) {
-    // Sembunyikan tombol "Mulai" saat pengguna memilih opsi
     document.getElementById("startBtn").style.display = "none";
-
-    // Mengambil nama opsi terakhir dari path untuk ditampilkan
     const optionName = fullPath.split("/").pop();
     createChatMessage(`Anda memilih: ${optionName}`, "outgoing");
 
@@ -147,19 +153,14 @@ function handleOption(fullPath) {
 
         if (selectedData) {
             if (typeof selectedData === "object") {
-                // Jika ada deskripsi, tampilkan
                 if (selectedData.Deskripsi) {
                     createChatMessage(selectedData.Deskripsi, "incoming");
                 }
-
-                // Jika ada gambar, tampilkan
                 if (selectedData.Gambar && Array.isArray(selectedData.Gambar)) {
                     selectedData.Gambar.forEach((imgHtml) => {
                         createChatMessage(imgHtml, "incoming");
                     });
                 }
-
-                // Tampilkan sub-opsi jika ada (kecuali Deskripsi atau Gambar)
                 if (
                     Object.keys(selectedData).filter(
                         (key) => key !== "Deskripsi" && key !== "Gambar"
@@ -168,27 +169,22 @@ function handleOption(fullPath) {
                     createChatOptions(selectedData, fullPath);
                 }
             } else if (typeof selectedData === "string") {
-                // Tampilkan jawaban jika berupa string
                 createChatMessage(
                     selectedData.replace(/\n/g, "<br>"),
                     "incoming"
                 );
             } else {
-                // Jika tidak ada data yang sesuai
                 createChatMessage(
                     "Maaf, tidak ada jawaban yang sesuai.",
                     "incoming"
                 );
             }
-            // Tampilkan tombol "Mulai" lagi setelah jawaban selesai
             document.getElementById("startBtn").style.display = "block";
         } else {
-            // Jika path tidak valid
             createChatMessage(
                 "Maaf, tidak ada jawaban yang sesuai.",
                 "incoming"
             );
-            // Tampilkan tombol "Mulai" lagi jika tidak ada jawaban yang sesuai
             document.getElementById("startBtn").style.display = "block";
         }
     }, 1000);
@@ -200,8 +196,24 @@ function showOptions() {
         "Berikut adalah pertanyaan yang sering ditanyakan, silahkan pilih pertanyaannya:",
         "incoming"
     );
-    createChatOptions(faqData); // Menampilkan opsi utama lagi dengan path kosong
-    document.getElementById("startBtn").style.display = "none"; // Sembunyikan tombol setelah ditekan
+    createChatOptions(faqData);
+    document.getElementById("startBtn").style.display = "none";
+}
+
+// Fungsi untuk menampilkan modal gambar
+function openImageModal(imageUrl, altText) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const captionText = document.getElementById("caption");
+
+    modal.style.display = "block";
+    modalImg.src = imageUrl;
+    captionText.innerHTML = altText;
+
+    const closeModal = document.getElementsByClassName("close")[0];
+    closeModal.onclick = function () {
+        modal.style.display = "none";
+    };
 }
 
 window.onload = function () {

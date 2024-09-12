@@ -19,6 +19,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>SNI ISO 9001:2015 - 37001:2016 - 45001:2018 SISTEM MANAJEMEN INTEGRASI - BALAI PENGUJIAN MUTU DAN SERTIFIKASI PRODUK HEWAN <span>Hak Cipta&copy;2024 BPMSPH. Semua Hak Dilindungi</span></p>
+        <p>SNI ISO 9001:2015 - 37001:2016 - 45001:2018 SISTEM MANAJEMEN INTEGRASI - BALAI PENGUJIAN MUTU DAN SERTIFIKASI PRODUK HEWAN </p>
+        <p>Hak Cipta&copy;2024 BPMSPH. Semua Hak Dilindungi</p>
     </div>
 </footer>
