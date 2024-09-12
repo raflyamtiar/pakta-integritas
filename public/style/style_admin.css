@@ -155,8 +155,6 @@ nav {
     height: 12%;
 }
 
-/* admin */
-/* Admin Navbar */
 /* Admin Navbar */
 .container-navbar-admin {
     background-color: #0077b6;
@@ -190,8 +188,6 @@ nav {
     display: inline-block;
     cursor: pointer;
     margin-right: 40px;
-    border: 1px solid #fff;
-    border-radius: 5px;
 }
 
 /* Admin Name and Dropdown */
@@ -202,6 +198,8 @@ nav {
     padding: 5px 10px;
     align-items: center;
     background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
 }
 
 .admin-name i {
@@ -223,7 +221,7 @@ nav {
     display: none;
     position: absolute;
     background-color: #fff;
-    min-width: 160px;
+    min-width: 150px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     right: 0;
@@ -238,7 +236,7 @@ nav {
     border: none;
     border: 1px solid #fff;
     width: 100%; /* Make it full width */
-    padding: 5px;
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
@@ -587,6 +585,10 @@ header h1 {
     background-color: #004d73;
 }
 
+.down-btn a {
+    text-decoration: none;
+}
+
 .btn-tambah,
 .btn-export {
     padding: 10px 20px;
@@ -595,6 +597,7 @@ header h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .btn-tambah {
@@ -686,14 +689,18 @@ header h1 {
     color: black;
 }
 
+.table-admin td.action-cell {
+    text-align: center;
+}
+
 .table-admin td a {
     text-decoration: none;
 }
 
 .table-admin .icon-action {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Pusatkan secara horizontal */
+    align-items: center; /* Pusatkan secara vertikal */
     width: 30px;
     height: 30px;
     border-radius: 3px;
@@ -721,7 +728,6 @@ header h1 {
 
 /* trash */
 .icon-action.trash {
-    margin-left: 5px;
     background-color: red;
 }
 
@@ -730,6 +736,7 @@ header h1 {
     border: none;
     padding: 0;
     cursor: pointer;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -767,8 +774,7 @@ header h1 {
 }
 
 .pagination {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 30px 10px;
 }
 
 .pagination a,
@@ -1038,6 +1044,10 @@ input:required {
     vertical-align: top; /* Agar konten dalam kolom rata atas */
 }
 
+.table-admin-account td.action-cell {
+    text-align: center;
+}
+
 .table-admin-account th {
     background-color: #0077b6;
     color: white;
@@ -1060,8 +1070,8 @@ input:required {
 
 .table-admin-account .icon-action {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Pusatkan secara horizontal */
+    align-items: center; /* Pusatkan secara vertikal */
     width: 30px;
     height: 30px;
     border-radius: 3px;
@@ -1079,7 +1089,6 @@ input:required {
 }
 
 .icon-action.trash-account {
-    margin-left: 32px;
     background-color: red;
 }
 

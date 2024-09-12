@@ -68,7 +68,7 @@ class AdminAuthController extends Controller
 
     public function showAdminAccount()
     {
-        $admins = Admin::all(); // Ambil semua admin
+        $admins = Admin::paginate(5);
         return view('admin.admin_account', compact('admins')); // Kirim data admin ke view
     }
 

@@ -161,7 +161,7 @@ function confirmationData(event) {
                 title: "Terkirim!",
                 text: "Formulir Anda telah dikirim.",
                 icon: "success",
-                footer: '<a href="#">Pergi ke Email?</a>',
+                footer: '<a href="https://mail.google.com/">Pergi ke Email?</a>',
                 showConfirmButton: true,
                 timer: 10000,
             });
