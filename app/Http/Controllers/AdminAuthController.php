@@ -49,6 +49,9 @@ class AdminAuthController extends Controller
             'name' => 'required|string|max:255|unique:admins',
             'email' => 'required|string|email|max:255|unique:admins',
             'password' => 'required|string|min:8', // Minimal password 8 karakter
+        ], [
+            'name.unique' => 'Username sudah digunakan.',
+            'email.unique' => 'Email sudah digunakan.',
         ]);
 
         // Simpan admin baru
@@ -68,4 +71,49 @@ class AdminAuthController extends Controller
         $admins = Admin::all(); // Ambil semua admin
         return view('admin.admin_account', compact('admins')); // Kirim data admin ke view
     }
+
+    public function updateAdmin(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'name' => 'required|string|max:255|unique:admins,name,' . $id,
+            'email' => 'required|string|email|max:255|unique:admins,email,' . $id,
+            'password' => 'nullable|string|min:8', // Password optional, bisa kosong jika tidak ingin diubah
+        ], [
+            'name.unique' => 'Username sudah digunakan.',
+            'email.unique' => 'Email sudah digunakan.',
+        ]);
+
+        // Temukan admin berdasarkan ID
+        $admin = Admin::findOrFail($id);
+
+        // Update data admin
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+
+        // Jika password diisi, update password
+        if (!empty($request->password)) {
+            $admin->password = bcrypt($request->password);
+        }
+
+        $admin->save();
+
+        // Redirect kembali ke halaman admin dengan pesan sukses
+        return redirect()->route('admin.account')->with('success', 'Admin berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        // Temukan admin berdasarkan ID
+        $admin = Admin::findOrFail($id);
+
+        // Hapus admin
+        $admin->delete();
+
+        // Redirect kembali ke halaman admin dengan pesan sukses
+        return redirect()->route('admin.account')->with('success', 'Admin berhasil dihapus.');
+    }
+
+
+
 }

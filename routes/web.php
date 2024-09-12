@@ -41,6 +41,12 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 // Prefix untuk Admin Routes
 // Prefix untuk Admin Routes
 Route::middleware(\App\Http\Middleware\AdminMiddleware::class)->prefix('admin')->group(function () {
+    // Rute yang benar untuk menambah admin baru
+    Route::post('/store', [AdminAuthController::class, 'storeAdmin'])->name('admin.store');
+    Route::get('/account', [AdminAuthController::class, 'showAdminAccount'])->name('admin.account');
+    Route::put('/update/{id}', [AdminAuthController::class, 'updateAdmin'])->name('admin.update');
+    Route::delete('/{id}', [AdminAuthController::class, 'destroy'])->name('admin.destroy');
+
     Route::get('/home', [PaktaIntegritasController::class, 'index'])->name('admin.home');
 
     Route::get('/{role?}', [PaktaIntegritasController::class, 'index'])->name('admin.role');
@@ -52,10 +58,5 @@ Route::middleware(\App\Http\Middleware\AdminMiddleware::class)->prefix('admin')-
     Route::get('/{role}/export', [PaktaIntegritasController::class, 'export'])->name('integritas.export');
     Route::get('/{role}/download-pdf/{id}', [PaktaIntegritasController::class, 'downloadPdf'])->name('integritas.download-pdf');
     Route::get('/{role}/view-surat/{id}', [PaktaIntegritasController::class, 'viewSurat'])->name('integritas.view-surat');
-
-    // Rute yang benar untuk menambah admin baru
-    Route::post('/store', [AdminAuthController::class, 'storeAdmin'])->name('admin.store');
-    Route::get('/admin/account', [AdminAuthController::class, 'showAdminAccount'])->name('admin.account');
-
 });
 

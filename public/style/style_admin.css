@@ -156,6 +156,8 @@ nav {
 }
 
 /* admin */
+/* Admin Navbar */
+/* Admin Navbar */
 .container-navbar-admin {
     background-color: #0077b6;
     padding: 20px;
@@ -167,11 +169,11 @@ nav {
 }
 
 .container-navbar-admin a {
-    list-style: none;
     text-decoration: none;
     color: white;
     margin-left: 40px;
 }
+
 .logo {
     display: flex;
     align-items: center;
@@ -182,24 +184,76 @@ nav {
     width: 45px;
 }
 
-.logout-btn {
-    background-color: #ffffff;
+/* Admin Name and Dropdown */
+.admin-profile-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 40px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+
+/* Admin Name and Dropdown */
+.admin-name {
+    font-weight: bold;
     color: #0077b6;
+    display: flex;
+    padding: 5px 10px;
+    align-items: center;
+    background-color: #fff;
+}
+
+.admin-name i {
+    margin-left: 5px;
+    transition: transform 0.3s ease; /* Animasi rotasi ikon */
+}
+
+.admin-name:hover {
+    background-color: #0077b6;
+    color: #fff;
+}
+
+.rotate-icon {
+    transform: rotate(180deg); /* Memutar ikon caret saat dropdown dibuka */
+}
+
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+/* Logout Button */
+.logout-btn {
+    background-color: #d33;
+    color: #fff;
     border: none;
-    border: 2px solid #fff;
-    width: 60%;
+    border: 1px solid #fff;
+    width: 100%; /* Make it full width */
     padding: 5px;
     border-radius: 5px;
-    margin-right: 80px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
     transition: background-color 0.3s ease;
+    text-align: left;
 }
 
 .logout-btn:hover {
-    background-color: #0077b6;
-    color: #ffffff;
+    background-color: #fff;
+    color: #d33;
+}
+
+.logout-btn i {
+    margin-left: 10px;
 }
 
 .container-admin {
@@ -961,10 +1015,19 @@ input:required {
     color: #0077b6;
 }
 
+.container-table-admin {
+    background-color: white;
+    margin-top: 30px;
+    padding: 20px 0;
+    min-height: 20vh;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
 .table-admin-account {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 .table-admin-account th,
