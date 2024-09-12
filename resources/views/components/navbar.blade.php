@@ -5,10 +5,15 @@
             <h3>SMI BPMSPH</h3>
         </div>
     </a>
-    <div class="logout-admin">
-        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
-            @csrf
-            <button type="button" id="logout-btn" class="logout-btn">Logout</button>
-        </form>
+    <div class="admin-profile-dropdown">
+        <span class="admin-name" id="adminDropdown" onclick="toggleDropdown()">Hai, {{ Auth::guard('admin')->user()->name }} <i class="fa fa-caret-down" id="caretIcon"></i></span>
+        <div class="dropdown-content" id="dropdownContent">
+            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </form>
+        </div>
     </div>
 </nav>
