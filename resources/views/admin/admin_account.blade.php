@@ -11,11 +11,11 @@
     <h2>Daftar Pengguna</h2>
 
     <!-- Button to toggle form visibility -->
-    <button id="toggleFormBtn" class="custom-btn" onclick="toggleForm()"> Tambah User Baru</button>
+    <button id="toggleFormBtn" class="custom-btn" onclick="toggleForm()"> Tambah Admin Baru</button>
 
     <!-- Form to add new user -->
     <div id="userForm" class="user-form" style="display: none;">
-        <h3>Tambah User Baru</h3>
+        <h3 id="formTitle">Tambah Admin Baru</h3>
         <form id="addUserForm" method="POST">
             @csrf
             <input type="hidden" id="methodField" name="_method" value="POST">
@@ -58,26 +58,61 @@
                     <tr>
                         <td>{{ $admin->name }}</td>
                         <td>{{ $admin->email }}</td>
-                        <td>
+                        <td class="action-cell">
                             <button type="button" onclick="editAdmin('{{ $admin->id }}', '{{ $admin->name }}', '{{ $admin->email }}')">
                                 <div class="icon-action pencil"><i class="fa fa-pencil"></i></div>
                             </button>
                         </td>
-                        <td>
-                            <form action="{{ route('admin.destroy', $admin->id) }}" method="POST">
+                        <td class="action-cell">
+                            <button type="button" onclick="confirmDelete({{ $admin->id }})">
+                                <div class="icon-action trash-account">
+                                    <i class="fa fa-trash"></i>
+                                </div>
+                            </button>
+                            <form id="delete-form-{{ $admin->id }}" action="{{ route('admin.destroy', $admin->id) }}" method="POST" style="display: none;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
-                                    <div class="icon-action trash-account">
-                                        <i class="fa fa-trash"></i>
-                                    </div>
-                                </button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <div class="pagination">
+            <!-- Previous Page Link -->
+            @if ($admins->onFirstPage())
+                <span class="disabled"><i class="fa-solid fa-caret-left"></i></span>
+            @else
+                <a href="{{ $admins->previousPageUrl() }}" rel="prev"><i class="fa-solid fa-caret-left"></i></a>
+            @endif
+
+            <!-- Pagination Elements -->
+            @foreach ($admins->links()->elements as $element)
+                <!-- "Three Dots" Separator -->
+                @if (is_string($element))
+                    <span class="disabled">{{ $element }}</span>
+                @endif
+
+                <!-- Array Of Links -->
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        @if ($page == $admins->currentPage())
+                            <span class="active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}">{{ $page }}</a>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+
+            <!-- Next Page Link -->
+            @if ($admins->hasMorePages())
+                <a href="{{ $admins->nextPageUrl() }}" rel="next"><i class="fa-solid fa-caret-right"></i></a>
+            @else
+                <span class="disabled"><i class="fa-solid fa-caret-right"></i></span>
+            @endif
+        </div>
+
     </div>
 </div>
 

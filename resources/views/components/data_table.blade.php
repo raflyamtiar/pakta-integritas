@@ -1,7 +1,12 @@
 <div class="down-btn">
-    <a href="/admin/add/pegawai"><button class="btn-tambah">Tambah</button></a>
-    <a href="{{ route('integritas.export', ['role' => $role]) }}"><button class="btn-export">Export Excel</button></a>
+    <a href="{{ route('admin.add', ['role' => $role]) }}">
+        <button class="btn-tambah">Tambah</button>
+    </a>
+    <a href="{{ route('integritas.export', ['role' => $role]) }}">
+        <button class="btn-export"> Export Excel</button>
+    </a>
 </div>
+
 
 <table class="table-admin">
     <thead>
@@ -26,17 +31,17 @@
             <td>{{ $item->instansi }}</td>
             <td>{{ $item->email }}</td>
             <td>{{ $item->no_whatsapp }}</td>
-            <td>
+            <td class="action-cell">
                 <a href="{{ route('integritas.download-pdf', ['role' => $role, 'id' => $item->id]) }}">
                     <div class="icon-action print"><i class="fa fa-print"></i></div>
                 </a>
             </td>
-            <td>
+            <td class="action-cell">
                 <a href="{{ route('integritas.edit', ['role' => $role, 'id' => $item->id]) }}">
                     <div class="icon-action pencil"><i class="fa fa-pencil"></i></div>
                 </a>
             </td>
-            <td>
+            <td class="action-cell">
                 <form id="delete-form-{{ $item->id }}" action="{{ route('integritas.destroy', ['role' => $role, 'id' => $item->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')

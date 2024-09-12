@@ -80,12 +80,36 @@ function confirmDelete(itemId) {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus ini!",
+        cancelButtonText: "Tidak, batalkan!",
     }).then((result) => {
         if (result.isConfirmed) {
             document.getElementById("delete-form-" + itemId).submit();
             Swal.fire({
                 title: "Terhapus!",
                 text: "Data kamu berhasil terhapus.",
+                icon: "success",
+            });
+        }
+    });
+}
+
+function confirmDelete(adminId) {
+    Swal.fire({
+        title: "Apa kamu yakin?",
+        text: "Akun ini tidak dapat dikembalikan",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus ini!",
+        cancelButtonText: "Tidak, batalkan!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Jika pengguna mengonfirmasi, kirim form untuk penghapusan data
+            document.getElementById("delete-form-" + adminId).submit();
+            Swal.fire({
+                title: "Terhapus!",
+                text: "Akun kamu berhasil terhapus.",
                 icon: "success",
             });
         }
@@ -139,6 +163,9 @@ function toggleForm() {
             'form#addUserForm button[type="submit"]'
         ).textContent = "Simpan";
 
+        // Ubah judul form menjadi "Tambah Admin Baru"
+        document.getElementById("formTitle").textContent = "Tambah Admin Baru";
+
         // Sembunyikan hint password
         document.getElementById("passwordHint").style.display = "none";
     } else {
@@ -166,6 +193,9 @@ function editAdmin(id, name, email) {
     document.querySelector(
         'form#addUserForm button[type="submit"]'
     ).textContent = "Perbarui";
+
+    // Ubah judul form menjadi "Edit Akun Admin"
+    document.getElementById("formTitle").textContent = "Edit Akun Admin";
 
     // Tampilkan hint password
     document.getElementById("passwordHint").style.display = "block";

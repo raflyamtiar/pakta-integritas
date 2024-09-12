@@ -6,6 +6,7 @@ use App\Models\PaktaIntegritas;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Carbon\Carbon;
 
 class PaktaIntegritasExport implements FromCollection, WithHeadings, WithMapping
 {
@@ -63,7 +64,7 @@ class PaktaIntegritasExport implements FromCollection, WithHeadings, WithMapping
             $row->kota,
             $row->tanggal,
             "'" . $row->no_whatsapp,
-            $row->created_at,
+            Carbon::parse($row->created_at)->setTimezone('Asia/Jakarta')->toDateTimeString(),
         ];
     }
 }
