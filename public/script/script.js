@@ -135,13 +135,8 @@ function confirmationData(event) {
 
     // Validasi form secara manual sebelum menampilkan SweetAlert
     if (!form.checkValidity()) {
-        // Jika form tidak valid, tampilkan peringatan dan hentikan proses
-        Swal.fire({
-            title: "Error!",
-            text: "Pastikan semua field sudah diisi dengan benar.",
-            icon: "error",
-            confirmButtonText: "OK",
-        });
+        // Jika form tidak valid, arahkan ke elemen yang tidak valid
+        form.reportValidity(); // Ini akan otomatis fokus ke field yang tidak valid
         return; // Hentikan eksekusi jika form tidak valid
     }
 

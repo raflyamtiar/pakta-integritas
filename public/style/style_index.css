@@ -1228,34 +1228,29 @@ input:required {
 /* Page lapor end*/
 
 /* faq */
-/* Container utama untuk FAQ chatbot */
 .contentFAQ {
     width: 70%;
     padding-top: 90px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin: 0 auto; /* Centering container */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animasi untuk hover */
+    margin: 0 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contentFAQ:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Lebih mendalam */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Header untuk FAQ Chatbot */
 .faqHeader {
-    background-color: #0096c7;
+    background-color: #0077b6;
     color: white;
     padding: 20px;
     text-align: center;
     border-radius: 10px;
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s ease; /* Transisi saat hover */
-}
-
-.faqHeader:hover {
-    background-color: #0077b6; /* Perubahan warna saat di-hover */
+    border-bottom: 1px solid #e8e8e8;
+    transition: background-color 0.3s ease;
 }
 
 /* Chatbox untuk menampilkan pesan */
@@ -1289,24 +1284,24 @@ input:required {
     max-width: 80%;
     word-wrap: break-word;
     opacity: 0;
-    transform: translateY(20px); /* Posisi awal sebelum animasi */
-    animation: slideUp 0.4s ease forwards; /* Animasi slide up */
+    transform: translateY(20px);
+    animation: slideUp 0.4s ease forwards;
 }
 
 /* Pesan yang diterima (incoming) */
 .incoming {
     background-color: #fff;
     align-self: flex-start;
-    color: #000;
-    border: 1px solid #ddd;
+    color: #282828;
+    border: 1px solid #bbbbbb;
 }
 
 /* Pesan yang dikirim (outgoing) */
 .outgoing {
-    background-color: #48cae4;
+    background-color: #2ca474;
     color: white;
     align-self: flex-end;
-    border: 1px solid #0077b6;
+    border: 1px solid #249c6c;
 }
 
 /* Styling untuk tombol opsi pertanyaan dalam chatbot */
@@ -1317,7 +1312,7 @@ input:required {
 }
 
 .chat-options button {
-    background-color: #00b4d8;
+    background-color: #3ac890;
     color: white;
     border: none;
     border-radius: 5px;
@@ -1329,8 +1324,8 @@ input:required {
 }
 
 .chat-options button:hover {
-    background-color: #025c7a;
-    transform: scale(1.05); /* Sedikit memperbesar tombol saat hover */
+    background-color: #249c6c;
+    transform: scale(1.05);
 }
 
 /* Tombol Mulai dan Pilih Lagi */
@@ -1338,25 +1333,25 @@ input:required {
     display: none;
     margin: 10px 43%;
     padding: 10px;
-    background-color: #0096c7;
+    background-color: #48cae4;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     width: 10%;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Animasi hover */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #startBtn:hover {
-    background-color: #025c7a;
-    transform: scale(1.05); /* Efek membesar saat hover */
+    background-color: #00b4d8;
+    transform: scale(1.05);
 }
 
 /* Keyframe animasi untuk pesan */
 @keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(20px); /* Pesan muncul dari bawah */
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -1365,25 +1360,24 @@ input:required {
 }
 
 /* Modal untuk gambar */
-/* Modal untuk gambar */
 .modal {
-    display: none; /* Disembunyikan secara default */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%; /* Tinggi penuh untuk layar */
-    overflow-y: auto; /* Tambahkan scrolling jika konten melebihi tinggi layar */
-    background-color: rgba(0, 0, 0, 0.7); /* Latar belakang semi-transparan */
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
-    display: block; /* Pastikan gambar ditampilkan sebagai blok */
-    margin: 50px auto; /* Jarak margin di atas dan bawah, dan gambar berada di tengah secara horizontal */
-    object-fit: contain; /* Gambar tetap sesuai dengan ukuran aslinya */
-    max-width: 90vw; /* Batas maksimal lebar gambar 90% dari viewport */
-    max-height: 90vh; /* Batas maksimal tinggi gambar 90% dari viewport */
+    display: block;
+    margin: 50px auto;
+    object-fit: contain;
+    max-width: 90vw;
+    max-height: 90vh;
 }
 
 .close {
@@ -2084,7 +2078,7 @@ footer {
         width: 40%;
     }
     .contentFAQ {
-        width: 70%;
+        width: 80%;
         padding-top: 70px;
     }
 
@@ -2444,7 +2438,7 @@ footer {
     }
 
     .contentFAQ {
-        width: 60%;
+        width: 90%;
         padding-top: 60px;
     }
 

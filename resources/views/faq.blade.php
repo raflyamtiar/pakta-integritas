@@ -119,6 +119,7 @@
 </main>
 
 <script src="{{ asset('script/faq.js') }}"></script>
+<script src="{{ asset('script/script.js') }}"></script>
 <script>
 window.addEventListener("load", function () {
     var loader = document.getElementById("loader");

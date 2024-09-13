@@ -14,13 +14,13 @@ class AdminCheck
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle($request, Closure $next)
-{
-    if ($request->is('admin/*')) {
-        // Jika URL mengandung 'admin'
-        $request->attributes->set('is_admin', true);
-    }
+    {
+        if ($request->is('admin/*')) {
+            // Jika URL mengandung 'admin'
+            $request->attributes->set('is_admin', true);
+        }
 
-    return $next($request);
-}
+        return $next($request);
+    }
 
 }
