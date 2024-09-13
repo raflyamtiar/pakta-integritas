@@ -203,7 +203,7 @@ nav {
 }
 
 .admin-name i {
-    margin-left: 5px;
+    padding: 0 5px;
     transition: transform 0.3s ease; /* Animasi rotasi ikon */
 }
 
@@ -774,7 +774,7 @@ header h1 {
 }
 
 .pagination {
-    margin: 30px 10px;
+    margin: 30px 10px 0 10px;
 }
 
 .pagination a,
@@ -1032,7 +1032,7 @@ input:required {
 
 .table-admin-account {
     width: 90%;
-    margin: 0 auto;
+    margin: 20px auto;
     border-collapse: collapse;
 }
 

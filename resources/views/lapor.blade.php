@@ -14,7 +14,7 @@
                 <img src="assets/line lapor.png" alt="">
                 <h2>SISTEM MANAJEMEN INTEGRASI</h2>
             </div>
-            <div class="cara-melapor-content" style="background-image: url('{{ asset('assets/kertas.png') }}');">
+            <div class="cara-melapor-content">
                 <div class="cara-melapor-tutor">
                     <h3><i class="fa-brands fa-readme"></i> Cara Melapor:</h3>
                     <div class="tutor-lapor">
