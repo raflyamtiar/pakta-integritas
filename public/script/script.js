@@ -175,3 +175,21 @@ window.addEventListener("load", function () {
     var loader = document.getElementById("loader");
     loader.style.display = "none"; // Sembunyikan loader setelah halaman dimuat
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const title = document.querySelector(".home-title h1");
+    const text = title.textContent;
+    title.innerHTML = "";
+
+    // Pecah teks menjadi huruf-huruf
+    text.split("").forEach((letter, index) => {
+        const span = document.createElement("span");
+        if (letter === " ") {
+            span.innerHTML = "&nbsp;"; // Jika huruf adalah spasi, tambahkan non-breaking space
+        } else {
+            span.textContent = letter;
+        }
+        span.style.animationDelay = `${index * 0.07}s`; // Tambah delay untuk tiap huruf
+        title.appendChild(span);
+    });
+});

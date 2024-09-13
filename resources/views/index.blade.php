@@ -28,9 +28,9 @@
                                 </button></a>
                         </div>
                     </div>
-                    <div class="home-content-logo">
+                    <figure class="home-content-logo">
                         <img src="assets/logo smi.png" alt="logo smi">
-                    </div>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -171,137 +171,195 @@
                     </div>
                 </div>
             </div>
-            <div class="role-popup-1" id="role-popup-1">
-                <div class="role-popup-content-1"></div>
-                <div class="role-popup-text-1">
-                    <div class="role-close-btn-1" onclick="togglePopup('role-popup-1')"><i
-                            class="fa-solid fa-circle-xmark"></i></div>
-                    <h3>PERJANJIAN PAKTA INTEGRITAS PEGAWAI</h3>
-                    <p>Menyatakan bahwa saya dengan sungguh-sungguh dalam rangka pelaksanaan pemeriksaan dan
-                        pengujian di BPMSPH bersedia menjalankan dan mentaati hal-hal seperti yang tertulis
-                        dibawah ini :</p>
-                    <br>
-                    <ol>
-                        <li>Berperan secara pro aktif dalam upaya pencegahan dan pemberantasan Korupsi, Kolusi
-                            dan Nepotisme (KKN) serta tidak melibatkan diri dalam perbuatan tercela;</li>
-                        <li>Berkomitmen tidak meminta pemberian secara langsung dan/atau tidak langsung berupa
-                            suap,
-                            hadiah, bantuan, atau bentuk lainnya yang tidak sesuai dengan ketentuan yang berlaku
-                            serta melaporkan pemberian tersebut apabila menerimanya;</li>
-                        <li>Berkomitmen bersikap transparan, jujur, objektif dan akuntabel untuk tidak terlibat
-                            atau
-                            terpengaruh terhadap tekanan komersial, keuangan yang dapat mempengaruhi hasil
-                            pengujian
-                            untuk menghindari benturan kepentingan (conflict of interest) dalam pelaksanaan
-                            tugas;
-                        </li>
-                        <li>Berkomitmen untuk bebas dari kegiatan lain, internal dan eksternal yang dapat
-                            mengurangi
-                            kepercayaan dalam kemandirian pertimbangan dan integritas dalam kegiatan pengujian,
-                            dan
-                            berpengaruh buruk terhadap mutu kerja;</li>
-                        <li>Berkomitmen untuk bekerja secara profesional, menjunjung tinggi aturan yang berlaku
-                            baik di lingkungan laboratorium pengujian;</li>
-                        <li>Berkomitmen untuk menjaga kerahasiaan informasi dan hak kepemilikan dari pelanggan
-                            Laboratorium sesuai dengan persyaratan dan ketentuan yang berlaku, termasuk
-                            informasi
-                            dalam bentuk elektronik;</li>
-                        <li>Berkomitmen memberi contoh dalam kepatuhan terhadap peraturan perundang-undangan
-                            dalam
-                            melaksanaan tugas terutama kepada pegawai yang berada di bawah pengawasan saya dan
-                            sesama pegawai di lingkungan kerja saya secara konsisten;</li>
-                        <li>Berkomitmen menyampaikan informasi penyimpangan integritas serta turut menjaga
-                            kerahasiaan atas pelanggaran peraturan yang dilaporkannya;</li>
-                        <li>Bila saya melanggar hal-hal tersebut di atas, saya siap menghadapi konsekuensi
-                            berdasarkan ketentuan dan perundang-undangan yang berlaku.</li>
-                    </ol>
+            <div class="role-popup" id="role-popup-1">
+                <div class="role-popup-content"></div>
+                <div class="role-popup-text">
+                  <button class="role-close-btn" onclick="togglePopup('role-popup-1')">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                  </button>
+                  <h3>PERJANJIAN PAKTA INTEGRITAS PEGAWAI</h3>
+                  <p>
+                    Menyatakan bahwa saya dengan sungguh-sungguh dalam rangka pelaksanaan
+                    pemeriksaan dan pengujian di BPMSPH bersedia menjalankan dan mentaati
+                    hal-hal seperti yang tertulis dibawah ini :
+                  </p>
+                  <ol>
+                    <li>
+                      Berperan secara pro aktif dalam upaya pencegahan dan pemberantasan
+                      Korupsi, Kolusi dan Nepotisme (KKN) serta tidak melibatkan diri dalam
+                      perbuatan tercela;
+                    </li>
+                    <li>
+                      Berkomitmen tidak meminta pemberian secara langsung dan/atau tidak
+                      langsung berupa suap, hadiah, bantuan, atau bentuk lainnya yang tidak
+                      sesuai dengan ketentuan yang berlaku serta melaporkan pemberian tersebut
+                      apabila menerimanya;
+                    </li>
+                    <li>
+                      Berkomitmen bersikap transparan, jujur, objektif dan akuntabel untuk
+                      tidak terlibat atau terpengaruh terhadap tekanan komersial, keuangan
+                      yang dapat mempengaruhi hasil pengujian untuk menghindari benturan
+                      kepentingan (conflict of interest) dalam pelaksanaan tugas;
+                    </li>
+                    <li>
+                      Berkomitmen untuk bebas dari kegiatan lain, internal dan eksternal yang
+                      dapat mengurangi kepercayaan dalam kemandirian pertimbangan dan
+                      integritas dalam kegiatan pengujian, dan berpengaruh buruk terhadap mutu
+                      kerja;
+                    </li>
+                    <li>
+                      Berkomitmen untuk bekerja secara profesional, menjunjung tinggi aturan
+                      yang berlaku baik di lingkungan laboratorium pengujian;
+                    </li>
+                    <li>
+                      Berkomitmen untuk menjaga kerahasiaan informasi dan hak kepemilikan dari
+                      pelanggan Laboratorium sesuai dengan persyaratan dan ketentuan yang
+                      berlaku, termasuk informasi dalam bentuk elektronik;
+                    </li>
+                    <li>
+                      Berkomitmen memberi contoh dalam kepatuhan terhadap peraturan
+                      perundang-undangan dalam melaksanaan tugas terutama kepada pegawai yang
+                      berada di bawah pengawasan saya dan sesama pegawai di lingkungan kerja
+                      saya secara konsisten;
+                    </li>
+                    <li>
+                      Berkomitmen menyampaikan informasi penyimpangan integritas serta turut
+                      menjaga kerahasiaan atas pelanggaran peraturan yang dilaporkannya;
+                    </li>
+                    <li>
+                      Bila saya melanggar hal-hal tersebut di atas, saya siap menghadapi
+                      konsekuensi berdasarkan ketentuan dan perundang-undangan yang berlaku.
+                    </li>
+                  </ol>
                 </div>
             </div>
-            <div class="role-popup-2" id="role-popup-2">
-                <div class="role-popup-content-2"></div>
-                <div class="role-popup-text-2">
-                    <div class="role-close-btn-2" onclick="togglePopup('role-popup-2')"><i
-                            class="fa-solid fa-circle-xmark"></i></div>
-                    <h3>PERJANJIAN PAKTA INTEGRITAS PENYEDIA JASA</h3>
-                    <p>Menyatakan bahwa saya dengan sungguh-sungguh dalam rangka pelaksanaan pemeriksaan dan
-                        pengujian
-                        di BPMSPH bersedia menjalankan dan mentaati hal-hal seperti yang tertulis dibawah ini:</p>
-                    <br>
-                    <ol>
-                        <li>Berperan secara pro aktif dalam upaya pencegahan dan pemberantasan Korupsi, Kolusi dan
-                            Nepotisme (KKN) serta tidak melibatkan diri dalam perbuatan tercela;</li>
-                        <li>Tidak melakukan pemberian secara langsung dan/atau tidak langsung berupa suap, hadiah,
-                            bantuan, atau bentuk lainnya yang tidak sesuai dengan ketentuan yang berlaku serta
-                            melaporkan pemberian permintaan tersebut apabila ada yang menerimanya;</li>
-                        <li>Bersikap transparan, jujur, objektif dan akuntabel dalam melaksanakan kegiatan sebagai
-                            penyedia jasa;
-                        </li>
-                        <li>Menghindari benturan kepentingan (conict of interest) dalam pelaksanaan kegiatan sebagai
-                            penyedia jasa; </li>
-                        <li>Memberi contoh dalam kepatuhan terhadap peraturan perundang-undangan dalam melaksanakan
-                            kegiatan sebagai penyedia jasa; </li>
-                        <li>Akan menyampaikan informasi penyimpangan integritas serta turut menjaga kerahasiaan atas
-                            pelanggaran peraturan yang dilaporkannya; </li>
-                        <li>Bila saya melanggar hal-hal tersebut di atas, saya siap menghadapi konsekuensi
-                            berdasarkan
-                            ketentuan dan perundang-undangan yang berlaku.</li>
-                    </ol>
+            <div class="role-popup" id="role-popup-2">
+                <div class="role-popup-content"></div>
+                <div class="role-popup-text">
+                  <div class="role-close-btn" onclick="togglePopup('role-popup-2')">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                  </div>
+                  <h3>PERJANJIAN PAKTA INTEGRITAS PENYEDIA JASA</h3>
+                  <p>
+                    Menyatakan bahwa saya dengan sungguh-sungguh dalam rangka pelaksanaan
+                    pemeriksaan dan pengujian di BPMSPH bersedia menjalankan dan mentaati
+                    hal-hal seperti yang tertulis dibawah ini:
+                  </p>
+                  <ol>
+                    <li>
+                      Berperan secara pro aktif dalam upaya pencegahan dan pemberantasan
+                      Korupsi, Kolusi dan Nepotisme (KKN) serta tidak melibatkan diri dalam
+                      perbuatan tercela;
+                    </li>
+                    <li>
+                      Tidak melakukan pemberian secara langsung dan/atau tidak langsung berupa
+                      suap, hadiah, bantuan, atau bentuk lainnya yang tidak sesuai dengan
+                      ketentuan yang berlaku serta melaporkan pemberian permintaan tersebut
+                      apabila ada yang menerimanya;
+                    </li>
+                    <li>
+                      Bersikap transparan, jujur, objektif dan akuntabel dalam melaksanakan
+                      kegiatan sebagai penyedia jasa;
+                    </li>
+                    <li>
+                      Menghindari benturan kepentingan (conict of interest) dalam pelaksanaan
+                      kegiatan sebagai penyedia jasa;
+                    </li>
+                    <li>
+                      Memberi contoh dalam kepatuhan terhadap peraturan perundang-undangan
+                      dalam melaksanakan kegiatan sebagai penyedia jasa;
+                    </li>
+                    <li>
+                      Akan menyampaikan informasi penyimpangan integritas serta turut menjaga
+                      kerahasiaan atas pelanggaran peraturan yang dilaporkannya;
+                    </li>
+                    <li>
+                      Bila saya melanggar hal-hal tersebut di atas, saya siap menghadapi
+                      konsekuensi berdasarkan ketentuan dan perundang-undangan yang berlaku.
+                    </li>
+                  </ol>
                 </div>
             </div>
-            <div class="role-popup-3" id="role-popup-3">
-                <div class="role-popup-content-3"></div>
-                <div class="role-popup-text-3">
-                    <div class="role-close-btn-3" onclick="togglePopup('role-popup-3')"><i
-                            class="fa-solid fa-circle-xmark"></i></div>
-                    <h3>PERJANJIAN PAKTA INTEGRITAS PENGGUNA JASA</h3>
-                    <p>Menyatakan bahwa saya dengan sungguh-sungguh akan menjalankan dan mentaati hal-hal seperti
-                        yang
-                        tertulis dibawah ini:</p>
-                    <br>
-                    <ol>
-                        <li>Berperan secara pro aktif dalam upaya pencegahan dan pemberantasan Korupsi, Kolusi dan
-                            Nepotisme (KKN) serta tidak melibatkan diri dalam perbuatan tercela;</li>
-                        <li>Bersikap transparan, jujur, objektif dan akuntabel dalam melaksanakan kegiatan sebagai
-                            pengguna jasa;</li>
-                        <li>Menghindari benturan kepentingan (conict of interest) dalam pelaksanaan kegiatan sebagai
-                            pengguna jasa;
-                        </li>
-                        <li>Memberi contoh dalam kepatuhan terhadap peraturan perundang-undangan dalam melaksanakan
-                            kegiatan sebagai pengguna jasa;</li>
-                        <li>Akan menyampaikan informasi penyimpangan integritas serta turut menjaga kerahasiaan atas
-                            pelanggaran peraturan yang dilaporkannya;</li>
-                        <li>Bila saya melanggar hal-hal tersebut di atas, saya siap menghadapi konsekuensi
-                            berdasarkan
-                            ketentuan dan perundang-undangan yang berlaku.</li>
-                    </ol>
+            <div class="role-popup" id="role-popup-3">
+                <div class="role-popup-content"></div>
+                <div class="role-popup-text">
+                  <div class="role-close-btn" onclick="togglePopup('role-popup-3')">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                  </div>
+                  <h3>PERJANJIAN PAKTA INTEGRITAS PENGGUNA JASA</h3>
+                  <p>
+                    Menyatakan bahwa saya dengan sungguh-sungguh akan menjalankan dan mentaati
+                    hal-hal seperti yang tertulis dibawah ini:
+                  </p>
+                  <ol>
+                    <li>
+                      Berperan secara pro aktif dalam upaya pencegahan dan pemberantasan
+                      Korupsi, Kolusi dan Nepotisme (KKN) serta tidak melibatkan diri dalam
+                      perbuatan tercela;
+                    </li>
+                    <li>
+                      Bersikap transparan, jujur, objektif dan akuntabel dalam melaksanakan
+                      kegiatan sebagai pengguna jasa;
+                    </li>
+                    <li>
+                      Menghindari benturan kepentingan (conict of interest) dalam pelaksanaan
+                      kegiatan sebagai pengguna jasa;
+                    </li>
+                    <li>
+                      Memberi contoh dalam kepatuhan terhadap peraturan perundang-undangan
+                      dalam melaksanakan kegiatan sebagai pengguna jasa;
+                    </li>
+                    <li>
+                      Akan menyampaikan informasi penyimpangan integritas serta turut menjaga
+                      kerahasiaan atas pelanggaran peraturan yang dilaporkannya;
+                    </li>
+                    <li>
+                      Bila saya melanggar hal-hal tersebut di atas, saya siap menghadapi
+                      konsekuensi berdasarkan ketentuan dan perundang-undangan yang berlaku.
+                    </li>
+                  </ol>
                 </div>
             </div>
-            <div class="role-popup-4" id="role-popup-4">
-                <div class="role-popup-content-4"></div>
-                <div class="role-popup-text-4">
-                    <div class="role-close-btn-4" onclick="togglePopup('role-popup-4')"><i
-                            class="fa-solid fa-circle-xmark"></i></div>
-                    <h3>PERJANJIAN PAKTA INTEGRITAS AUDITOR</h3>
-                    <p>Menyatakan bahwa Saya sebagai Auditor Internal menandatangani & menjalankan “Pakta Integritas
-                        Ketidakberpihakan Auditor Internal” dengan ketentuan sebagai berikut:</p>
-                    <br>
-                    <ol>
-                        <li>Auditor Internal tidak akan berpihak kepada pihak tertentu dalam menjalankan fungsinya saat
-                            melaksanakan audit;</li>
-                        <li>Auditor Internal tidak diperkenankan melakukan kerjasama dalam ketidakbenaran terkait temuan
-                            saat melaksanakan audit dengan auditee;</li>
-                        <li>Auditor Internal menyadari dengan sepenuh hati terhadap tanggung jawabnya dalam melaksanakan
-                            audit untuk selalu mengedepankan “Independensi” atau ketidaktergantungan kepada pihak
-                            manapun;
-                        </li>
-                        <li>Auditor internal sebagai kapasitasnya dalam jabatan tertentu tidak diperkenankan menggunakan
-                            kewenangannya melakukan intervensi dalam pelaksanaan audit yang mengakibatkan terjadinya
-                            konflik kepentingan pada ketidaksesuaian yang terjadi;</li>
-                        <li>Auditor internal tidak diperbolehkan melakukan penghilangan atau penambahan temuan audit
-                            ketika kegiatan audit sudah selesai.</li>
-                    </ol>
+            <div class="role-popup" id="role-popup-4">
+                <div class="role-popup-content"></div>
+                <div class="role-popup-text">
+                  <div class="role-close-btn" onclick="togglePopup('role-popup-4')">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                  </div>
+                  <h3>PERJANJIAN PAKTA INTEGRITAS AUDITOR</h3>
+                  <p>
+                    Menyatakan bahwa Saya sebagai Auditor Internal menandatangani &
+                    menjalankan “Pakta Integritas Ketidakberpihakan Auditor Internal” dengan
+                    ketentuan sebagai berikut:
+                  </p>
+                  <ol>
+                    <li>
+                      Auditor Internal tidak akan berpihak kepada pihak tertentu dalam
+                      menjalankan fungsinya saat melaksanakan audit;
+                    </li>
+                    <li>
+                      Auditor Internal tidak diperkenankan melakukan kerjasama dalam
+                      ketidakbenaran terkait temuan saat melaksanakan audit dengan auditee;
+                    </li>
+                    <li>
+                      Auditor Internal menyadari dengan sepenuh hati terhadap tanggung
+                      jawabnya dalam melaksanakan audit untuk selalu mengedepankan
+                      “Independensi” atau ketidaktergantungan kepada pihak manapun;
+                    </li>
+                    <li>
+                      Auditor internal sebagai kapasitasnya dalam jabatan tertentu tidak
+                      diperkenankan menggunakan kewenangannya melakukan intervensi dalam
+                      pelaksanaan audit yang mengakibatkan terjadinya konflik kepentingan pada
+                      ketidaksesuaian yang terjadi;
+                    </li>
+                    <li>
+                      Auditor internal tidak diperbolehkan melakukan penghilangan atau
+                      penambahan temuan audit ketika kegiatan audit sudah selesai.
+                    </li>
+                  </ol>
                 </div>
             </div>
+
         </div>
         <!-- Role -->
 
