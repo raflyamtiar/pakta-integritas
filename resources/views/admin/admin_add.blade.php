@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Formulir Pakta Integritas - ' . ucfirst($role))
+@section('title', 'Tambah Data ' . ucfirst($role))
 
 @section('content')
 
@@ -10,7 +10,7 @@
 <hr class="header-line">
 
 <div class="isi-form" id="isi-form">
-    <form action="{{ route('integritas.store', ['role' => $role]) }}" method="POST" id="form-container" class="form-container" autocomplete="off">
+    <form action="{{ route('integritas.store', ['role' => $role]) }}" method="POST" id="form-container" class="form-container" >
         @csrf
         <input type="hidden" name="role" value="{{ $role }}">
         <input type="hidden" name="is_admin" value="true">

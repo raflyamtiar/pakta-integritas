@@ -30,7 +30,10 @@
             </div>
             <div class="form-group-account">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="custom-input">
+                <div style="position: relative;">
+                    <input type="password" id="password" name="password" class="custom-input">
+                    <i id="togglePassword" class="fa-solid fa-eye-slash" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+                </div>
                 <small id="passwordHint" style="display: none;">Kosongkan jika tidak ingin mengubah password</small>
             </div>
             <button type="submit" class="btn-save">Simpan</button>

@@ -631,6 +631,7 @@ nav ul li a:hover {
     color: black;
     margin-bottom: 10%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+    display: none;
 }
 
 .form-container .img-form {
@@ -1234,7 +1235,7 @@ input:required {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin: 0 auto;
+    margin: 0 auto 30px auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1255,7 +1256,7 @@ input:required {
 
 /* Chatbox untuk menampilkan pesan */
 .chatBox {
-    height: 350px;
+    height: 70vh;
     padding: 20px;
     overflow-y: auto;
     background-color: #f3f3f3;
@@ -1376,8 +1377,8 @@ input:required {
     display: block;
     margin: 50px auto;
     object-fit: contain;
-    max-width: 90vw;
-    max-height: 90vh;
+    max-width: 100vw;
+    max-height: 100vh;
 }
 
 .close {
@@ -1762,10 +1763,6 @@ footer {
         padding: 0;
     }
 
-    .chatBox {
-        height: 270px;
-    }
-
     .chat-options button {
         padding: 10px;
         font-size: 16px;
@@ -2044,6 +2041,7 @@ footer {
     .mybg img {
         height: 100vh;
         width: auto;
+        object-position: center;
     }
 
     .cara-melapor-content {
@@ -2054,12 +2052,16 @@ footer {
         font-size: 24px;
     }
 
+    .cara-melapor-title img {
+        width: 50%;
+    }
+
     .tutor-lapor ol {
         font-size: 14px;
     }
 
     .layanan-pengaduan-title img {
-        width: 20%;
+        width: 50%;
     }
 
     .container-layanan-pengaduan {
@@ -2075,7 +2077,7 @@ footer {
     }
 
     .container-web-title img {
-        width: 40%;
+        width: 50%;
     }
     .contentFAQ {
         width: 80%;
@@ -2085,10 +2087,6 @@ footer {
     .faqHeader h2 {
         font-size: 18px;
         padding: 0;
-    }
-
-    .chatBox {
-        height: 290px;
     }
 
     .chat-options button {
@@ -2361,6 +2359,18 @@ footer {
         padding: 4px;
     }
 
+    .cara-melapor-title img {
+        width: 60%;
+    }
+
+    .layanan-pengaduan-title img {
+        width: 60%;
+    }
+
+    .container-web-title img {
+        width: 60%;
+    }
+
     .btn-send-form button {
         font-size: 12px;
         padding: 10px;
@@ -2411,10 +2421,6 @@ footer {
         width: 100%;
     }
 
-    .layanan-pengaduan-title img {
-        width: 25%;
-    }
-
     .container-layanan-pengaduan {
         padding: 40px 15px;
         width: 100%;
@@ -2433,9 +2439,6 @@ footer {
     .web-content-isi {
         width: 300px;
     }
-    .container-web-title img {
-        width: 40%;
-    }
 
     .contentFAQ {
         width: 90%;
@@ -2445,10 +2448,6 @@ footer {
     .faqHeader h2 {
         font-size: 18px;
         padding: 0;
-    }
-
-    .chatBox {
-        height: 280px;
     }
 
     .chat-options button {

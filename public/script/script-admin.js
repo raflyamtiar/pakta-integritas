@@ -174,6 +174,30 @@ function toggleForm() {
     }
 }
 
+// JavaScript untuk toggle visibility password
+document.addEventListener("DOMContentLoaded", function () {
+    // Pastikan semua elemen sudah ter-load sebelum menjalankan script
+    const togglePasswordButton = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+
+    if (togglePasswordButton && passwordInput) {
+        togglePasswordButton.addEventListener("click", function () {
+            const icon = this; // Mengambil ikon mata (fa-eye/fa-eye-slash)
+
+            // Toggle tipe input antara password dan text
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text"; // Tampilkan password
+                icon.classList.remove("fa-eye-slash"); // Ubah ikon ke mata terbuka
+                icon.classList.add("fa-eye");
+            } else {
+                passwordInput.type = "password"; // Sembunyikan password
+                icon.classList.remove("fa-eye"); // Ubah ikon ke mata tertutup
+                icon.classList.add("fa-eye-slash");
+            }
+        });
+    }
+});
+
 function editAdmin(id, name, email) {
     // Tampilkan form
     toggleForm();
@@ -229,4 +253,114 @@ document.addEventListener("click", function (event) {
         dropdownContent.style.display = "none";
         caretIcon.classList.remove("rotate-icon"); // Kembalikan ikon ke posisi semula jika dropdown tertutup
     }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var ctx = document.getElementById("suratMasukChart").getContext("2d");
+
+    // Chart.js instance
+    var suratMasukChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: [
+                "Januari",
+                "Februari",
+                "Maret",
+                "April",
+                "Mei",
+                "Juni",
+                "Juli",
+                "Agustus",
+                "September",
+                "Oktober",
+                "November",
+                "Desember",
+            ],
+            datasets: [
+                {
+                    label: "Jumlah Surat Masuk",
+                    data: monthlyData,
+                    backgroundColor: "rgba(54, 162, 235, 0.2)",
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: "#8DC741",
+                    pointBorderColor: "rgba(54, 162, 235, 1)",
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 7,
+                    pointHitRadius: 10,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: {
+                        display: false,
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                        },
+                        padding: 15, // Tambahkan padding agar label tidak menempel dengan garis
+                    },
+                },
+                y: {
+                    beginAtZero: true,
+                },
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        font: {
+                            size: 14,
+                        },
+                    },
+                },
+                tooltip: {
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    titleColor: "#fff",
+                    bodyColor: "#fff",
+                    borderColor: "#fff",
+                    borderWidth: 1,
+                },
+            },
+        },
+    });
+
+    // Mengisi dropdown tahun dengan tahun berjalan
+    const currentYear = new Date().getFullYear();
+    const dropdownTahun = document.getElementById("filterTahun");
+
+    for (let year = currentYear; year >= currentYear - 10; year--) {
+        let option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        dropdownTahun.appendChild(option);
+    }
+
+    // Function untuk memperbarui chart berdasarkan kategori surat dan tahun
+    window.updateChart = function () {
+        var selectedCategory = document.getElementById("filterSurat").value;
+        var selectedYear = document.getElementById("filterTahun").value;
+
+        // Fetch data dari API berdasarkan tahun dan kategori
+        fetch(
+            `/admin/api/getDataSurat?year=${selectedYear}&category=${selectedCategory}`
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                suratMasukChart.data.datasets[0].data = data.monthlyData;
+                suratMasukChart.update();
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    };
+
+    // Memuat data awal untuk tahun sekarang
+    updateChart();
 });

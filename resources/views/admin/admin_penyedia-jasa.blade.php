@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tabel Formulir Pakta Integritas Penyedia Jasa')
+@section('title', 'Tabel Penyedia Jasa')
 
 @section('content')
 

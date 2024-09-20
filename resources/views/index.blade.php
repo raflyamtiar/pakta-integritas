@@ -3,6 +3,13 @@
 @section('title', 'Beranda')
 
 @section('content')
+
+    {{-- loading --}}
+    <div id="loader" class="loader-container">
+       <div class="spinner"></div>
+    </div>
+
+
     <!-- bg -->
     <figure class="mybg">
         <img src="assets/kantor.jpg" alt="">
@@ -389,7 +396,7 @@
                 </div>
 
                 <!-- Form Container -->
-                <form action="{{ route('integritas.store', ['role' => 'null']) }}" method="POST" id="form-container" class="form-container" autocomplete="off">
+                <form action="{{ route('integritas.store', ['role' => 'null']) }}" method="POST" id="form-container" class="form-container">
                     @csrf
                     <input type="hidden" name="role" id="hidden-role" value="null">
                     <h3>FORMULIR PAKTA INTEGRITAS</h3>

@@ -13,39 +13,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const dropdownToggles = document.querySelectorAll(".dropdown");
 
     dropdownToggles.forEach((toggle) => {
+        const dropdownToggleArea = toggle.querySelector(".dropdown-i"); // Targetkan seluruh div dropdown-i
         const caret = toggle.querySelector(".fa-caret-down"); // Caret Icon
-        const dropdownLink = toggle.querySelector("a"); // Link
+        const dropdownContent = toggle.querySelector(".dropdown-content"); // Dropdown content
 
-        // Klik pada link atau caret untuk toggle dropdown
-        [caret, dropdownLink].forEach((element) => {
-            element.addEventListener("click", function (event) {
-                event.preventDefault(); // Mencegah navigasi
+        // Klik pada div dropdown-i (yang berisi link dan caret) untuk toggle dropdown
+        dropdownToggleArea.addEventListener("click", function (event) {
+            event.preventDefault(); // Mencegah navigasi jika ada link
 
-                const dropdownContent =
-                    toggle.querySelector(".dropdown-content"); // Dropdown content
+            // Jika sudah terbuka, tutup
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+                caret.classList.remove("active"); // Hapus class 'active' dari caret untuk animasi
+            } else {
+                // Tutup semua dropdown sebelum membuka yang diklik
+                document
+                    .querySelectorAll(".dropdown-content")
+                    .forEach((content) => {
+                        content.style.display = "none";
+                    });
+                document.querySelectorAll(".fa-caret-down").forEach((icon) => {
+                    icon.classList.remove("active"); // Hapus animasi dari caret lain
+                });
 
-                // Jika sudah terbuka, tutup
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                    caret.classList.remove("active"); // Hapus class 'active' dari caret untuk animasi
-                } else {
-                    // Tutup semua dropdown sebelum membuka yang diklik
-                    document
-                        .querySelectorAll(".dropdown-content")
-                        .forEach((content) => {
-                            content.style.display = "none";
-                        });
-                    document
-                        .querySelectorAll(".fa-caret-down")
-                        .forEach((icon) => {
-                            icon.classList.remove("active"); // Hapus animasi dari caret lain
-                        });
-
-                    // Buka dropdown yang diklik
-                    dropdownContent.style.display = "block";
-                    caret.classList.add("active"); // Tambah class 'active' untuk animasi caret
-                }
-            });
+                // Buka dropdown yang diklik
+                dropdownContent.style.display = "block";
+                caret.classList.add("active"); // Tambah class 'active' untuk animasi caret
+            }
         });
     });
 
@@ -74,17 +68,20 @@ function showForm() {
         formContainer.style.display = "block";
         formContainer.scrollIntoView({ behavior: "smooth" });
 
-        formContainer.action = `/admin/add/${selectedRole}`;
+        // Periksa apakah pengguna berada di halaman admin atau user
+        const isAdmin = window.location.pathname.includes("/admin");
+
+        if (isAdmin) {
+            formContainer.action = `/admin/add/${selectedRole}`;
+        } else {
+            formContainer.action = "user/integritas/store";
+        }
+
         document.getElementById("hidden-role").value = selectedRole;
     } else {
         formContainer.style.display = "none";
     }
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Hide the form initially
-    document.getElementById("form-container").style.display = "none";
-});
 
 // Scroll to top
 let scrollToTopBtn = document.getElementById("scrollToTopBtn");

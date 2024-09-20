@@ -534,6 +534,84 @@ header h1 {
     color: #fff;
 }
 
+/* Container Utama untuk Chart */
+.container-chart {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.card-chart {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+
+.card-header-chart {
+    background-color: #0077b6;
+    color: white;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-header-chart i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.card-body-chart {
+    padding: 10px;
+}
+
+/* Chart Styling */
+.chart-container-chart {
+    width: 100%;
+    height: 400px;
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Dropdown Styling */
+.form-control-chart {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.form-control-chart:focus {
+    border-color: #0077b6;
+    outline: none;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chart-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.chart-header select {
+    width: 150px;
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -627,7 +705,7 @@ header h1 {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-    vertical-align: top; /* Agar konten dalam kolom rata atas */
+    vertical-align: top;
 }
 
 .table-admin th {
@@ -640,8 +718,8 @@ header h1 {
 
 .table-admin td {
     color: black;
-    word-wrap: break-word; /* Membungkus kata jika terlalu panjang */
-    white-space: normal; /* Mengizinkan teks untuk berpindah baris */
+    word-wrap: break-word;
+    white-space: normal;
     font-size: 14px;
     vertical-align: middle;
 }
@@ -813,21 +891,21 @@ header h1 {
 
 .content-admin-add,
 .content-admin-edit {
-    margin-left: 220px; /* Sesuaikan dengan lebar sidebar */
+    margin-left: 220px;
     padding: 50px;
     margin-top: 50px;
     background-color: #fff;
     border-radius: 10px;
-    width: calc(100% - 220px); /* Mengurangi lebar sidebar dari total lebar */
-    min-width: 720px; /* Tetapkan lebar minimum agar tidak mengecil */
-    box-sizing: border-box; /* Pastikan padding tidak mengurangi lebar */
+    width: calc(100% - 220px);
+    min-width: 720px;
+    box-sizing: border-box;
 }
 
 .form-container {
-    width: 100%; /* Mengambil seluruh lebar yang tersedia */
-    max-width: 600px; /* Lebar maksimal */
-    margin: 0 auto; /* Memusatkan form */
-    padding: 50px; /* Menambahkan padding agar tidak terlalu rapat */
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 50px;
     border: 2px solid #000;
     border-radius: 20px;
     background-color: #f3f3f3;

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tabel Formulir Pakta Integritas Auditor')
+@section('title', 'Tabel Auditor')
 
 @section('content')
 

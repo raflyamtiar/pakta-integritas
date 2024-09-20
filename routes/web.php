@@ -26,11 +26,8 @@ route::get('/preview-email', [PaktaIntegritasController::class, 'previewEmail'])
 
 // User Routes
 Route::prefix('user')->group(function () {
-    Route::post('/store', [PaktaIntegritasController::class, 'store'])->name('integritas.store.user');
-
     // Rute untuk menyimpan data dari pengguna (dari halaman index)
     Route::post('/integritas/store', [PaktaIntegritasController::class, 'store'])->name('integritas.store');
-
 });
 
 // Admin Authentication Routes
@@ -39,8 +36,9 @@ Route::post('/admin', [AdminAuthController::class, 'login'])->name('admin.login.
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 // Prefix untuk Admin Routes
-// Prefix untuk Admin Routes
 Route::middleware(\App\Http\Middleware\AdminMiddleware::class)->prefix('admin')->group(function () {
+    Route::get('/api/getDataSurat', [PaktaIntegritasController::class, 'getDataSurat']);
+
     // Rute yang benar untuk menambah admin baru
     Route::post('/store', [AdminAuthController::class, 'storeAdmin'])->name('admin.store');
     Route::get('/account', [AdminAuthController::class, 'showAdminAccount'])->name('admin.account');

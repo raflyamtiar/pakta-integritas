@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Data Pakta Integritas ' . ucfirst($role))
+@section('title', 'Edit Data ' . ucfirst($role))
 
 @section('content')
 
@@ -11,7 +11,7 @@
 
 <div class="isi-form" id="isi-form">
     <div class="form-container-wrapper">
-        <form action="{{ route('integritas.update', ['role' => $role, 'id' => $data->id]) }}" method="POST" id="form-container" class="form-container" autocomplete="off">
+        <form action="{{ route('integritas.update', ['role' => $role, 'id' => $data->id]) }}" method="POST" id="form-container" class="form-container" >
             @csrf
             @method('PUT') <!-- Tambahkan ini untuk menggunakan metode PUT -->
             <input type="hidden" name="role" value="{{ $role }}">

@@ -75,7 +75,3 @@
 <!-- icon langsung ke top -->
 <i id="scrollToTopBtn" title="Go to top" class="fa-solid fa-circle-up"></i>
 
-<div id="loader" class="loader-container">
-    <div class="spinner"></div>
-</div>
-

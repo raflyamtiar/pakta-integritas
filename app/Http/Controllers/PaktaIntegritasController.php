@@ -19,8 +19,43 @@ class PaktaIntegritasController extends Controller
 
     public function index(Request $request, $role = null)
     {
+        // Menghitung jumlah surat yang masuk per bulan (keseluruhan)
+        $suratMasukPerBulan = PaktaIntegritas::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
+        // Menghitung jumlah surat per kategori (pegawai, penyedia jasa, pengguna jasa, auditor)
+        $roles = ['pegawai', 'penyedia-jasa', 'pengguna-jasa', 'auditor'];
+        $monthlyDataByRole = [];
+
+        foreach ($roles as $r) {
+            $monthlyDataByRole[$r] = PaktaIntegritas::where('role', $r)
+                ->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
+                ->groupBy('month')
+                ->pluck('total', 'month');
+        }
+
+        // Convert data to array with all months (1-12) for chart
+        $monthlyData = [];
+        $monthlyDataPegawai = [];
+        $monthlyDataPenyedia = [];
+        $monthlyDataPengguna = [];
+        $monthlyDataAuditor = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $monthlyData[$i] = $suratMasukPerBulan[$i] ?? 0; // Semua kategori
+            $monthlyDataPegawai[$i] = $monthlyDataByRole['pegawai'][$i] ?? 0; // Pegawai
+            $monthlyDataPenyedia[$i] = $monthlyDataByRole['penyedia-jasa'][$i] ?? 0; // Penyedia Jasa
+            $monthlyDataPengguna[$i] = $monthlyDataByRole['pengguna-jasa'][$i] ?? 0; // Pengguna Jasa
+            $monthlyDataAuditor[$i] = $monthlyDataByRole['auditor'][$i] ?? 0; // Auditor
+        }
+
         // Memulai query untuk mendapatkan data berdasarkan role
-        $query = PaktaIntegritas::where('role', $role)->orderBy('created_at', 'desc');
+        $query = PaktaIntegritas::query();
+
+        if ($role) {
+            $query->where('role', $role);
+        }
 
         // Jika ada parameter pencarian, tambahkan ke query
         if ($request->has('search')) {
@@ -33,8 +68,9 @@ class PaktaIntegritasController extends Controller
                     ->orWhere('no_whatsapp', 'like', '%' . $search . '%');
             });
         }
+
         // Melakukan paginasi pada hasil query
-        $data = $query->paginate(10);
+        $data = $query->orderBy('created_at', 'desc')->paginate(10);
 
         $roleCounts = PaktaIntegritas::select('role', DB::raw('count(*) as total'))
             ->groupBy('role')
@@ -45,11 +81,59 @@ class PaktaIntegritasController extends Controller
         $countPenggunaJasa = $roleCounts['pengguna-jasa'] ?? 0;
         $countAuditor = $roleCounts['auditor'] ?? 0;
 
+        // Mengirimkan data ke view sesuai dengan role yang dipilih
         if ($role) {
-            return view('admin.admin_' . strtolower($role), compact('data', 'role', 'countPegawai', 'countPenyediaJasa', 'countPenggunaJasa', 'countAuditor'));
+            return view('admin.admin_' . strtolower($role), compact(
+                'data',
+                'role',
+                'countPegawai',
+                'countPenyediaJasa',
+                'countPenggunaJasa',
+                'countAuditor'
+            ));
         } else {
-            return view('admin.admin_home', compact('countPegawai', 'countPenyediaJasa', 'countPenggunaJasa', 'countAuditor'));
+            return view('admin.admin_home', compact(
+                'monthlyData',
+                'monthlyDataPegawai',
+                'monthlyDataPenyedia',
+                'monthlyDataPengguna',
+                'monthlyDataAuditor',
+                'countPegawai',
+                'countPenyediaJasa',
+                'countPenggunaJasa',
+                'countAuditor'
+            ));
         }
+    }
+
+    public function getDataSurat(Request $request)
+    {
+        $year = $request->input('year') ?? date('Y');
+        $category = $request->input('category') ?? 'semua';
+
+        // Query dasar untuk mendapatkan data surat berdasarkan tahun
+        $query = PaktaIntegritas::whereYear('created_at', $year);
+
+        // Filter berdasarkan kategori
+        if ($category !== 'semua') {
+            $query->where('role', $category);
+        }
+
+        // Menghitung jumlah surat masuk per bulan untuk tahun tertentu
+        $suratMasukPerBulan = $query
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
+        // Menyiapkan array untuk data per bulan (1 sampai 12)
+        $monthlyData = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $monthlyData[$i] = $suratMasukPerBulan[$i] ?? 0;
+        }
+
+        return response()->json([
+            'monthlyData' => array_values($monthlyData),
+        ]);
     }
 
     public function store(Request $request)

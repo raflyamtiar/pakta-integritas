@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
         $admins = [
             [
                 'name' => 'admin',
-                'email' => 'admin@bpmsph.go.id',
+                'email' => 'paktaintegritas.bpmsph@gmail.com',
                 'password' => Hash::make('370012016'),
             ],
             [

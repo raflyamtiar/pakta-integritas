@@ -4,6 +4,11 @@
 
 @section('content')
 
+    {{-- loading --}}
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+    </div>
+
     <!-- bg -->
     <figure class="mybg">
         <img src="assets/kantor.jpg" alt="">
