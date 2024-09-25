@@ -157,29 +157,24 @@ nav {
 
 /* Admin Navbar */
 .container-navbar-admin {
-    background-color: #0077b6;
-    padding: 20px;
-    color: #fff;
+    background-color: #fff;
+    padding: 10px;
     z-index: 10;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
+    width: 82%;
+    height: 10vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    border-bottom: 1px solid #000;
 }
 
 .container-navbar-admin a {
     text-decoration: none;
     color: white;
     margin-left: 40px;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.logo-img {
-    width: 45px;
 }
 
 /* Admin Name and Dropdown */
@@ -197,8 +192,7 @@ nav {
     display: flex;
     padding: 5px 10px;
     align-items: center;
-    background-color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid #0077b6;
     border-radius: 5px;
 }
 
@@ -210,6 +204,7 @@ nav {
 .admin-name:hover {
     background-color: #0077b6;
     color: #fff;
+    border: 1px solid #fff;
 }
 
 .rotate-icon {
@@ -220,7 +215,7 @@ nav {
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #fff;
+    background-color: rebeccapurple;
     min-width: 150px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -248,6 +243,7 @@ nav {
 .logout-btn:hover {
     background-color: #fff;
     color: #d33;
+    border: 1px solid #d33;
 }
 
 .logout-btn i {
@@ -260,72 +256,78 @@ nav {
 }
 
 .sidebar-admin {
-    min-width: 18%;
-    background-color: #e8e8e8;
-    padding: 15px;
+    width: 18%;
+    background-color: #0077b6;
+    padding: 10px;
     position: fixed;
-    top: 60px;
+    top: 0;
     bottom: 0;
+    z-index: 100;
 }
 
 .sidebar-admin a {
     text-decoration: none;
 }
 
-.box-admin {
-    background: #ffffff;
-    color: #0077b6;
+.logo {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    border: 1px black solid;
-    border-radius: 10px;
-    padding: 6px;
-    width: 90%;
-    margin: 40px 0 10px 10px;
+    text-align: center;
+    color: white;
+    margin-top: 15px;
+}
+
+.logo-img {
+    width: 80px;
+}
+
+.box-admin {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 10px;
+    width: 100%;
+    margin-top: 30px;
     cursor: pointer;
     transition: background 0.3s;
 }
-
-.box-admin h3 {
-    font-size: 18px;
+.box-admin i {
+    margin-right: 10px;
 }
 
 .box-admin:hover,
 .box-admin-akun:hover {
-    background: #0077b6;
-    color: white;
+    background: #fff;
+    color: #0077b6;
 }
 
 .box-admin-akun {
-    background: #ffffff;
-    color: #0077b6;
+    color: #fff;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    border: 1px black solid;
-    border-radius: 10px;
-    padding: 6px;
-    width: 90%;
-    margin: 300px 0 10px 10px;
+    padding: 10px;
+    width: 100%;
     cursor: pointer;
     transition: background 0.3s;
     vertical-align: middle;
 }
 
-.box-admin-akun h3 {
-    font-size: 14px;
+.box-admin-akun i {
+    margin-right: 10px;
 }
 
-.box-admin-akun i {
-    font-size: 18px;
-    margin-left: 10px;
+.sidebar-admin h5 {
+    color: #fff;
+    margin-top: 10px;
 }
 
 .dropdown-admin {
-    min-width: 25px;
+    width: 100%;
     position: relative;
-    margin: 10px;
 }
 
 .dropdown-admin * {
@@ -333,64 +335,39 @@ nav {
 }
 
 .select-admin {
-    background: #ffffff;
-    color: #0077b6;
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px black solid;
-    border-radius: 10px;
     padding: 10px;
     cursor: pointer;
     transition: background 0.3s;
+    margin: 0;
 }
 
-.select-admin h5 {
-    font-size: 16px;
+.select-admin h4 {
+    margin-right: 13px;
 }
-
-.select-admin-clicked {
-    border: 2px #0077b6;
-    box-shadow: 0 0 0.8em #0077b6;
-}
-
 .select-admin:hover {
-    background: #0077b6;
-    color: white;
+    background: #fff;
+    color: #0077b6;
 }
 
-.caret {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #0077b6;
-    transition: 0.3s;
+.caret:hover {
+    background: #fff;
+    color: #0077b6;
 }
 
-.caret-rotate {
+.select-admin .fa-caret-down-rotate {
     transform: rotate(180deg);
-}
-
-.content-admin {
-    margin-left: 220px;
-    padding: 50px;
-    margin-top: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    min-width: calc(100% - 220px);
 }
 
 .menu-admin {
     list-style: none;
-    padding: 10px 20px;
-    background: #fff;
-    color: #0077b6;
-    border: 1px black solid;
-    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
-    border-radius: 0.5em;
+    padding: 10px;
+    color: #fff;
     position: absolute;
-    top: 3em;
+    top: 100%;
     left: 50%;
     width: 100%;
     transform: translateX(-50%);
@@ -401,18 +378,15 @@ nav {
 }
 
 .menu-admin li {
-    padding: 0.7em 0.5em;
-    margin: 0.3em 0;
-    border-radius: 0.5em;
+    padding: 10px;
     cursor: pointer;
-    border: 1px black solid;
     width: 100%;
-    color: #0077b6;
+    color: #fff;
 }
 
 .menu-admin li:hover {
-    background: #0077b6;
-    color: #fff;
+    background: #fff;
+    color: #0077b6;
 }
 
 .menu-admin-open {
@@ -421,8 +395,16 @@ nav {
 }
 
 .active {
-    background: #0077b6;
-    color: white;
+    background-color: #0e8345;
+}
+
+.content-admin {
+    margin-left: 220px;
+    padding: 50px;
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    min-width: calc(100% - 220px);
 }
 
 header {
@@ -679,11 +661,11 @@ header h1 {
 }
 
 .btn-tambah {
-    background-color: #276ef1;
+    background-color: #0077b6;
     margin-right: 10px;
 }
 .btn-tambah:hover {
-    background-color: #11539b;
+    background-color: #005482;
 }
 
 .btn-export {

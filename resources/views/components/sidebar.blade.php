@@ -1,17 +1,26 @@
 <div class="sidebar-admin">
-    <a href="/admin/home">
-        <div class="box-admin">
-            <h3>Beranda</h3>
+    <a href="/">
+        <div class="logo">
+            <img src="{{ asset('assets/logo smi.png') }}" alt="Logo Image" class="logo-img">
+            <h3>Sistem Manajemen Integrasi</h3>
         </div>
     </a>
-
+    <a href="/admin/home">
+        <div class="box-admin">
+            <i class="fa-solid fa-house"></i>
+            <h4>Beranda</h4>
+        </div>
+    </a>
+    <br>
+    <hr>
+    <h5>Menu</h5>
     <div class="dropdown-admin">
         <div class="select-admin">
-            <h5 class="selected">Pakta Integritas</h5>
-            <div class="caret"></div>
+            <i class="fas fa-file-alt"></i>
+            <h4 class="selected">Pakta Integritas</h4>
+            <i class="fa-solid fa-caret-down"></i>
         </div>
         <ul class="menu-admin">
-            <li class="active">Pakta Integritas</li>
             <a href="/admin/pegawai">
                 <li>Pegawai</li>
             </a>
@@ -29,8 +38,8 @@
 
     <a href="{{ route('admin.account') }}">
         <div class="box-admin-akun">
-            <h3>Pengaturan Akun</h3>
             <i class="fa-solid fa-gear"></i>
+            <h4>Pengaturan Akun</h4>
         </div>
     </a>
 </div>

@@ -19,24 +19,60 @@ function togglePasswordVisibility() {
 const dropdowns = document.querySelectorAll(".dropdown-admin");
 dropdowns.forEach((dropdown) => {
     const select = dropdown.querySelector(".select-admin");
-    const caret = dropdown.querySelector(".caret");
+    const caret = dropdown.querySelector(".fa-caret-down");
     const menu = dropdown.querySelector(".menu-admin");
     const options = dropdown.querySelectorAll(".menu-admin li");
-    const selected = dropdown.querySelector(".selected");
+    const selected = dropdown.querySelector(".selected"); // Elemen untuk teks yang terpilih
+    const accountSettings = document.querySelector(".box-admin-akun"); // Pengaturan Akun
 
+    // Fungsi untuk memuat pilihan dari LocalStorage saat halaman di-load
+    const loadSelectedOption = () => {
+        const savedOption = localStorage.getItem("selectedOption");
+        if (savedOption) {
+            selected.innerText = savedOption; // Mengubah teks dropdown dengan yang disimpan
+            options.forEach((option) => {
+                // Pastikan opsi yang disimpan ditandai sebagai aktif
+                if (option.innerText === savedOption) {
+                    option.classList.add("active");
+                } else {
+                    option.classList.remove("active");
+                }
+            });
+        }
+    };
+
+    // Panggil fungsi ini saat halaman dimuat
+    loadSelectedOption();
+
+    // Saat dropdown diklik
     select.addEventListener("click", () => {
         select.classList.toggle("select-admin-clicked");
-        caret.classList.toggle("caret-rotate");
+        caret.classList.toggle("fa-caret-down-rotate");
         menu.classList.toggle("menu-admin-open");
+
+        // Tambahkan margin bawah atau padding bawah untuk menggeser "Pengaturan Akun"
+        if (menu.classList.contains("menu-admin-open")) {
+            accountSettings.style.marginTop = `${menu.offsetHeight}px`; // Geser sebesar tinggi menu
+        } else {
+            accountSettings.style.marginTop = "0"; // Reset margin
+        }
     });
 
+    // Saat opsi dipilih
     options.forEach((option) => {
         option.addEventListener("click", () => {
-            selected.innerText = option.innerText;
+            selected.innerText = option.innerText; // Ubah teks menjadi opsi terpilih
+
+            // Simpan pilihan ke LocalStorage
+            localStorage.setItem("selectedOption", option.innerText);
+
             // Menutup dropdown setelah item dipilih
             select.classList.remove("select-admin-clicked");
-            caret.classList.remove("caret-rotate");
+            caret.classList.remove("fa-caret-down-rotate");
             menu.classList.remove("menu-admin-open");
+
+            // Reset margin setelah item dipilih
+            accountSettings.style.marginTop = "0";
 
             // Mengatur item yang aktif
             options.forEach((option) => {
@@ -44,6 +80,19 @@ dropdowns.forEach((dropdown) => {
             });
             option.classList.add("active");
         });
+    });
+});
+
+// Daftarkan semua menu yang harus mereset dropdown ke pilihan default
+const menusToReset = [
+    document.querySelector(".box-admin"), // Beranda
+    document.querySelector(".box-admin-akun"), // Pengaturan Akun, bisa tambah menu lainnya
+];
+
+// Tambahkan event listener ke menu yang harus mereset dropdown
+menusToReset.forEach((menu) => {
+    menu.addEventListener("click", () => {
+        localStorage.setItem("selectedOption", "Pakta Integritas"); // Reset ke default
     });
 });
 
