@@ -36,6 +36,13 @@
         </ul>
     </div>
 
+    <a href="/admin/lapor">
+        <div class="box-admin-akun">
+            <i class="fas fa-file-alt"></i>
+            <h4>Formulir SPG</h4>
+        </div>
+    </a>
+
     <a href="{{ route('admin.account') }}">
         <div class="box-admin-akun">
             <i class="fa-solid fa-gear"></i>

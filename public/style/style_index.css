@@ -666,7 +666,8 @@ nav ul li a:hover {
 }
 
 .form-group input,
-textarea {
+textarea,
+select {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -1407,6 +1408,31 @@ input:required {
 }
 
 /* faq end*/
+
+/* spg */
+
+.ContainerSpg {
+    padding: 30px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.upload-area {
+    border: 2px dashed #28a745;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.file-preview img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+/* spg end*/
 
 /* Footer */
 footer {

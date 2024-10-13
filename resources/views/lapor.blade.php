@@ -92,7 +92,7 @@
                     </div>
                     <h5>Layanan Aspirasi dan Pengaduan Online Rakyat</h5>
                 </a>
-                <a href="https://form.jotform.com/212288407937060" class="layanan-content-isi">
+                <a href="/spg" class="layanan-content-isi">
                     <div class="layanan-content-title">
                         <figure class="layanan-img">
                             <img src="assets/gsi.png" alt="">

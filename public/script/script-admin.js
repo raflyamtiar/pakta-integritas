@@ -98,25 +98,22 @@ menusToReset.forEach((menu) => {
 
 document.addEventListener("DOMContentLoaded", function () {
     const noWhatsappInput = document.getElementById("no_whatsapp");
+    if (noWhatsappInput) {
+        noWhatsappInput.addEventListener("input", function (e) {
+            if (this.value.startsWith("0")) {
+                this.value = this.value.substring(1);
+            }
+        });
 
-    // Event listener saat pengguna mengetik pada input
-    noWhatsappInput.addEventListener("input", function (e) {
-        // Hapus angka 0 di depan jika ada
-        if (this.value.startsWith("0")) {
-            this.value = this.value.substring(1);
-        }
-    });
-
-    // Event listener saat pengguna submit form
-    document.querySelector("form").addEventListener("submit", function (e) {
-        // Pastikan input tidak kosong dan memenuhi kriteria
-        if (!noWhatsappInput.value.match(/^\d{8,14}$/)) {
-            alert(
-                "Nomor WhatsApp harus terdiri dari 8 hingga 14 digit dan tidak boleh diawali dengan angka 0."
-            );
-            e.preventDefault();
-        }
-    });
+        document.querySelector("form").addEventListener("submit", function (e) {
+            if (!noWhatsappInput.value.match(/^\d{8,14}$/)) {
+                alert(
+                    "Nomor WhatsApp harus terdiri dari 8 hingga 14 digit dan tidak boleh diawali dengan angka 0."
+                );
+                e.preventDefault();
+            }
+        });
+    }
 });
 
 //delete
@@ -305,111 +302,104 @@ document.addEventListener("click", function (event) {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    var ctx = document.getElementById("suratMasukChart").getContext("2d");
-
-    // Chart.js instance
-    var suratMasukChart = new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: [
-                "Januari",
-                "Februari",
-                "Maret",
-                "April",
-                "Mei",
-                "Juni",
-                "Juli",
-                "Agustus",
-                "September",
-                "Oktober",
-                "November",
-                "Desember",
-            ],
-            datasets: [
-                {
-                    label: "Jumlah Surat Masuk",
-                    data: monthlyData,
-                    backgroundColor: "rgba(54, 162, 235, 0.2)",
-                    borderColor: "rgba(54, 162, 235, 1)",
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: "#8DC741",
-                    pointBorderColor: "rgba(54, 162, 235, 1)",
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    pointHoverRadius: 7,
-                    pointHitRadius: 10,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    grid: {
-                        display: false,
+    const chartCanvas = document.getElementById("suratMasukChart");
+    if (chartCanvas) {
+        var ctx = chartCanvas.getContext("2d");
+        // Inisialisasi Chart.js
+        var suratMasukChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [
+                    "Januari",
+                    "Februari",
+                    "Maret",
+                    "April",
+                    "Mei",
+                    "Juni",
+                    "Juli",
+                    "Agustus",
+                    "September",
+                    "Oktober",
+                    "November",
+                    "Desember",
+                ],
+                datasets: [
+                    {
+                        label: "Jumlah Surat Masuk",
+                        data: monthlyData,
+                        backgroundColor: "rgba(54, 162, 235, 0.2)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: "#8DC741",
+                        pointBorderColor: "rgba(54, 162, 235, 1)",
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
+                        pointHitRadius: 10,
                     },
-                    ticks: {
-                        font: {
-                            size: 12,
-                        },
-                        padding: 15, // Tambahkan padding agar label tidak menempel dengan garis
-                    },
-                },
-                y: {
-                    beginAtZero: true,
-                },
+                ],
             },
-            plugins: {
-                legend: {
-                    display: true,
-                    labels: {
-                        font: {
-                            size: 14,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            font: { size: 12 },
+                            padding: 15,
                         },
                     },
+                    y: { beginAtZero: true },
                 },
-                tooltip: {
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
-                    titleColor: "#fff",
-                    bodyColor: "#fff",
-                    borderColor: "#fff",
-                    borderWidth: 1,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: { font: { size: 14 } },
+                    },
+                    tooltip: {
+                        backgroundColor: "rgba(0, 0, 0, 0.7)",
+                        titleColor: "#fff",
+                        bodyColor: "#fff",
+                        borderColor: "#fff",
+                        borderWidth: 1,
+                    },
                 },
             },
-        },
-    });
+        });
 
-    // Mengisi dropdown tahun dengan tahun berjalan
-    const currentYear = new Date().getFullYear();
-    const dropdownTahun = document.getElementById("filterTahun");
+        // Dropdown Tahun
+        const currentYear = new Date().getFullYear();
+        const dropdownTahun = document.getElementById("filterTahun");
 
-    for (let year = currentYear; year >= currentYear - 10; year--) {
-        let option = document.createElement("option");
-        option.value = year;
-        option.textContent = year;
-        dropdownTahun.appendChild(option);
+        if (dropdownTahun) {
+            for (let year = currentYear; year >= currentYear - 10; year--) {
+                let option = document.createElement("option");
+                option.value = year;
+                option.textContent = year;
+                dropdownTahun.appendChild(option);
+            }
+        }
+
+        // Fungsi untuk memperbarui chart
+        window.updateChart = function () {
+            var selectedCategory = document.getElementById("filterSurat").value;
+            var selectedYear = document.getElementById("filterTahun").value;
+
+            fetch(
+                `/admin/api/getDataSurat?year=${selectedYear}&category=${selectedCategory}`
+            )
+                .then((response) => response.json())
+                .then((data) => {
+                    suratMasukChart.data.datasets[0].data = data.monthlyData;
+                    suratMasukChart.update();
+                })
+                .catch((error) => console.error("Error fetching data:", error));
+        };
+
+        // Memuat data awal
+        updateChart();
     }
-
-    // Function untuk memperbarui chart berdasarkan kategori surat dan tahun
-    window.updateChart = function () {
-        var selectedCategory = document.getElementById("filterSurat").value;
-        var selectedYear = document.getElementById("filterTahun").value;
-
-        // Fetch data dari API berdasarkan tahun dan kategori
-        fetch(
-            `/admin/api/getDataSurat?year=${selectedYear}&category=${selectedCategory}`
-        )
-            .then((response) => response.json())
-            .then((data) => {
-                suratMasukChart.data.datasets[0].data = data.monthlyData;
-                suratMasukChart.update();
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    };
-
-    // Memuat data awal untuk tahun sekarang
-    updateChart();
 });
