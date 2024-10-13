@@ -234,38 +234,12 @@
     </div>
 
     <!-- Bukti Kejadian di Halaman Baru -->
-    @if (isset($laporanSpg->evidence))
-        @php
-            $evidencePath = storage_path('app/evidence_file/' . $laporanSpg->evidence);
-            $mimeType = mime_content_type($evidencePath);
-        @endphp
-
-        @if (file_exists($evidencePath))
-            @if (strpos($mimeType, 'image') !== false)
-                <!-- Menampilkan gambar jika evidence adalah gambar -->
-                <div class="content-evidence">
-                    <p><strong>Lampiran/Bukti Kejadian:</strong></p>
-                    <img src="{{ asset('storage/evidence_file/' . $laporanSpg->evidence) }}" alt="Bukti Kejadian"
-                        style="max-width:100%; height:auto;">
-                </div>
-            @elseif (strpos($mimeType, 'pdf') !== false)
-                <!-- Menampilkan PDF jika evidence adalah file PDF -->
-                <div class="content-evidence">
-                    <p><strong>Lampiran/Bukti Kejadian:</strong></p>
-                    <embed src="{{ asset('storage/evidence_file/' . $laporanSpg->evidence) }}" type="application/pdf"
-                        width="100%" height="600px" />
-                </div>
-            @else
-                <!-- Menampilkan link unduh jika file bukan gambar atau PDF -->
-                <div class="content-evidence">
-                    <p><strong>Lampiran/Bukti Kejadian:</strong></p>
-                    <a href="{{ asset('storage/evidence_file/' . $laporanSpg->evidence) }}" target="_blank">Unduh
-                        Lampiran</a>
-                </div>
-            @endif
-        @else
-            <p>Bukti tidak ditemukan.</p>
-        @endif
+    @if (isset($evidenceBase64))
+        <div class="page-break"></div>
+        <div class="content-evidence">
+            <p><strong>Lampiran/Bukti Kejadian:</strong></p>
+            <img src="{{ $evidenceBase64 }}" alt="Bukti Kejadian">
+        </div>
     @endif
 
 </body>
