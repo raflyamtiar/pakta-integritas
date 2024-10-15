@@ -114,6 +114,7 @@
         .content-evidence {
             margin: 0 2cm;
             margin-top: 20%;
+            text-align: center;
         }
 
         .content-evidence img {
@@ -237,7 +238,7 @@
     @if (isset($evidenceBase64))
         <div class="page-break"></div>
         <div class="content-evidence">
-            <p><strong>Lampiran/Bukti Kejadian:</strong></p>
+            <p style="text-align: left;"><strong>Lampiran/Bukti Kejadian:</strong></p>
             <img src="{{ $evidenceBase64 }}" alt="Bukti Kejadian">
         </div>
     @endif

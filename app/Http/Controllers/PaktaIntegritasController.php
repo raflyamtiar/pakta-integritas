@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaktaIntegritasMail;
+use App\Models\LaporSpg;
 
 class PaktaIntegritasController extends Controller
 {
@@ -23,6 +24,11 @@ class PaktaIntegritasController extends Controller
         $suratMasukPerBulan = PaktaIntegritas::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
             ->groupBy('month')
             ->pluck('total', 'month');
+
+        // Menghitung jumlah laporan dari LaporSpg per bulan
+        $laporSpgPerBulan = LaporSpg::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
+        ->groupBy('month')
+        ->pluck('total', 'month');
 
         // Menghitung jumlah surat per kategori (pegawai, penyedia jasa, pengguna jasa, auditor)
         $roles = ['pegawai', 'penyedia-jasa', 'pengguna-jasa', 'auditor'];
@@ -41,6 +47,7 @@ class PaktaIntegritasController extends Controller
         $monthlyDataPenyedia = [];
         $monthlyDataPengguna = [];
         $monthlyDataAuditor = [];
+        $monthlyDataLaporSpg = [];
 
         for ($i = 1; $i <= 12; $i++) {
             $monthlyData[$i] = $suratMasukPerBulan[$i] ?? 0; // Semua kategori
@@ -48,11 +55,14 @@ class PaktaIntegritasController extends Controller
             $monthlyDataPenyedia[$i] = $monthlyDataByRole['penyedia-jasa'][$i] ?? 0; // Penyedia Jasa
             $monthlyDataPengguna[$i] = $monthlyDataByRole['pengguna-jasa'][$i] ?? 0; // Pengguna Jasa
             $monthlyDataAuditor[$i] = $monthlyDataByRole['auditor'][$i] ?? 0; // Auditor
+            $monthlyDataLaporSpg[$i] = $laporSpgPerBulan[$i] ?? 0; // LaporSpg per bulan
         }
+
+        // Menghitung jumlah laporan LaporSpg
+        $totalLaporanSpg = LaporSpg::count();
 
         // Memulai query untuk mendapatkan data berdasarkan role
         $query = PaktaIntegritas::query();
-
         if ($role) {
             $query->where('role', $role);
         }
@@ -98,10 +108,12 @@ class PaktaIntegritasController extends Controller
                 'monthlyDataPenyedia',
                 'monthlyDataPengguna',
                 'monthlyDataAuditor',
+                'monthlyDataLaporSpg',
                 'countPegawai',
                 'countPenyediaJasa',
                 'countPenggunaJasa',
-                'countAuditor'
+                'countAuditor',
+                'totalLaporanSpg'
             ));
         }
     }
@@ -111,21 +123,23 @@ class PaktaIntegritasController extends Controller
         $year = $request->input('year') ?? date('Y');
         $category = $request->input('category') ?? 'semua';
 
-        // Query dasar untuk mendapatkan data surat berdasarkan tahun
+        // Query dasar untuk Pakta Integritas
         $query = PaktaIntegritas::whereYear('created_at', $year);
 
-        // Filter berdasarkan kategori
-        if ($category !== 'semua') {
+        // Tambahkan kategori "laporspg" untuk mendapatkan data LaporSpg
+        if ($category === 'laporspg') {
+            $query = LaporSpg::whereYear('created_at', $year);
+        } elseif ($category !== 'semua') {
             $query->where('role', $category);
         }
 
-        // Menghitung jumlah surat masuk per bulan untuk tahun tertentu
+        // Menghitung jumlah surat per bulan
         $suratMasukPerBulan = $query
             ->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
             ->groupBy('month')
             ->pluck('total', 'month');
 
-        // Menyiapkan array untuk data per bulan (1 sampai 12)
+        // Format data untuk semua bulan
         $monthlyData = [];
         for ($i = 1; $i <= 12; $i++) {
             $monthlyData[$i] = $suratMasukPerBulan[$i] ?? 0;
@@ -135,6 +149,7 @@ class PaktaIntegritasController extends Controller
             'monthlyData' => array_values($monthlyData),
         ]);
     }
+
 
     public function store(Request $request)
     {

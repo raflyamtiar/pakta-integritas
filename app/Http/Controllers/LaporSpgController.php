@@ -11,6 +11,7 @@ use App\Mail\LaporSpgSubmitted;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LaporSpgExport;
 use Illuminate\Support\Facades\Storage;
+use setasign\Fpdi\Fpdi;
 
 
 class LaporSpgController extends Controller
@@ -122,8 +123,6 @@ class LaporSpgController extends Controller
         }
     }
 
-
-
     public function edit($id)
     {
         $laporanSpg = LaporSpg::findOrFail($id);
@@ -151,7 +150,7 @@ class LaporSpgController extends Controller
             'evidence' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:20480',
         ]);
 
-        // Update data fields, with conditional fallback for incidentTime
+        // Update data fields
         $data->update([
             'reporter_name' => $validatedData['reporterName'],
             'reporter_email' => $validatedData['reporterEmail'],
@@ -161,19 +160,20 @@ class LaporSpgController extends Controller
             'case_type' => $validatedData['caseType'],
             'incident_location' => $validatedData['incidentLocation'],
             'incident_address' => $validatedData['incidentAddress'],
-            'incident_date' => $validatedData['incidentDate'],
-            'incident_time',
+            'incident_date',
             'incident_description' => $validatedData['incidentDescription'],
             'declaration' => $validatedData['declaration'],
         ]);
 
         // Handle evidence file if uploaded
         if ($request->hasFile('evidence')) {
+            // Delete existing file if it exists
             if ($data->evidence) {
-                \Storage::delete($data->evidence); // Delete existing file if it exists
+                \Storage::disk('public')->delete($data->evidence);
             }
 
-            $filePath = $request->file('evidence')->store('evidence_files');
+            // Store new file in public/evidence_files
+            $filePath = $request->file('evidence')->store('evidence_files', 'public');
             $data->evidence = $filePath;
             $data->save();
         }
@@ -190,89 +190,144 @@ class LaporSpgController extends Controller
         return redirect()->route('lapor.index')->with('success', 'Laporan berhasil dihapus');
     }
 
-
-    public function downloadPdf($id)
-    {
-        try {
-            // Mencari data LaporSpg berdasarkan ID
-            $laporanSpg = LaporSpg::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            // Jika data tidak ditemukan, redirect dengan pesan error
-            return redirect()->route('admin.index')->withErrors(['message' => 'Data tidak ditemukan']);
-        }
-
-        // Dapatkan pernyataan, perjanjian, dan judul (langsung tanpa menggunakan role)
-        $pernyataan = 'Pernyataan terkait laporan';
-        $perjanjian = 'Perjanjian terkait laporan';
-        $judul = 'Laporan SPG';
-
-        // Path ke gambar kop surat yang akan digunakan dalam surat
-        $path = public_path('assets/kop.png');
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $dataGambar = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($dataGambar);
-
-        $evidencePath = Storage::path($laporanSpg->evidence);
-        if (file_exists($evidencePath)) {
-            $evidenceData = base64_encode(file_get_contents($evidencePath));
-            $evidenceBase64 = 'data:image/png;base64,' . $evidenceData;
-        } else {
-            $evidenceBase64 = null;
-        }
-
-        // Render view PDF
-        $html = view('template.laporan_pdf', compact('laporanSpg', 'pernyataan', 'perjanjian', 'base64', 'judul', 'evidenceBase64'))->render();
-
-        // Load HTML ke dalam DOMPDF
-        $pdf = Pdf::loadHTML($html);
-
-        // Bersihkan nama file dari karakter yang tidak valid
-        $invalidCharacters = ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
-        $sanitizedFileName = str_replace($invalidCharacters, '-', 'laporan_spg_' . $laporanSpg->id);
-
-        // Download file PDF
-        return $pdf->download($sanitizedFileName . '.pdf');
-    }
-
-    // Menambahkan metode untuk ekspor ke Excel
     public function exportExcel()
     {
         return Excel::download(new LaporSpgExport, 'laporan_spg.xlsx');
     }
 
+    public function downloadPdf($id)
+    {
+        try {
+            $laporanSpg = LaporSpg::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('admin.index')->withErrors(['message' => 'Data tidak ditemukan']);
+        }
+
+        // Definisikan variabel yang digunakan dalam compact()
+        $pernyataan = 'Pernyataan terkait laporan';
+        $perjanjian = 'Perjanjian terkait laporan';
+        $judul = 'Laporan SPG';
+
+        // Definisikan $base64 untuk gambar kop surat
+        $path = public_path('assets/kop.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $dataGambar = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($dataGambar);
+
+        // Membuat nama file berbasis reporter_name
+        $reporterName = str_replace(['\\', '/', ':', '*', '?', '"', '<', '>', '|', ' '], '-', $laporanSpg->reporter_name);
+        $fileName = 'laporan-spg-' . $reporterName . '.pdf';
+
+        // Periksa apakah ada file evidence yang valid
+        $evidencePath = $laporanSpg->evidence ? Storage::disk('public')->path($laporanSpg->evidence) : null;
+
+        if ($evidencePath && file_exists($evidencePath) && mime_content_type($evidencePath) === 'application/pdf') {
+            // Panggil fungsi jika evidence adalah file PDF dan ada
+            return $this->mergePdfWithEvidence($laporanSpg, $evidencePath, 'D', $fileName);
+        } elseif ($evidencePath) {
+            // Jika evidence berupa gambar atau ada evidence dengan format lain
+            $evidenceBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($evidencePath));
+        } else {
+            // Tangani jika tidak ada evidence
+            $evidenceBase64 = null;
+        }
+
+        // Render HTML view dan buat file PDF
+        $html = view('template.laporan_pdf', compact('laporanSpg', 'pernyataan', 'perjanjian', 'base64', 'judul', 'evidenceBase64'))->render();
+        $pdf = Pdf::loadHTML($html);
+
+        return $pdf->download($fileName);
+    }
+
+
     public function previewPdf($id)
-{
-    try {
-        // Mencari data LaporSpg berdasarkan ID
-        $laporanSpg = LaporSpg::findOrFail($id);
-    } catch (ModelNotFoundException $e) {
-        return redirect()->route('admin.index')->withErrors(['message' => 'Data tidak ditemukan']);
+    {
+        try {
+            $laporanSpg = LaporSpg::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('admin.index')->withErrors(['message' => 'Data tidak ditemukan']);
+        }
+
+        // Definisikan variabel yang digunakan dalam compact()
+        $pernyataan = 'Pernyataan terkait laporan';
+        $perjanjian = 'Perjanjian terkait laporan';
+        $judul = 'Laporan SPG';
+
+        // Definisikan $base64 untuk gambar kop surat
+        $path = public_path('assets/kop.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $dataGambar = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($dataGambar);
+
+        // Membuat nama file berbasis reporter_name
+        $reporterName = str_replace(['\\', '/', ':', '*', '?', '"', '<', '>', '|', ' '], '-', $laporanSpg->reporter_name);
+        $fileName = 'laporan-spg-' . $reporterName . '.pdf';
+
+        // Periksa apakah ada file evidence yang valid
+        $evidencePath = $laporanSpg->evidence ? Storage::disk('public')->path($laporanSpg->evidence) : null;
+
+        if ($evidencePath && file_exists($evidencePath) && mime_content_type($evidencePath) === 'application/pdf') {
+            // Panggil fungsi jika evidence adalah file PDF dan ada
+            return $this->mergePdfWithEvidence($laporanSpg, $evidencePath, 'I', $fileName);
+        } elseif ($evidencePath) {
+            // Jika evidence berupa gambar atau ada evidence dengan format lain
+            $evidenceBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($evidencePath));
+        } else {
+            // Tangani jika tidak ada evidence
+            $evidenceBase64 = null;
+        }
+
+        // Render HTML view dan buat file PDF
+        $html = view('template.laporan_pdf', compact('laporanSpg', 'pernyataan', 'perjanjian', 'base64', 'judul', 'evidenceBase64'))->render();
+        $pdf = Pdf::loadHTML($html);
+
+        return $pdf->stream($fileName);
     }
 
-    // Persiapan data untuk view PDF
-    $pernyataan = 'Pernyataan terkait laporan';
-    $perjanjian = 'Perjanjian terkait laporan';
-    $judul = 'Laporan SPG';
 
-    $path = public_path('assets/kop.png');
-    $type = pathinfo($path, PATHINFO_EXTENSION);
-    $dataGambar = file_get_contents($path);
-    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($dataGambar);
 
-    $evidencePath = Storage::path($laporanSpg->evidence);
-    if (file_exists($evidencePath)) {
-        $evidenceData = base64_encode(file_get_contents($evidencePath));
-        $evidenceBase64 = 'data:image/png;base64,' . $evidenceData;
-    } else {
-        $evidenceBase64 = null;
+    private function mergePdfWithEvidence($laporanSpg, $evidencePath, $outputMode = 'I', $fileName = 'laporan-spg.pdf')
+    {
+        // Definisikan $base64 untuk gambar kop surat
+        $path = public_path('assets/kop.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $dataGambar = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($dataGambar);
+
+        $pernyataan = 'Pernyataan terkait laporan';
+        $perjanjian = 'Perjanjian terkait laporan';
+        $judul = 'Laporan SPG';
+
+        // Membuat PDF dari template HTML
+        $html = view('template.laporan_pdf', compact('laporanSpg', 'pernyataan', 'perjanjian', 'base64', 'judul'))->render();
+        $suratPdf = Pdf::loadHTML($html)->output();
+
+        $suratPath = storage_path('app/temp_surat.pdf');
+        file_put_contents($suratPath, $suratPdf);
+
+        $pdf = new Fpdi();
+        $pageCount = $pdf->setSourceFile($suratPath);
+        for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+            $tplId = $pdf->importPage($pageNo);
+            $pdf->AddPage();
+            $pdf->useTemplate($tplId);
+        }
+
+        // Tambahkan halaman dari file bukti jika ada
+        $evidencePageCount = $pdf->setSourceFile($evidencePath);
+        for ($pageNo = 1; $pageNo <= $evidencePageCount; $pageNo++) {
+            $tplId = $pdf->importPage($pageNo);
+            $pdf->AddPage();
+            $pdf->useTemplate($tplId);
+        }
+
+        // Hapus file sementara
+        unlink($suratPath);
+
+        // Return response dengan nama file yang sudah diatur
+        return response($pdf->Output($outputMode), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', ($outputMode == 'D' ? 'attachment' : 'inline') . '; filename="' . $fileName . '"');
     }
-
-    $html = view('template.laporan_pdf', compact('laporanSpg', 'pernyataan', 'perjanjian', 'base64', 'judul', 'evidenceBase64'))->render();
-
-    $pdf = Pdf::loadHTML($html);
-
-    // Tampilkan PDF di browser
-    return $pdf->stream('laporan_spg_' . $laporanSpg->id . '.pdf');
-}
 
 }
