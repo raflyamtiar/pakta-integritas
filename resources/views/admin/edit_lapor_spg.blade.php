@@ -46,7 +46,7 @@
                 <!-- Hubungan Pelapor -->
                 <div class="form-group">
                     <label for="relationship">Hubungan Pelapor dengan BPMSPH <span>*</span></label>
-                    <select id="relationship" name="relationship" required>
+                    <select id="relationship" name="relationship" required onchange="toggleOtherInput('relationship')">
                         <option value="">Pilih Hubungan</option>
                         <option value="Karyawan"
                             {{ old('relationship', $laporanSpg->relationship) == 'Karyawan' ? 'selected' : '' }}>Karyawan
@@ -58,9 +58,13 @@
                             {{ old('relationship', $laporanSpg->relationship) == 'Instansi' ? 'selected' : '' }}>Instansi
                         </option>
                         <option value="Lainnya"
-                            {{ old('relationship', $laporanSpg->relationship) == 'Lainnya' ? 'selected' : '' }}>Lainnya
-                        </option>
+                            {{ !in_array($laporanSpg->relationship, ['Karyawan', 'Masyarakat', 'Instansi']) ? 'selected' : '' }}>
+                            Lainnya</option>
                     </select>
+                    <input type="text" id="relationship_other" name="relationship_other" class="form-control mt-2"
+                        value="{{ !in_array($laporanSpg->relationship, ['Karyawan', 'Masyarakat', 'Instansi']) ? $laporanSpg->relationship : '' }}"
+                        placeholder="Hubungan lainnya"
+                        style="display: {{ !in_array($laporanSpg->relationship, ['Karyawan', 'Masyarakat', 'Instansi']) ? 'block' : 'none' }};">
                 </div>
 
                 <!-- Nama Terlapor -->
@@ -77,10 +81,10 @@
                         value="{{ old('reportedPosition', $laporanSpg->reported_position) }}" required>
                 </div>
 
-                <!-- Kasus yang Terjadi -->
+                <!-- Kasus Penyuapan -->
                 <div class="form-group">
                     <label for="case_type">Kasus Penyuapan/SPG yang Terjadi <span>*</span></label>
-                    <select id="case_type" name="caseType" required>
+                    <select id="case_type" name="caseType" required onchange="toggleOtherInput('case_type')">
                         <option value="">Pilih Kasus</option>
                         <option value="Uang" {{ old('caseType', $laporanSpg->case_type) == 'Uang' ? 'selected' : '' }}>
                             Uang</option>
@@ -91,22 +95,32 @@
                         <option value="Pinjaman"
                             {{ old('caseType', $laporanSpg->case_type) == 'Pinjaman' ? 'selected' : '' }}>Pinjaman</option>
                         <option value="Lainnya"
-                            {{ old('caseType', $laporanSpg->case_type) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            {{ !in_array($laporanSpg->case_type, ['Uang', 'Barang', 'Diskon', 'Pinjaman']) ? 'selected' : '' }}>
+                            Lainnya</option>
                     </select>
+                    <input type="text" id="case_type_other" name="case_type_other" class="form-control mt-2"
+                        value="{{ !in_array($laporanSpg->case_type, ['Uang', 'Barang', 'Diskon', 'Pinjaman']) ? $laporanSpg->case_type : '' }}"
+                        placeholder="Jenis kasus lainnya"
+                        style="display: {{ !in_array($laporanSpg->case_type, ['Uang', 'Barang', 'Diskon', 'Pinjaman']) ? 'block' : 'none' }};">
                 </div>
 
                 <!-- Lokasi Kejadian -->
                 <div class="form-group">
                     <label for="incident_location">Lokasi Kejadian SPG <span>*</span></label>
-                    <select id="incident_location" name="incidentLocation" required>
+                    <select id="incident_location" name="incidentLocation" required
+                        onchange="toggleOtherInput('incident_location')">
                         <option value="">Pilih Lokasi</option>
                         <option value="Kantor"
                             {{ old('incidentLocation', $laporanSpg->incident_location) == 'Kantor' ? 'selected' : '' }}>
                             Kantor</option>
                         <option value="Lainnya"
-                            {{ old('incidentLocation', $laporanSpg->incident_location) == 'Lainnya' ? 'selected' : '' }}>
-                            Lainnya</option>
+                            {{ !in_array($laporanSpg->incident_location, ['Kantor']) ? 'selected' : '' }}>Lainnya</option>
                     </select>
+                    <input type="text" id="incident_location_other" name="incident_location_other"
+                        class="form-control mt-2"
+                        value="{{ !in_array($laporanSpg->incident_location, ['Kantor']) ? $laporanSpg->incident_location : '' }}"
+                        placeholder="Lokasi lainnya"
+                        style="display: {{ !in_array($laporanSpg->incident_location, ['Kantor']) ? 'block' : 'none' }};">
                 </div>
 
                 <!-- Alamat Kejadian -->
@@ -249,6 +263,48 @@
                 };
 
                 reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleInputVisibility = (selectElement, containerId) => {
+                const container = document.getElementById(containerId);
+                if (selectElement.value === 'Lainnya') {
+                    container.style.display = 'block';
+                } else {
+                    container.style.display = 'none';
+                    container.querySelector('input').value = ''; // Kosongkan input jika disembunyikan
+                }
+            };
+
+            // Hubungan Pelapor
+            const relationshipSelect = document.getElementById('relationship');
+            relationshipSelect.addEventListener('change', () => {
+                toggleInputVisibility(relationshipSelect, 'relationshipOtherContainer');
+            });
+
+            // Kasus Penyuapan
+            const caseTypeSelect = document.getElementById('case_type');
+            caseTypeSelect.addEventListener('change', () => {
+                toggleInputVisibility(caseTypeSelect, 'caseTypeOtherContainer');
+            });
+
+            // Lokasi Kejadian
+            const incidentLocationSelect = document.getElementById('incident_location');
+            incidentLocationSelect.addEventListener('change', () => {
+                toggleInputVisibility(incidentLocationSelect, 'incidentLocationOtherContainer');
+            });
+        });
+
+        function toggleOtherInput(field) {
+            const select = document.getElementById(field);
+            const otherInput = document.getElementById(`${field}_other`);
+            if (select.value === "Lainnya") {
+                otherInput.style.display = "block";
+            } else {
+                otherInput.style.display = "none";
+                otherInput.value = ""; // Reset value jika "Lainnya" tidak dipilih
             }
         }
     </script>

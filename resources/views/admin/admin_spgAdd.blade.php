@@ -48,6 +48,11 @@
                     <option value="Lainnya" {{ old('relationship') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                 </select>
             </div>
+            <div class="form-group hidden-input" id="relationshipOtherContainer">
+                <label for="relationshipOther">Hubungan Lainnya</label>
+                <input type="text" id="relationshipOther" name="relationship_other"
+                    placeholder="Sebutkan hubungan lainnya" value="{{ old('relationship_other') }}">
+            </div>
 
             <div class="form-group">
                 <label for="reportedName">Nama Terlapor <span>*</span></label>
@@ -71,6 +76,11 @@
                     <option value="Lainnya" {{ old('caseType') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                 </select>
             </div>
+            <div class="form-group hidden-input" id="caseTypeOtherContainer">
+                <label for="caseTypeOther">Kasus Lainnya</label>
+                <input type="text" id="caseTypeOther" name="case_type_other" placeholder="Sebutkan kasus lainnya"
+                    value="{{ old('case_type_other') }}">
+            </div>
 
             <div class="form-group">
                 <label for="incidentLocation">Lokasi Kejadian SPG <span>*</span></label>
@@ -79,6 +89,11 @@
                     <option value="Kantor" {{ old('incidentLocation') == 'Kantor' ? 'selected' : '' }}>Kantor</option>
                     <option value="Lainnya" {{ old('incidentLocation') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                 </select>
+            </div>
+            <div class="form-group hidden-input" id="incidentLocationOtherContainer">
+                <label for="incidentLocationOther">Lokasi Lainnya</label>
+                <input type="text" id="incidentLocationOther" name="incident_location_other"
+                    placeholder="Sebutkan lokasi lainnya" value="{{ old('incident_location_other') }}">
             </div>
 
             <div class="form-group">
@@ -152,6 +167,10 @@
             height: auto;
             margin-top: 10px;
         }
+
+        .hidden-input {
+            display: none;
+        }
     </style>
 
     <script>
@@ -217,4 +236,36 @@
             uploadArea.querySelector('span').style.display = 'inline'; // Show the upload message again
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleInputVisibility = (selectElement, containerId) => {
+                const container = document.getElementById(containerId);
+                if (selectElement.value === 'Lainnya') {
+                    container.classList.remove('hidden-input'); // Tampilkan
+                } else {
+                    container.classList.add('hidden-input'); // Sembunyikan
+                    container.querySelector('input').value = ''; // Kosongkan input jika disembunyikan
+                }
+            };
+
+            // Hubungan Pelapor
+            const relationshipSelect = document.getElementById('relationship');
+            relationshipSelect.addEventListener('change', () => {
+                toggleInputVisibility(relationshipSelect, 'relationshipOtherContainer');
+            });
+
+            // Kasus Penyuapan
+            const caseTypeSelect = document.getElementById('caseType');
+            caseTypeSelect.addEventListener('change', () => {
+                toggleInputVisibility(caseTypeSelect, 'caseTypeOtherContainer');
+            });
+
+            // Lokasi Kejadian
+            const incidentLocationSelect = document.getElementById('incidentLocation');
+            incidentLocationSelect.addEventListener('change', () => {
+                toggleInputVisibility(incidentLocationSelect, 'incidentLocationOtherContainer');
+            });
+        });
+    </script>
+
 @endsection

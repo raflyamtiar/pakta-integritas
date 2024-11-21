@@ -53,6 +53,11 @@
                         <option value="Lainnya">Lainnya</option>
                     </select>
                 </div>
+                <div class="form-group hidden-input" id="relationshipOtherContainer">
+                    <label for="relationshipOther">Hubungan Lainnya</label>
+                    <input type="text" id="relationshipOther" name="relationship_other"
+                        placeholder="Sebutkan hubungan Anda">
+                </div>
 
                 <!-- Nama Terlapor -->
                 <div class="form-group">
@@ -78,6 +83,10 @@
                         <option value="Lainnya">Lainnya</option>
                     </select>
                 </div>
+                <div class="form-group hidden-input" id="caseTypeOtherContainer">
+                    <label for="caseTypeOther">Kasus Lainnya</label>
+                    <input type="text" id="caseTypeOther" name="case_type_other" placeholder="Sebutkan jenis kasus">
+                </div>
 
                 <!-- Lokasi Kejadian -->
                 <div class="form-group">
@@ -87,6 +96,11 @@
                         <option value="Kantor">Kantor</option>
                         <option value="Lainnya">Lainnya</option>
                     </select>
+                </div>
+                <div class="form-group hidden-input" id="incidentLocationOtherContainer">
+                    <label for="incidentLocationOther">Lokasi Lainnya</label>
+                    <input type="text" id="incidentLocationOther" name="incident_location_other"
+                        placeholder="Sebutkan lokasi lainnya">
                 </div>
 
                 <!-- Alamat Kejadian -->
@@ -129,7 +143,8 @@
                         <input type="checkbox" id="declaration" name="declaration" value="Setuju" required
                             style="width: auto; margin-right: 8px; transform: scale(1.3);">
                         <p>Dengan ini saya sebagai pelapor menyatakan bahwa laporan yang saya sampaikan adalah benar.
-                            <span>*</span></p>
+                            <span>*</span>
+                        </p>
 
                     </label>
                 </div>
@@ -286,5 +301,43 @@
             uploadArea.querySelector('span').style.display = 'inline'; // Show the upload message again
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownMappings = [{
+                    dropdown: 'relationship',
+                    container: 'relationshipOtherContainer',
+                    input: 'relationshipOther'
+                },
+                {
+                    dropdown: 'caseType',
+                    container: 'caseTypeOtherContainer',
+                    input: 'caseTypeOther'
+                },
+                {
+                    dropdown: 'incidentLocation',
+                    container: 'incidentLocationOtherContainer',
+                    input: 'incidentLocationOther'
+                },
+            ];
+
+            dropdownMappings.forEach(mapping => {
+                const dropdown = document.getElementById(mapping.dropdown);
+                const container = document.getElementById(mapping.container);
+                const input = document.getElementById(mapping.input);
+
+                dropdown.addEventListener('change', function() {
+                    if (dropdown.value === 'Lainnya') {
+                        container.style.display = 'block'; // Tampilkan input teks
+                        input.setAttribute('required', 'required'); // Tambahkan atribut required
+                    } else {
+                        container.style.display = 'none'; // Sembunyikan input teks
+                        input.removeAttribute('required'); // Hapus atribut required
+                        input.value = ''; // Reset nilai input teks
+                    }
+                });
+            });
+        });
+    </script>
+
 
 @endsection

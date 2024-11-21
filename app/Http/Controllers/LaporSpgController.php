@@ -69,10 +69,13 @@ class LaporSpgController extends Controller
             'reporterName' => 'required|string|max:100',
             'reporterEmail' => 'required|email',
             'relationship' => 'required|string',
+            'relationship_other' => 'nullable|string|max:100', // Tambahkan untuk "Lainnya"
             'reportedName' => 'required|string',
             'reportedPosition' => 'required|string',
             'caseType' => 'required|string',
+            'case_type_other' => 'nullable|string|max:100', // Tambahkan untuk "Lainnya"
             'incidentLocation' => 'required|string',
+            'incident_location_other' => 'nullable|string|max:100', // Tambahkan untuk "Lainnya"
             'incidentAddress' => 'required|string',
             'incidentDate' => 'required|date',
             'incidentTime' => 'required|date_format:H:i',
@@ -80,6 +83,19 @@ class LaporSpgController extends Controller
             'declaration' => 'required|in:Setuju',  // Pastikan nilai checkbox 'Setuju' dikirim
             'evidence' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:20480',
         ]);
+
+        // Proses nilai "Lainnya" untuk menggantikan nilai utama
+        $validatedData['relationship'] = $validatedData['relationship'] === 'Lainnya'
+            ? $validatedData['relationship_other']
+            : $validatedData['relationship'];
+
+        $validatedData['caseType'] = $validatedData['caseType'] === 'Lainnya'
+            ? $validatedData['case_type_other']
+            : $validatedData['caseType'];
+
+        $validatedData['incidentLocation'] = $validatedData['incidentLocation'] === 'Lainnya'
+            ? $validatedData['incident_location_other']
+            : $validatedData['incidentLocation'];
 
         // Pemformatan data
         $reporterName = ucwords($validatedData['reporterName']);
@@ -133,22 +149,37 @@ class LaporSpgController extends Controller
     {
         $data = LaporSpg::findOrFail($id);
 
-        // Validation rules
+        // Validasi data form
         $validatedData = $request->validate([
             'reporterName' => 'required|string|max:100',
             'reporterEmail' => 'required|email',
             'relationship' => 'required|string',
+            'relationship_other' => 'nullable|string|max:100', // Tambahkan untuk "Lainnya"
             'reportedName' => 'required|string',
             'reportedPosition' => 'required|string',
             'caseType' => 'required|string',
+            'case_type_other' => 'nullable|string|max:100', // Tambahkan untuk "Lainnya"
             'incidentLocation' => 'required|string',
+            'incident_location_other' => 'nullable|string|max:100', // Tambahkan untuk "Lainnya"
             'incidentAddress' => 'required|string',
             'incidentDate' => 'required|date',
-            // 'incidentTime' => 'nullable|date_format:H:i', // Optional validation for incidentTime
             'incidentDescription' => 'required|string',
             'declaration' => 'required|in:Setuju', // Validasi untuk checkbox 'Setuju'
             'evidence' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:20480',
         ]);
+
+        // Proses nilai "Lainnya" untuk menggantikan nilai utama
+        $validatedData['relationship'] = $validatedData['relationship'] === 'Lainnya'
+            ? $validatedData['relationship_other']
+            : $validatedData['relationship'];
+
+        $validatedData['caseType'] = $validatedData['caseType'] === 'Lainnya'
+            ? $validatedData['case_type_other']
+            : $validatedData['caseType'];
+
+        $validatedData['incidentLocation'] = $validatedData['incidentLocation'] === 'Lainnya'
+            ? $validatedData['incident_location_other']
+            : $validatedData['incidentLocation'];
 
         // Update data fields
         $data->update([
@@ -160,7 +191,7 @@ class LaporSpgController extends Controller
             'case_type' => $validatedData['caseType'],
             'incident_location' => $validatedData['incidentLocation'],
             'incident_address' => $validatedData['incidentAddress'],
-            'incident_date',
+            'incident_date' => $validatedData['incidentDate'],
             'incident_description' => $validatedData['incidentDescription'],
             'declaration' => $validatedData['declaration'],
         ]);
