@@ -138,6 +138,9 @@
                 <button id="submit-btn" type="submit">
                     Kirim <i class="fa-solid fa-paper-plane"></i>
                 </button>
+                <a href="{{ url()->previous() }}" class="btn-cancel">
+                    Cancel
+                </a>
             </div>
         </form>
     </div>

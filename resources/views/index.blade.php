@@ -436,8 +436,17 @@
                         <input type="text" id="kota" name="kota" max-length="35" required>
                     </div>
                     <div class="form-group">
-                        <label for="tanggal">Tanggal <span>*</span></label>
+                        <label for="tanggal">Tanggal Pembuatan<span>*</span></label>
                         <input type="date" id="tanggal" name="tanggal" required>
+                    </div>
+                    <div id="tanggal-akhir-wrapper" style="display: none;">
+                        <div class="form-group">
+                            <label for="tanggal_akhir">Tanggal Akhir Berlaku Surat <span>*</span></label>
+                            <input type="date" id="tanggal_akhir" name="tanggal_akhir">
+                        </div>
+                    </div>
+                    <div id="info-pegawai">
+                        Berlaku hingga pensiun.
                     </div>
                     <div class="form-group">
                         <label for="no_whatsapp">Nomor Handphone/WhatsApp <span>*</span>

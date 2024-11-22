@@ -27,8 +27,8 @@ class PaktaIntegritasController extends Controller
 
         // Menghitung jumlah laporan dari LaporSpg per bulan
         $laporSpgPerBulan = LaporSpg::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
-        ->groupBy('month')
-        ->pluck('total', 'month');
+            ->groupBy('month')
+            ->pluck('total', 'month');
 
         // Menghitung jumlah surat per kategori (pegawai, penyedia jasa, pengguna jasa, auditor)
         $roles = ['pegawai', 'penyedia-jasa', 'pengguna-jasa', 'auditor'];
@@ -63,6 +63,7 @@ class PaktaIntegritasController extends Controller
 
         // Memulai query untuk mendapatkan data berdasarkan role
         $query = PaktaIntegritas::query();
+
         if ($role) {
             $query->where('role', $role);
         }
@@ -77,6 +78,20 @@ class PaktaIntegritasController extends Controller
                     ->orWhere('email', 'like', '%' . $search . '%')
                     ->orWhere('no_whatsapp', 'like', '%' . $search . '%');
             });
+        }
+
+        // Filter berdasarkan status
+        if ($request->has('status')) {
+            $currentDate = \Carbon\Carbon::now();
+
+            if ($request->input('status') === 'aktif') {
+                $query->where(function ($q) use ($currentDate) {
+                    $q->where('tanggal_akhir', '>=', $currentDate->toDateString())
+                        ->orWhereNull('tanggal_akhir'); // Untuk pegawai
+                    });
+            } elseif ($request->input('status') === 'tidak-aktif') {
+                    $query->where('tanggal_akhir', '<', $currentDate->toDateString());
+            }
         }
 
         // Melakukan paginasi pada hasil query
@@ -164,6 +179,7 @@ class PaktaIntegritasController extends Controller
             'tanggal' => 'required|date',
             'no_whatsapp' => 'required|string',
             'role' => 'required|string',
+            'tanggal_akhir' => 'nullable|date',
         ]);
 
         // Pastikan nomor WhatsApp diawali dengan '62'
@@ -189,6 +205,7 @@ class PaktaIntegritasController extends Controller
             'tanggal' => $request->input('tanggal'),
             'no_whatsapp' => $noWhatsapp,
             'role' => $request->input('role'),
+            'tanggal_akhir' => $request->input('role') === 'pegawai' ? null : $request->input('tanggal_akhir'),
         ]);
 
         // Cek apakah yang melakukan request adalah admin
@@ -236,6 +253,7 @@ class PaktaIntegritasController extends Controller
             'kota' => 'required|string|max:35',
             'tanggal' => 'required|date',
             'no_whatsapp' => 'required|string',
+            'tanggal_akhir' => 'nullable|date',
         ]);
 
        // Pastikan nomor WhatsApp diawali dengan '62'
@@ -263,6 +281,7 @@ class PaktaIntegritasController extends Controller
             'kota' => $kota,
             'tanggal' => $request->input('tanggal'),
             'no_whatsapp' => $noWhatsapp,
+            'tanggal_akhir' => $request->input('role') === 'pegawai' ? null : $request->input('tanggal_akhir'),
         ]);
 
         // Redirect kembali ke halaman tabel sesuai role

@@ -22,6 +22,7 @@ return new class extends Migration
         $table->date('tanggal');
         $table->string('no_whatsapp');
         $table->string('role'); // Kolom untuk menyimpan role
+        $table->date('tanggal_akhir')->nullable();
         $table->timestamps();
     });
 }

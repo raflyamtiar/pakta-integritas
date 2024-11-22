@@ -25,23 +25,23 @@
             padding: 10px
         }
 
-        .kop-surat img{
+        .kop-surat img {
             max-width: 100%;
             height: auto;
         }
 
-        .title-surat h5{
+        .title-surat h5 {
             text-align: center;
-            font-size: 12pt;
             margin: 0;
+            font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};
         }
 
-        .content-biodata{
+        .content-biodata {
             margin: 0 2cm;
-            font-size: 12pt;
+            font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};
         }
 
-        .content-biodata p{
+        .content-biodata p {
             margin: 20px 0 10px 0;
         }
 
@@ -55,8 +55,8 @@
         .table-biodata td {
             vertical-align: top;
             word-wrap: break-word;
-            font-size: 12pt;
-            padding: 5px
+            padding: 5px;
+            font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};
         }
 
         .table-biodata .label {
@@ -72,35 +72,36 @@
             width: 83%;
         }
 
-        .content-pernyataan{
+        .content-pernyataan {
             margin: 0 2cm;
-            font-size: 12pt;
+            font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};
         }
 
-        .content-pernyataan p{
+        .content-pernyataan p {
+            text-align: justify;
             margin-top: 10px;
         }
 
-        .content-pernyataan ol{
-            font-size: 12pt;
+        .content-pernyataan ol {
             padding-left: 25px;
+            font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};
         }
 
-        .content-pernyataan ol li{
-            font-size: 12pt;
+        .content-pernyataan ol li {
             padding: 3px 0;
+            text-align: justify;
+            font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};
         }
 
         .signature {
             margin: 20px 70px 0 0;
             text-align: right;
-            font-size: 12pt;
+            font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};
         }
 
-        .signature-barcode{
+        .signature-barcode {
             padding: 5px;
         }
-
     </style>
 </head>
 
@@ -145,7 +146,7 @@
         <p>{{ $pernyataan }}</p>
         <ol>
             @foreach ($perjanjian as $butir)
-            <li>{{ $butir }}</li>
+                <li>{{ $butir }}</li>
             @endforeach
         </ol>
     </div>
@@ -162,6 +163,22 @@
         </div>
 
         <p class="signature-name">{{ $data->nama }}</p>
+
+        {{-- Menambahkan catatan khusus sesuai role --}}
+        @if (in_array($data->role, ['penyedia-jasa', 'pengguna-jasa', 'auditor']))
+            <br>
+        @endif
+        <div class="signature-note"
+            style="margin: 0 2cm; text-align: left;  font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};">
+            @if ($data->role === 'pegawai')
+                <p>Catatan:</p>
+                <p>Surat ini berlaku hingga Aparatur Negeri Sipil (ASN) pensiun.</p>
+            @elseif (in_array($data->role, ['penyedia-jasa', 'pengguna-jasa', 'auditor']))
+                <p>Catatan:</p>
+                <p>Surat ini berlaku mulai dari {{ \Carbon\Carbon::parse($data->tanggal)->translatedFormat('d F Y') }}
+                    sampai {{ \Carbon\Carbon::parse($data->tanggal_akhir)->translatedFormat('d F Y') }}.</p>
+            @endif
+        </div>
     </div>
 </body>
 

@@ -1798,6 +1798,12 @@ footer {
         width: 15%;
         margin: 5px 42%;
     }
+
+    .ContainerSpg {
+        padding: 30px;
+        width: 80%;
+        margin: 0 auto;
+    }
 }
 
 /* ukuran tablet */
@@ -2123,6 +2129,12 @@ footer {
     #startBtn {
         width: 20%;
         margin: 5px 40%;
+    }
+
+    .ContainerSpg {
+        padding: 30px;
+        width: 100%;
+        margin: 0 auto;
     }
 }
 

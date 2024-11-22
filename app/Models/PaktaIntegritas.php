@@ -22,6 +22,7 @@ class PaktaIntegritas extends Model
         'kota',
         'tanggal',
         'no_whatsapp',
-        'role'
+        'role',
+        'tanggal_akhir',
     ];
 }

@@ -58,6 +58,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Tunggu hingga DOM selesai dimuat
+document.addEventListener("DOMContentLoaded", function () {
+    const roleDropdown = document.getElementById("form-role");
+    const tanggalAkhirWrapper = document.getElementById(
+        "tanggal-akhir-wrapper"
+    );
+    const infoPegawai = document.getElementById("info-pegawai");
+
+    // Fungsi untuk menampilkan atau menyembunyikan elemen berdasarkan role
+    function updateForm() {
+        const role = roleDropdown.value;
+
+        if (role === "pegawai") {
+            tanggalAkhirWrapper.style.display = "none"; // Sembunyikan tanggal akhir
+            infoPegawai.style.display = "block"; // Tampilkan info khusus pegawai
+        } else if (
+            ["penyedia-jasa", "pengguna-jasa", "auditor"].includes(role)
+        ) {
+            tanggalAkhirWrapper.style.display = "block"; // Tampilkan tanggal akhir
+            infoPegawai.style.display = "none"; // Sembunyikan info pegawai
+        } else {
+            tanggalAkhirWrapper.style.display = "none"; // Default sembunyikan tanggal akhir
+            infoPegawai.style.display = "none"; // Default sembunyikan info pegawai
+        }
+    }
+
+    // Tambahkan event listener ke dropdown
+    roleDropdown.addEventListener("change", updateForm);
+});
+
 function showForm() {
     const selectedRole = document.getElementById("form-role").value;
     const formContainer = document.getElementById("form-container");

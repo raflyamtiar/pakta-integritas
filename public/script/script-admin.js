@@ -120,6 +120,31 @@ menusToReset.forEach((menu) => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    const roleDropdown = document.querySelector("input[name='role']");
+    const tanggalAkhirWrapper = document.getElementById(
+        "tanggal-akhir-wrapper"
+    );
+    const infoPegawai = document.getElementById("info-pegawai");
+
+    function updateForm() {
+        const role = roleDropdown.value;
+        if (["penyedia-jasa", "pengguna-jasa", "auditor"].includes(role)) {
+            tanggalAkhirWrapper.style.display = "block"; // Tampilkan tanggal akhir
+            infoPegawai.style.display = "none"; // Sembunyikan info pegawai
+        } else if (role === "pegawai") {
+            tanggalAkhirWrapper.style.display = "none"; // Sembunyikan tanggal akhir
+            infoPegawai.style.display = "block"; // Tampilkan info pegawai
+        } else {
+            tanggalAkhirWrapper.style.display = "none"; // Default sembunyikan tanggal akhir
+            infoPegawai.style.display = "none"; // Default sembunyikan info pegawai
+        }
+    }
+
+    roleDropdown.addEventListener("change", updateForm);
+    updateForm(); // Jalankan saat pertama kali halaman dimuat
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     const noWhatsappInput = document.getElementById("no_whatsapp");
     if (noWhatsappInput) {
         noWhatsappInput.addEventListener("input", function (e) {

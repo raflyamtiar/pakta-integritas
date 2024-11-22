@@ -627,7 +627,6 @@ header h1 {
 
 .search-section {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     margin: 20px 0;
 }
@@ -641,8 +640,6 @@ header h1 {
 }
 
 .icon-search {
-    display: inline-flex;
-    justify-content: center;
     align-items: center;
     padding: 10px;
     background-color: #0077b6;
@@ -665,6 +662,24 @@ header h1 {
     background-color: #004d73;
 }
 
+.search-section form select {
+    margin-left: 15px;
+    padding: 10px 10px;
+    font-size: 14px;
+    color: #0077b6;
+    border: 1px solid #0077b6;
+    border-radius: 10px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.down-btn {
+    display: flex;
+    align-items: center;
+}
+
 .down-btn a {
     text-decoration: none;
 }
@@ -684,6 +699,7 @@ header h1 {
     background-color: #0077b6;
     margin-right: 10px;
 }
+
 .btn-tambah:hover {
     background-color: #005482;
 }
@@ -733,7 +749,7 @@ header h1 {
 
 .table-admin th:nth-child(2),
 .table-admin td:nth-child(2) {
-    width: 20%; /* Lebar kolom untuk Nama */
+    width: 40%; /* Lebar kolom untuk Nama */
 }
 
 .table-admin th:nth-child(3),
@@ -753,7 +769,13 @@ header h1 {
 
 .table-admin th:nth-child(6),
 .table-admin td:nth-child(6) {
-    width: 15%; /* Lebar kolom untuk Telepon/WA */
+    width: 20%; /* Lebar kolom untuk Telepon/WA */
+}
+.table-admin th:nth-child(7),
+.table-admin td:nth-child(7) {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 700;
 }
 
 .table-admin th:nth-child(7),
@@ -761,7 +783,9 @@ header h1 {
 .table-admin th:nth-child(8),
 .table-admin td:nth-child(8),
 .table-admin th:nth-child(9),
-.table-admin td:nth-child(9) {
+.table-admin td:nth-child(9),
+.table-admin th:nth-child(10),
+.table-admin td:nth-child(10) {
     width: 8%;
 }
 
@@ -1010,6 +1034,8 @@ input:required {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 .btn-send-form button {
     width: 100%;
@@ -1035,6 +1061,24 @@ input:required {
     background-color: #d0d0d0;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
     transform: scale(0.98);
+}
+
+.btn-cancel {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #dc3545;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    background-color: #bc2f3d; /* Warna lebih gelap untuk hover */
 }
 
 /* pengaturan account */
