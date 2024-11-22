@@ -5,11 +5,9 @@
             <h3>Sistem Manajemen Integrasi</h3>
         </div>
     </a>
-    <a href="/admin/home">
-        <div class="box-admin">
-            <i class="fa-solid fa-house"></i>
-            <h4>Beranda</h4>
-        </div>
+    <a href="/admin/home" class="box-admin">
+        <i class="fa-solid fa-house"></i>
+        <h4>Beranda</h4>
     </a>
     <br>
     <hr>
@@ -21,32 +19,28 @@
             <i class="fa-solid fa-caret-down"></i>
         </div>
         <ul class="menu-admin">
-            <a href="/admin/pegawai">
+            <a href="/admin/pegawai" class="menu-item">
                 <li>Pegawai</li>
             </a>
-            <a href="/admin/penyedia-jasa">
+            <a href="/admin/penyedia-jasa" class="menu-item">
                 <li>Penyedia Jasa</li>
             </a>
-            <a href="/admin/pengguna-jasa">
+            <a href="/admin/pengguna-jasa" class="menu-item">
                 <li>Pengguna Jasa</li>
             </a>
-            <a href="/admin/auditor">
+            <a href="/admin/auditor" class="menu-item">
                 <li>Auditor</li>
             </a>
         </ul>
     </div>
 
-    <a href="/admin/lapor">
-        <div class="box-admin-akun">
-            <i class="fas fa-file-alt"></i>
-            <h4>Formulir SPG</h4>
-        </div>
+    <a href="/admin/lapor" class="box-admin-akun">
+        <i class="fas fa-file-alt"></i>
+        <h4>Formulir SPG</h4>
     </a>
 
-    <a href="{{ route('admin.account') }}">
-        <div class="box-admin-akun">
-            <i class="fa-solid fa-gear"></i>
-            <h4>Pengaturan Akun</h4>
-        </div>
+    <a href="{{ route('admin.account') }}" class="box-admin-akun">
+        <i class="fa-solid fa-gear"></i>
+        <h4>Pengaturan Akun</h4>
     </a>
 </div>
