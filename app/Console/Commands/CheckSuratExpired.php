@@ -29,25 +29,31 @@ class CheckSuratExpired extends Command
      */
     public function handle()
     {
-        // Dapatkan tanggal saat ini
-        $currentDate = Carbon::now();
+        \Log::info("CheckSuratExpired dijalankan pada: " . now());
 
-        // Ambil surat yang sudah tidak aktif
+        $currentDate = now();
+
+        // Ambil surat expired yang belum diberi notifikasi
         $expiredSurat = PaktaIntegritas::whereNotNull('tanggal_akhir')
             ->where('tanggal_akhir', '<', $currentDate->toDateString())
+            ->whereNull('notified_at') // Hanya surat yang belum diberi notifikasi
             ->get();
 
         foreach ($expiredSurat as $surat) {
-            // Buat link untuk mengisi ulang form
-            $formLink = url('/#isi-form');
+            $formLink = url('/#isi-form'); // Link untuk user
 
-            // Kirim email ke pengguna dengan informasi bahwa suratnya expired
+            // Kirim email
             Mail::to($surat->email)->send(new PaktaIntegritasMail($surat, $formLink, true));
 
-            // Tampilkan log di console
+            // Tandai sebagai sudah diberi notifikasi
+            $surat->update(['notified_at' => $currentDate]);
+
             $this->info("Email terkirim ke: {$surat->email}");
+            \Log::info("Email terkirim ke: {$surat->email}");
         }
 
         $this->info('Proses pengecekan selesai.');
+        \Log::info("Proses pengecekan selesai pada: " . now());
     }
+
 }

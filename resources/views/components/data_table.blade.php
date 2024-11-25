@@ -32,13 +32,13 @@
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->no_whatsapp }}</td>
                 <td
-                    style="background-color: {{ $role === 'pegawai' ? '#dff0d8' : (\Carbon\Carbon::now()->between(\Carbon\Carbon::parse($item->tanggal), \Carbon\Carbon::parse($item->tanggal_akhir)) ? '#dff0d8' : '#f8d7da') }}">
+                    style="background-color: {{ $role === 'pegawai' ? '#dff0d8' : (\Carbon\Carbon::now()->between(\Carbon\Carbon::parse($item->tanggal), \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay()) ? '#dff0d8' : '#f8d7da') }}">
                     @if ($role === 'pegawai')
                         <span style="color:green;">Aktif</span>
                     @else
                         @php
                             $currentDate = \Carbon\Carbon::now();
-                            $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_akhir);
+                            $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay();
                             $tanggalMulai = \Carbon\Carbon::parse($item->tanggal);
                         @endphp
                         @if ($currentDate->between($tanggalMulai, $tanggalAkhir))
