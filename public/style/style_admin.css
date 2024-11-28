@@ -215,7 +215,6 @@ nav {
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: rebeccapurple;
     min-width: 150px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -538,7 +537,7 @@ header h1 {
 
 /* Container Utama untuk Chart */
 .container-chart {
-    max-width: 100%;
+    max-width: 80%;
     margin: 0 auto;
 }
 
@@ -571,7 +570,7 @@ header h1 {
 /* Chart Styling */
 .chart-container-chart {
     width: 100%;
-    height: 400px;
+    height: 300px;
     margin-top: 30px;
     background-color: #fff;
     border-radius: 10px;
