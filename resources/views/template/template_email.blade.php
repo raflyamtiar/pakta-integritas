@@ -17,8 +17,16 @@
 
             {{-- Logika untuk email baru atau expired --}}
             @if ($isExpired ?? false)
-                <p>Kami ingin menginformasikan bahwa surat Pakta Integritas Anda saat ini telah <strong>tidak
+                <p>Kami ingin menginformasikan bahwa surat Pakta Integritas Anda saat ini sudah <strong>tidak
                         aktif</strong>.</p>
+                <p>Berikut ini adalah data diri Anda yang akan kami hapus:</p>
+                <ul style="list-style-type: none;">
+                    <li>Nama: {{ $paktaIntegritas->nama }}</li>
+                    <li>Jabatan: {{ $paktaIntegritas->jabatan }}</li>
+                    <li>Instansi: {{ $paktaIntegritas->instansi }}</li>
+                    <li>Email: {{ $paktaIntegritas->email }}</li>
+                    <li>Nomor WhatsApp: {{ $paktaIntegritas->no_whatsapp }}</li>
+                </ul>
                 <p>Jika Anda ingin mengaktifkan kembali, silakan isi ulang formulir Pakta Integritas dengan mengklik
                     tombol di bawah ini:</p>
                 <a href="{{ $downloadLink }}"

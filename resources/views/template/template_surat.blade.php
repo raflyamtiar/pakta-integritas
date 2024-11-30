@@ -168,16 +168,10 @@
         @if (in_array($data->role, ['penyedia-jasa', 'pengguna-jasa', 'auditor']))
             <br>
         @endif
-        <div class="signature-note"
-            style="margin: 0 2cm; text-align: left;  font-size: {{ $data->role === 'pegawai' ? '11pt' : '12pt' }};">
-            @if ($data->role === 'pegawai')
-                <p>Catatan:</p>
-                <p>Surat ini berlaku hingga Aparatur Negeri Sipil (ASN) pensiun.</p>
-            @elseif (in_array($data->role, ['penyedia-jasa', 'pengguna-jasa', 'auditor']))
-                <p>Catatan:</p>
-                <p>Surat ini berlaku mulai dari {{ \Carbon\Carbon::parse($data->tanggal)->translatedFormat('d F Y') }}
-                    sampai {{ \Carbon\Carbon::parse($data->tanggal_akhir)->translatedFormat('d F Y') }}.</p>
-            @endif
+        <div class="signature-note" style="margin: 0 2cm; text-align: left; font-size: 12pt;">
+            <p>Catatan:</p>
+            <p>Surat ini berlaku mulai dari {{ \Carbon\Carbon::parse($data->tanggal)->translatedFormat('d F Y') }}
+                sampai {{ \Carbon\Carbon::parse($data->tanggal_akhir)->translatedFormat('d F Y') }}.</p>
         </div>
     </div>
 </body>

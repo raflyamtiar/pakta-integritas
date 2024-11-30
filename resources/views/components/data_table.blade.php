@@ -32,20 +32,16 @@
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->no_whatsapp }}</td>
                 <td
-                    style="background-color: {{ $role === 'pegawai' ? '#dff0d8' : (\Carbon\Carbon::now()->between(\Carbon\Carbon::parse($item->tanggal), \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay()) ? '#dff0d8' : '#f8d7da') }}">
-                    @if ($role === 'pegawai')
+                    style="background-color: {{ \Carbon\Carbon::now()->between(\Carbon\Carbon::parse($item->tanggal), \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay()) ? '#dff0d8' : '#f8d7da' }}">
+                    @php
+                        $currentDate = \Carbon\Carbon::now();
+                        $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay();
+                        $tanggalMulai = \Carbon\Carbon::parse($item->tanggal);
+                    @endphp
+                    @if ($currentDate->between($tanggalMulai, $tanggalAkhir))
                         <span style="color:green;">Aktif</span>
                     @else
-                        @php
-                            $currentDate = \Carbon\Carbon::now();
-                            $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay();
-                            $tanggalMulai = \Carbon\Carbon::parse($item->tanggal);
-                        @endphp
-                        @if ($currentDate->between($tanggalMulai, $tanggalAkhir))
-                            <span style="color:green;">Aktif</span>
-                        @else
-                            <span style="color: red;">Tidak Aktif</span>
-                        @endif
+                        <span style="color: red;">Tidak Aktif</span>
                     @endif
                 </td>
                 <td class="action-cell">

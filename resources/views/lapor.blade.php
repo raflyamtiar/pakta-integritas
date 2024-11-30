@@ -51,7 +51,7 @@
             <a href="/spg" class="layanan-content-isi">
                 <div class="layanan-content-title">
                     <figure class="layanan-img">
-                        <img src="assets/gsi.png" alt="">
+                        <img src="assets/smap23.jpg" alt="">
                     </figure>
                     <span class="view-text">View</span>
                 </div>

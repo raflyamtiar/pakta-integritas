@@ -22,7 +22,7 @@ class CheckSuratExpired extends Command
      *
      * @var string
      */
-    protected $description = 'Cek surat yang sudah tidak aktif dan kirim email ke pengguna.';
+    protected $description = 'Cek surat yang sudah tidak aktif, kirim email, dan hapus sesuai jadwal.';
 
     /**
      * Execute the console command.
@@ -33,27 +33,27 @@ class CheckSuratExpired extends Command
 
         $currentDate = now();
 
-        // Ambil surat expired yang belum diberi notifikasi
+        // **1. Kirim Email untuk Surat Expired**
         $expiredSurat = PaktaIntegritas::whereNotNull('tanggal_akhir')
             ->where('tanggal_akhir', '<', $currentDate->toDateString())
-            ->whereNull('notified_at') // Hanya surat yang belum diberi notifikasi
             ->get();
 
         foreach ($expiredSurat as $surat) {
-            $formLink = url('/#isi-form'); // Link untuk user
+            $formLink = url('http://127.0.0.1:8000/#isi-form'); // Link untuk user
 
             // Kirim email
             Mail::to($surat->email)->send(new PaktaIntegritasMail($surat, $formLink, true));
 
-            // Tandai sebagai sudah diberi notifikasi
-            $surat->update(['notified_at' => $currentDate]);
+            // Hapus surat 5 menit setelah email terkirim
+            // sleep(300); // Delay selama 5 menit sebelum menghapus surat
 
-            $this->info("Email terkirim ke: {$surat->email}");
-            \Log::info("Email terkirim ke: {$surat->email}");
+            // Hapus surat
+            $surat->delete();
+            $this->info("Surat dengan ID {$surat->id} telah dihapus.");
+            \Log::info("Surat dengan ID {$surat->id} telah dihapus.");
         }
 
-        $this->info('Proses pengecekan selesai.');
-        \Log::info("Proses pengecekan selesai pada: " . now());
+        $this->info('Proses pengecekan dan penghapusan selesai.');
+        \Log::info("Proses pengecekan dan penghapusan selesai pada: " . now());
     }
-
 }

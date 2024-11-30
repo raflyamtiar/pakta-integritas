@@ -62,14 +62,8 @@
                 <label for="tanggal">Tanggal Pembuatan <span>*</span></label>
                 <input type="date" id="tanggal" name="tanggal" value="{{ old('tanggal') }}" required>
             </div>
-            <div id="tanggal-akhir-wrapper" style="display: none;">
-                <div class="form-group">
-                    <label for="tanggal_akhir">Tanggal Akhir Berlaku Surat <span>*</span></label>
-                    <input type="date" id="tanggal_akhir" name="tanggal_akhir" value="{{ old('tanggal_akhir') }}">
-                </div>
-            </div>
-            <div id="info-pegawai" style="display: none; font-size: 14px; text-align: left;">
-                <p>Berlaku hingga pensiun.</p>
+            <div id="info-pegawai">
+                <h5 style="color: red; text-align:center;">Surat ini berlaku selama setahun.</h5>
             </div>
             <div class="form-group">
                 <label for="no_whatsapp">Nomor Handphone/WhatsApp <span>*</span>

@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaktaIntegritasMail;
 use App\Models\LaporSpg;
+use Carbon\Carbon;
 
 class PaktaIntegritasController extends Controller
 {
@@ -179,7 +180,6 @@ class PaktaIntegritasController extends Controller
             'tanggal' => 'required|date',
             'no_whatsapp' => 'required|string',
             'role' => 'required|string',
-            'tanggal_akhir' => 'nullable|date',
         ]);
 
         // Pastikan nomor WhatsApp diawali dengan '62'
@@ -188,11 +188,15 @@ class PaktaIntegritasController extends Controller
             $noWhatsapp = '62' . ltrim($noWhatsapp, '0'); // Menghilangkan '0' di awal jika ada
         }
 
-         // Ubah huruf pertama setiap kata menjadi kapital menggunakan ucwords()
+        // Ubah huruf pertama setiap kata menjadi kapital menggunakan ucwords()
         $nama = ucwords($request->input('nama'));
         $jabatan = ucwords($request->input('jabatan'));
         $instansi = ucwords($request->input('instansi'));
         $kota = ucwords($request->input('kota'));
+
+        // Hitung tanggal akhir (setahun setelah tanggal pembuatan)
+        $tanggal_pembuatan = $request->input('tanggal');
+        $tanggal_akhir = \Carbon\Carbon::parse($tanggal_pembuatan)->addYear(); // Menambah 1 tahun
 
         // Menyimpan data ke database
         $paktaIntegritas = PaktaIntegritas::create([
@@ -202,10 +206,10 @@ class PaktaIntegritasController extends Controller
             'alamat' => $request->input('alamat'),
             'email' => $request->input('email'),
             'kota' => $kota,
-            'tanggal' => $request->input('tanggal'),
+            'tanggal' => $tanggal_pembuatan,
             'no_whatsapp' => $noWhatsapp,
             'role' => $request->input('role'),
-            'tanggal_akhir' => $request->input('role') === 'pegawai' ? null : $request->input('tanggal_akhir'),
+            'tanggal_akhir' => $tanggal_akhir, // Simpan tanggal akhir yang dihitung otomatis
         ]);
 
         // Cek apakah yang melakukan request adalah admin
@@ -253,7 +257,6 @@ class PaktaIntegritasController extends Controller
             'kota' => 'required|string|max:35',
             'tanggal' => 'required|date',
             'no_whatsapp' => 'required|string',
-            'tanggal_akhir' => 'nullable|date',
         ]);
 
        // Pastikan nomor WhatsApp diawali dengan '62'
@@ -271,6 +274,10 @@ class PaktaIntegritasController extends Controller
         // Mencari data berdasarkan ID
         $data = PaktaIntegritas::findOrFail($id);
 
+        // Set tanggal_akhir to one year after tanggal
+        $tanggal = $request->input('tanggal');
+        $tanggalAkhir = Carbon::parse($tanggal)->addYear()->toDateString(); // Set one year from the creation date
+
         // Mengupdate data
         $data->update([
             'nama' => $nama,
@@ -281,7 +288,7 @@ class PaktaIntegritasController extends Controller
             'kota' => $kota,
             'tanggal' => $request->input('tanggal'),
             'no_whatsapp' => $noWhatsapp,
-            'tanggal_akhir' => $request->input('role') === 'pegawai' ? null : $request->input('tanggal_akhir'),
+            'tanggal_akhir' => $tanggalAkhir,
         ]);
 
         // Redirect kembali ke halaman tabel sesuai role

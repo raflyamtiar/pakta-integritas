@@ -10,7 +10,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-// Daftarkan jadwal CheckSuratExpired ke scheduler
 app(Schedule::class)->command(CheckSuratExpired::class)
-    ->dailyAt('00:00'); // Jalankan setiap hari pada pukul 00:00
+    ->dailyAt('00:00');
 

@@ -25,4 +25,7 @@ class PaktaIntegritas extends Model
         'role',
         'tanggal_akhir',
     ];
+
+    // Menambahkan format tanggal untuk 'tanggal' dan 'tanggal_akhir'
+    protected $dates = ['tanggal', 'tanggal_akhir'];
 }
