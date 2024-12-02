@@ -171,15 +171,16 @@ class PaktaIntegritasController extends Controller
     {
         // Validasi data form
         $request->validate([
-            'nama' => 'required|string|max:100',
-            'jabatan' => 'required|string|max:70',
-            'instansi' => 'required|string|max:70',
-            'alamat' => 'required|string|max:200',
+            'nama' => 'required|string',
+            'jabatan' => 'required|string',
+            'instansi' => 'required|string',
+            'alamat' => 'required|string',
             'email' => 'required|email',
-            'kota' => 'required|string|max:35',
+            'kota' => 'required|string',
             'tanggal' => 'required|date',
             'no_whatsapp' => 'required|string',
             'role' => 'required|string',
+            'identitas_diri' => 'required|file|mimes:jpg,jpeg,png,pdf|max:20480',
         ]);
 
         // Pastikan nomor WhatsApp diawali dengan '62'
@@ -198,6 +199,13 @@ class PaktaIntegritasController extends Controller
         $tanggal_pembuatan = $request->input('tanggal');
         $tanggal_akhir = \Carbon\Carbon::parse($tanggal_pembuatan)->addYear(); // Menambah 1 tahun
 
+        // Proses file identitas_diri
+        $identitasDiriPath = null;
+        if ($request->hasFile('identitas_diri') && $request->file('identitas_diri')->isValid()) {
+            // Simpan file dan dapatkan pathnya
+            $identitasDiriPath = $request->file('identitas_diri')->store('identitas_diri', 'public');
+        }
+
         // Menyimpan data ke database
         $paktaIntegritas = PaktaIntegritas::create([
             'nama' => $nama,
@@ -210,11 +218,11 @@ class PaktaIntegritasController extends Controller
             'no_whatsapp' => $noWhatsapp,
             'role' => $request->input('role'),
             'tanggal_akhir' => $tanggal_akhir, // Simpan tanggal akhir yang dihitung otomatis
+            'identitas_diri' => $identitasDiriPath, // Use the correct variable
         ]);
 
         // Cek apakah yang melakukan request adalah admin
         if ($request->input('is_admin') == 'true') {
-            // Jika admin, hanya redirect tanpa kirim email
             return redirect()->route('admin.role', strtolower(str_replace(' ', '-', $request->role)))->with('success', 'Data Berhasil Disimpan');
         } else {
             // Buat link download surat
@@ -224,7 +232,7 @@ class PaktaIntegritasController extends Controller
             Mail::to($request->input('email'))->send(new PaktaIntegritasMail($paktaIntegritas, $downloadLink));
 
             // Redirect ke halaman user setelah mengirim email
-            return redirect()->back()->with('success', 'Data Berhasil Disimpan dan Email Terkirim.');
+            return redirect()->back()->with('success', 'Pakta Integritas berhasil dikirim!');
         }
     }
 
@@ -247,36 +255,45 @@ class PaktaIntegritasController extends Controller
 
     public function update(Request $request, $role, $id)
     {
+        // Mencari data berdasarkan ID
+        $data = PaktaIntegritas::findOrFail($id);
+
         // Validasi data form
-        $request->validate([
-            'nama' => 'required|string|max:100',
-            'jabatan' => 'required|string|max:50',
-            'instansi' => 'required|string|max:70',
+        $rules = [
+            'nama' => 'required|string',
+            'jabatan' => 'required|string',
+            'instansi' => 'required|string',
             'alamat' => 'required|string',
             'email' => 'required|email',
-            'kota' => 'required|string|max:35',
+            'kota' => 'required|string',
             'tanggal' => 'required|date',
             'no_whatsapp' => 'required|string',
-        ]);
+        ];
 
-       // Pastikan nomor WhatsApp diawali dengan '62'
+        // Menambahkan validasi untuk identitas_diri
+        if (!$data->identitas_diri) {
+            $rules['identitas_diri'] = 'required|file|mimes:jpg,jpeg,png,pdf|max:20480';
+        } else {
+            $rules['identitas_diri'] = 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480';
+        }
+
+        $request->validate($rules);
+
+        // Memastikan nomor WhatsApp diawali dengan '62'
         $noWhatsapp = $request->input('no_whatsapp');
         if (!str_starts_with($noWhatsapp, '62')) {
             $noWhatsapp = '62' . ltrim($noWhatsapp, '0'); // Menghilangkan '0' di awal jika ada
         }
 
-        // Mengubah huruf pertama setiap kata menjadi kapital (capital each word) seperti di store
+        // Mengubah huruf pertama setiap kata menjadi kapital
         $nama = ucwords($request->input('nama'));
         $jabatan = ucwords($request->input('jabatan'));
         $instansi = ucwords($request->input('instansi'));
         $kota = ucwords($request->input('kota'));
 
-        // Mencari data berdasarkan ID
-        $data = PaktaIntegritas::findOrFail($id);
-
-        // Set tanggal_akhir to one year after tanggal
+        // Mengatur tanggal_akhir menjadi satu tahun setelah tanggal
         $tanggal = $request->input('tanggal');
-        $tanggalAkhir = Carbon::parse($tanggal)->addYear()->toDateString(); // Set one year from the creation date
+        $tanggalAkhir = Carbon::parse($tanggal)->addYear()->toDateString();
 
         // Mengupdate data
         $data->update([
@@ -290,6 +307,18 @@ class PaktaIntegritasController extends Controller
             'no_whatsapp' => $noWhatsapp,
             'tanggal_akhir' => $tanggalAkhir,
         ]);
+
+        // Proses file identitas_diri
+        if ($request->hasFile('identitas_diri')) {
+            // Hapus file lama jika ada
+            if ($data->identitas_diri && Storage::exists($data->identitas_diri)) {
+                Storage::delete($data->identitas_diri);
+            }
+
+            // Simpan file baru
+            $filePath = $request->file('identitas_diri')->store('uploads', 'public');
+            $data->update(['identitas_diri' => $filePath]);
+        }
 
         // Redirect kembali ke halaman tabel sesuai role
         return redirect()->route('admin.role', strtolower(str_replace(' ', '-', $role)))->with('success', 'Data berhasil diupdate');

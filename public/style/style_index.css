@@ -1421,15 +1421,40 @@ input:required {
     border: 2px dashed #28a745;
     padding: 20px;
     text-align: center;
-    border-radius: 4px;
+    background-color: #f9f9f9;
     cursor: pointer;
-    margin-bottom: 15px;
+}
+
+.upload-area:hover {
+    background-color: #e0e0e0;
+}
+
+.upload-area span {
+    display: block;
 }
 
 .file-preview img {
-    max-width: 100%;
-    height: auto;
+    max-width: 150px;
     margin-top: 10px;
+    position: relative; /* Agar tombol X bisa ditempatkan di atas gambar */
+}
+
+.file-preview p {
+    margin-top: 10px;
+    color: #555;
+}
+
+.file-preview .remove-file {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 18px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10; /* Pastikan tombol terlihat di atas gambar */
 }
 
 /* spg end*/

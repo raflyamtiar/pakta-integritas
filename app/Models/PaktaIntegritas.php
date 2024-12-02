@@ -9,10 +9,8 @@ class PaktaIntegritas extends Model
 {
     use HasFactory;
 
-    // Nama tabel di database
     protected $table = 'pakta_integritas';
 
-    // Kolom-kolom yang dapat diisi secara massal
     protected $fillable = [
         'nama',
         'jabatan',
@@ -24,8 +22,8 @@ class PaktaIntegritas extends Model
         'no_whatsapp',
         'role',
         'tanggal_akhir',
+        'identitas_diri', // Tambahkan identitas_diri
     ];
 
-    // Menambahkan format tanggal untuk 'tanggal' dan 'tanggal_akhir'
     protected $dates = ['tanggal', 'tanggal_akhir'];
 }

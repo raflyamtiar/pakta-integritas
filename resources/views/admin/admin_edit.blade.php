@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Data ' . ucfirst($role))
+@section('title', 'Edit Data Pakta Integritas {{ ucfirst($role) }}')
 
 @section('content')
 
@@ -12,9 +12,9 @@
     <div class="isi-form" id="isi-form">
         <div class="form-container-wrapper">
             <form action="{{ route('integritas.update', ['role' => $role, 'id' => $data->id]) }}" method="POST"
-                id="form-container" class="form-container">
+                enctype="multipart/form-data" id="form-container" class="form-container">
                 @csrf
-                @method('PUT') <!-- Tambahkan ini untuk menggunakan metode PUT -->
+                @method('PUT') <!-- Menambahkan metode PUT untuk update -->
                 <input type="hidden" name="role" value="{{ $role }}">
 
                 <h3>FORMULIR PAKTA INTEGRITAS</h3>
@@ -34,58 +34,89 @@
                     </div>
                 @endif
 
-                <!-- Form fields dengan data yang diisi -->
+                <!-- Nama Lengkap -->
                 <div class="form-group">
                     <label for="nama">Nama Lengkap <span>*</span></label>
-                    <input type="text" id="nama" name="nama" max-length="100"
-                        value="{{ old('nama', $data->nama) }}" required>
+                    <input type="text" id="nama" name="nama" value="{{ old('nama', $data->nama) }}" required>
                 </div>
+
+                <!-- Jabatan -->
                 <div class="form-group">
                     <label for="jabatan">Jabatan <span>*</span></label>
-                    <input type="text" id="jabatan" name="jabatan" max-length="50"
-                        value="{{ old('jabatan', $data->jabatan) }}" required>
+                    @if ($role === 'pegawai')
+                        <select id="jabatan" name="jabatan" required>
+                            <option value="" disabled>--- Pilih Jabatan ---</option>
+                            @foreach (['Kepala Balai', 'Kepala Subbagian Tata Usaha', 'Bendahara Pengeluaran', 'Bendahara Penerimaan', 'PPK (Pejabat Pembuat Komitmen)', 'Pejabat Pengadaan Barang dan Jasa', 'Penyusun Rencana Kegiatan dan Anggaran', 'Petugas Pemelihara Kendaraan Dinas', 'Pengadministrasi Keuangan', 'Arsiparis Terampil', 'Pengadministrasi dan Penyaji Data', 'Pengadministrasi Umum', 'Pekarya Taman', 'Medik Muda Selaku Subkoordinator Substansi Penyiapan Sampel', 'Medik Veteriner Madya', 'Medik Veteriner Terampil', 'Medik Veteriner Muda', 'Medik Veteriner Pertama', 'PMHP Muda', 'PMHP Madya', 'PMHP Penyelia', 'PMHP Terampil', 'Teknisi Gedung', 'Medik Muda Selaku Subkoordinator Substansi Pelayanan Teknik', 'Paramedik Pelaksana Lanjutan', 'Medik Veteriner Ahli Pertama', 'Calon Pengolah Data', 'Calon Paramedik Veteriner', 'Paramedik Veteriner Mahir'] as $jabatan)
+                                <option value="{{ $jabatan }}"
+                                    {{ old('jabatan', $data->jabatan) === $jabatan ? 'selected' : '' }}>
+                                    {{ $jabatan }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @else
+                        <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan', $data->jabatan) }}"
+                            required>
+                    @endif
                 </div>
+
+                <!-- Instansi -->
                 <div class="form-group">
                     <label for="instansi">Instansi <span>*</span></label>
-                    <input type="text" id="instansi" name="instansi" max-length="70"
-                        value="{{ old('instansi', $data->instansi) }}" required>
+                    @if ($role === 'pegawai')
+                        <input type="text" id="instansi" name="instansi"
+                            value="Balai Pengujian Mutu dan Sertifikasi Produk Hewan" readonly>
+                    @else
+                        <input type="text" id="instansi" name="instansi" value="{{ old('instansi', $data->instansi) }}"
+                            required>
+                    @endif
                 </div>
+
+                <!-- Alamat -->
                 <div class="form-group">
-                    <label for="alamat">Alamat Lengkap <span>*</span></label>
-                    <textarea id="alamat" name="alamat" max-length="255" required>{{ old('alamat', $data->alamat) }}</textarea>
+                    <label for="alamat">Alamat <span>*</span></label>
+                    <textarea name="alamat" id="alamat" required>{{ old('alamat', $data->alamat) }}</textarea>
                 </div>
+
+                <!-- Email -->
                 <div class="form-group">
                     <label for="email">Email <span>*</span></label>
                     <input type="email" id="email" name="email" value="{{ old('email', $data->email) }}" required>
                 </div>
+
+                <!-- Kota -->
                 <div class="form-group">
                     <label for="kota">Kota <span>*</span></label>
-                    <input type="text" id="kota" name="kota" max-length="35"
-                        value="{{ old('kota', $data->kota) }}" required>
+                    <input type="text" id="kota" name="kota" value="{{ old('kota', $data->kota) }}" required>
                 </div>
+
+                <!-- Tanggal -->
                 <div class="form-group">
-                    <label for="tanggal">Tanggal Pembuatan <span>*</span></label>
+                    <label for="tanggal">Tanggal <span>*</span></label>
                     <input type="date" id="tanggal" name="tanggal" value="{{ old('tanggal', $data->tanggal) }}"
                         required>
                 </div>
-                <div id="info-pegawai">
-                    <h5 style="color: red; text-align:center;">Surat ini berlaku selama setahun.</h5>
-                </div>
+
+                <!-- No WhatsApp -->
                 <div class="form-group">
-                    <label for="no_whatsapp">Nomor Handphone/WhatsApp <span>*</span>
-                        <small>Contoh: 81234567899</small>
-                    </label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">+62</div>
-                        <input type="tel" id="no_whatsapp" name="no_whatsapp" class="form-control"
-                            value="{{ old('no_whatsapp', ltrim($data->no_whatsapp, '62')) }}" placeholder="81234567899"
-                            pattern="^\d{8,13}$" required>
-                    </div>
+                    <label for="no_whatsapp">No WhatsApp <span>*</span></label>
+                    <input type="text" id="no_whatsapp" name="no_whatsapp"
+                        value="{{ old('no_whatsapp', $data->no_whatsapp) }}" required>
                 </div>
 
+                <!-- Identitas Diri -->
+                <div class="form-group">
+                    <label for="identitas_diri">Identitas Diri <span>*</span></label>
+                    <input type="file" name="identitas_diri" id="identitas_diri">
+                    @if ($data->identitas_diri)
+                        <p><a href="{{ asset('storage/' . $data->identitas_diri) }}" target="_blank">Lihat File</a></p>
+                    @endif
+                </div>
+
+
+                <!-- Submit Button -->
                 <div class="btn-send-form">
                     <button type="submit">
-                        Update <i class="fa-solid fa-paper-plane"></i>
+                        Kirim <i class="fa-solid fa-paper-plane"></i>
                     </button>
                     <a href="{{ url()->previous() }}" class="btn-cancel">
                         Cancel
@@ -94,6 +125,5 @@
             </form>
         </div>
     </div>
-
     <script src="{{ asset('script/script-admin.js') }}"></script>
 @endsection

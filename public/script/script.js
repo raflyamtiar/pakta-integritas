@@ -63,22 +63,47 @@ function showForm() {
     const formContainer = document.getElementById("form-container");
     const roleTitle = document.getElementById("role-title");
 
+    // Elemen form tambahan untuk pegawai dan manual
+    const jabatanPegawai = document.getElementById("form-jabatan-pegawai");
+    const jabatanManual = document.getElementById("form-jabatan-manual");
+    const instansiOtomatis = document.getElementById("form-instansi");
+    const instansiManual = document.getElementById("form-instansi-manual");
+
+    // Reset tampilan semua elemen tambahan
+    jabatanPegawai.style.display = "none";
+    jabatanManual.style.display = "none";
+    instansiOtomatis.style.display = "none";
+    instansiManual.style.display = "none";
+
     if (selectedRole !== "null") {
+        // Ubah teks judul role
         roleTitle.innerText = selectedRole.toUpperCase();
         formContainer.style.display = "block";
         formContainer.scrollIntoView({ behavior: "smooth" });
 
-        // Periksa apakah pengguna berada di halaman admin atau user
+        // Tentukan apakah user adalah admin
         const isAdmin = window.location.pathname.includes("/admin");
 
+        // Atur action form berdasarkan peran
         if (isAdmin) {
             formContainer.action = `/admin/add/${selectedRole}`;
         } else {
-            formContainer.action = "user/integritas/store";
+            formContainer.action = "/user/integritas/store";
         }
 
+        // Isi input hidden untuk role
         document.getElementById("hidden-role").value = selectedRole;
+
+        // Tampilkan elemen khusus berdasarkan role
+        if (selectedRole === "pegawai") {
+            jabatanPegawai.style.display = "block"; // Dropdown jabatan pegawai
+            instansiOtomatis.style.display = "block"; // Instansi otomatis
+        } else {
+            jabatanManual.style.display = "block"; // Input manual jabatan
+            instansiManual.style.display = "block"; // Input manual instansi
+        }
     } else {
+        // Sembunyikan form jika tidak ada role yang dipilih
         formContainer.style.display = "none";
     }
 }
