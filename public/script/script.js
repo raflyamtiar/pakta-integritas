@@ -62,45 +62,79 @@ function showForm() {
     const selectedRole = document.getElementById("form-role").value;
     const formContainer = document.getElementById("form-container");
     const roleTitle = document.getElementById("role-title");
-
-    // Elemen form tambahan untuk pegawai dan manual
-    const jabatanPegawai = document.getElementById("form-jabatan-pegawai");
-    const jabatanManual = document.getElementById("form-jabatan-manual");
-    const instansiOtomatis = document.getElementById("form-instansi");
-    const instansiManual = document.getElementById("form-instansi-manual");
-
-    // Reset tampilan semua elemen tambahan
-    jabatanPegawai.style.display = "none";
-    jabatanManual.style.display = "none";
-    instansiOtomatis.style.display = "none";
-    instansiManual.style.display = "none";
+    const jabatanField = document.getElementById("form-jabatan");
+    const instansiField = document.getElementById("form-instansi");
 
     if (selectedRole !== "null") {
         // Ubah teks judul role
         roleTitle.innerText = selectedRole.toUpperCase();
         formContainer.style.display = "block";
         formContainer.scrollIntoView({ behavior: "smooth" });
-
-        // Tentukan apakah user adalah admin
         const isAdmin = window.location.pathname.includes("/admin");
 
-        // Atur action form berdasarkan peran
+        const roleInputHidden = document.getElementById("role-input-hidden");
+        roleInputHidden.value = selectedRole;
+
+        // ----------------------------
+        if (selectedRole === "pegawai") {
+            jabatanField.innerHTML = `
+                <label for="jabatan">Jabatan <span>*</span></label>
+                <select id="jabatan" name="jabatan" required>
+                            <option value="">--- Pilih Jabatan ---</option>
+                            <option value="Kepala Balai">Kepala Balai</option>
+                            <option value="Kepala Subbagian Tata Usaha">Kepala Subbagian Tata Usaha</option>
+                            <option value="Bendahara Pengeluaran">Bendahara Pengeluaran</option>
+                            <option value="Bendahara Penerimaan">Bendahara Penerimaan</option>
+                            <option value="PPK (Pejabat Pembuat Komitmen)">PPK (Pejabat Pembuat Komitmen)</option>
+                            <option value="Pejabat Pengadaan Barang dan Jasa">Pejabat Pengadaan Barang dan Jasa</option>
+                            <option value="Penyusun Rencana Kegiatan dan Anggaran">Penyusun Rencana Kegiatan dan Anggaran
+                            </option>
+                            <option value="Petugas Pemelihara Kendaraan Dinas">Petugas Pemelihara Kendaraan Dinas</option>
+                            <option value="Pengadministrasi Keuangan">Pengadministrasi Keuangan</option>
+                            <option value="Arsiparis Terampil">Arsiparis Terampil</option>
+                            <option value="Pengadministrasi dan Penyaji Data">Pengadministrasi dan Penyaji Data</option>
+                            <option value="Pengadministrasi Umum">Pengadministrasi Umum</option>
+                            <option value="Pekarya Taman">Pekarya Taman</option>
+                            <option value="Medik Muda Selaku Subkoordinator Substansi Penyiapan Sampel">Medik Muda Selaku
+                                Subkoordinator Substansi Penyiapan Sampel</option>
+                            <option value="Medik Veteriner Madya">Medik Veteriner Madya</option>
+                            <option value="Paramedik Veteriner Terampil">Paramedik Veteriner Terampil</option>
+                            <option value="Medik Veteriner Muda">Medik Veteriner Muda</option>
+                            <option value="Medik Veteriner Pertama">Medik Veteriner Pertama</option>
+                            <option value="PMHP Muda">PMHP Muda</option>
+                            <option value="PMHP Madya">PMHP Madya</option>
+                            <option value="PMHP Penyelia">PMHP Penyelia</option>
+                            <option value="PMHP Terampil">PMHP Terampil</option>
+                            <option value="Teknisi Gedung">Teknisi Gedung</option>
+                            <option value="Medik Muda Selaku Subkoordinator Substansi Pelayanan Teknik">Medik Muda Selaku
+                                Subkoordinator Substansi Pelayanan Teknik</option>
+                            <option value="Paramedik Pelaksana Lanjutan">Paramedik Pelaksana Lanjutan</option>
+                            <option value="Medik Veteriner Ahli Pertama">Medik Veteriner Ahli Pertama</option>
+                            <option value="Pengadministrasi dan Penyaji Data">Pengadministrasi dan Penyaji Data</option>
+                            <option value="Calon Pengolah Data">Calon Pengolah Data</option>
+                            <option value="Calon Paramedik Veteriner">Calon Paramedik Veteriner</option>
+                            <option value="Paramedik Veteriner Mahir">Paramedik Veteriner Mahir</option>
+                        </select>
+            `;
+            instansiField.innerHTML = `<label for="instansi">Instansi <span>*</span></label>
+                                        <input type="text" id="instansi" name="instansi" value="Balai Pengujian Mutu dan Sertifikasi Produk Hewan" readonly required>`;
+        } else {
+            jabatanField.innerHTML = `
+                                <label for="jabatan">Jabatan <span>*</span></label>
+                                <input type="text" id="jabatan" name="jabatan" required>
+                                    `;
+            instansiField.innerHTML = `
+                                <label for="instansi">Instansi <span>*</span></label>
+                                <input type="text" id="instansi" name="instansi" required>
+                                    `;
+        }
+
+        // ----------------------------
+
         if (isAdmin) {
             formContainer.action = `/admin/add/${selectedRole}`;
         } else {
             formContainer.action = "/user/integritas/store";
-        }
-
-        // Isi input hidden untuk role
-        document.getElementById("hidden-role").value = selectedRole;
-
-        // Tampilkan elemen khusus berdasarkan role
-        if (selectedRole === "pegawai") {
-            jabatanPegawai.style.display = "block"; // Dropdown jabatan pegawai
-            instansiOtomatis.style.display = "block"; // Instansi otomatis
-        } else {
-            jabatanManual.style.display = "block"; // Input manual jabatan
-            instansiManual.style.display = "block"; // Input manual instansi
         }
     } else {
         // Sembunyikan form jika tidak ada role yang dipilih

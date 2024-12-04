@@ -535,17 +535,56 @@ header h1 {
     color: #fff;
 }
 
-/* Container Utama untuk Chart */
-.container-chart {
-    max-width: 80%;
+.container-chart-title {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.container-chart-title h2 {
+    text-align: center;
+    padding-top: 20px;
+    color: #000;
+}
+
+.container-chart-title hr {
+    width: 80%;
     margin: 0 auto;
+    border: 1px black solid;
+    margin-bottom: 20px;
+}
+
+.dropdown-chart-year {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    padding-right: 40px;
+}
+
+.dropdown-chart-year label {
+    margin-right: 10px;
+    color: #000;
+}
+
+.dropdown-chart-year select {
+    width: 10%;
+    padding-right: 10px;
+}
+
+.container-chart {
+    max-width: calc(100% - 0); /* Adjust to account for the sidebar */
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .card-chart {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+    flex: 0 1 calc(50% - 20px);
+    box-sizing: border-box;
+    margin: 10px;
 }
 
 .card-header-chart {
@@ -566,53 +605,6 @@ header h1 {
 .card-body-chart {
     padding: 10px;
 }
-
-/* Chart Styling */
-.chart-container-chart {
-    width: 100%;
-    height: 300px;
-    margin-top: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Dropdown Styling */
-.form-control-chart {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    transition: border-color 0.3s ease;
-}
-
-.form-control-chart:focus {
-    border-color: #0077b6;
-    outline: none;
-}
-
-.chart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.chart-header h3 {
-    margin: 0;
-    font-size: 16px;
-}
-
-.chart-header select {
-    width: 150px;
-    padding: 5px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -748,44 +740,67 @@ header h1 {
 
 .table-admin th:nth-child(2),
 .table-admin td:nth-child(2) {
-    width: 40%; /* Lebar kolom untuk Nama */
+    width: 30%; /* Lebar kolom untuk Nama */
 }
 
 .table-admin th:nth-child(3),
 .table-admin td:nth-child(3) {
-    width: 10%; /* Lebar kolom untuk Jabatan */
+    width: 15%; /* Lebar kolom untuk Jabatan/Instansi */
 }
 
 .table-admin th:nth-child(4),
 .table-admin td:nth-child(4) {
-    width: 25%; /* Lebar kolom untuk Instansi */
+    width: 20%; /* Lebar kolom untuk Email */
 }
 
 .table-admin th:nth-child(5),
 .table-admin td:nth-child(5) {
-    width: 25%; /* Lebar kolom untuk Email */
+    width: 15%; /* Lebar kolom untuk Telepon/WA */
 }
 
 .table-admin th:nth-child(6),
 .table-admin td:nth-child(6) {
-    width: 20%; /* Lebar kolom untuk Telepon/WA */
-}
-.table-admin th:nth-child(7),
-.table-admin td:nth-child(7) {
-    text-align: center;
-    vertical-align: middle;
-    font-weight: 700;
+    width: 15%; /* Lebar kolom untuk Identitas Diri */
 }
 
 .table-admin th:nth-child(7),
-.table-admin td:nth-child(7),
+.table-admin td:nth-child(7) {
+    width: 10%; /* Lebar kolom untuk Status Surat */
+}
+
 .table-admin th:nth-child(8),
-.table-admin td:nth-child(8),
-.table-admin th:nth-child(9),
-.table-admin td:nth-child(9),
-.table-admin th:nth-child(10),
-.table-admin td:nth-child(10) {
-    width: 8%;
+.table-admin td:nth-child(8) {
+    width: 8%; /* Lebar kolom untuk Pengajuan Surat */
+}
+
+.dropdown-pengajuan {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 10px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.dropdown-pengajuan:hover {
+    border-color: #0077b6; /* Warna border saat hover */
+}
+
+.dropdown-pengajuan:focus {
+    outline: none; /* Menghilangkan outline default */
+    border-color: #0077b6; /* Warna border saat fokus */
+}
+
+.table-admin td.action-cell {
+    display: flex; /* Menggunakan Flexbox */
+    justify-content: space-around; /* Menyebar ikon secara merata */
+    align-items: center; /* Pusatkan secara vertikal */
+}
+
+.table-admin .icon-action {
+    margin: 0 10px;
 }
 
 .table-admin td {
@@ -802,13 +817,13 @@ header h1 {
 
 .table-admin .icon-action {
     display: flex;
-    justify-content: center; /* Pusatkan secara horizontal */
-    align-items: center; /* Pusatkan secara vertikal */
+    justify-content: center;
+    align-items: center;
     width: 30px;
     height: 30px;
     border-radius: 3px;
     cursor: pointer;
-    margin: auto;
+    margin: 0 3px;
 }
 
 .icon-action.print {

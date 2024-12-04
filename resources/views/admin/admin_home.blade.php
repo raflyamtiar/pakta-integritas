@@ -72,33 +72,78 @@
         </div>
     </div>
 
-    <div class="container-chart">
-        <div class="card-chart">
-            <div class="card-header-chart">
-                <i class="fa-solid fa-chart-line"></i>
-                <h2>Grafik Surat Masuk</h2>
-            </div>
-            <div class="card-body-chart">
-                <!-- Dropdown untuk kategori surat -->
-                <div class="form-group-chart">
-                    <label for="filterSurat">Filter Kategori Surat:</label>
-                    <select id="filterSurat" class="form-control-chart" onchange="updateChart()">
-                        <option value="semua">Keseluruhan</option>
-                        <option value="pegawai">Pegawai</option>
-                        <option value="penyedia-jasa">Penyedia Jasa</option>
-                        <option value="pengguna-jasa">Pengguna Jasa</option>
-                        <option value="auditor">Auditor</option>
-                        <option value="laporspg">Lapor SPG</option> <!-- Opsi untuk Lapor SPG -->
-                    </select>
-
+    <div class="container-chart-title">
+        <h2>Grafik Surat Masuk</h2>
+        <hr>
+        <div class="dropdown-chart-year">
+            <label for="yearSelect">Pilih Tahun:</label>
+            <select id="yearSelect">
+                @php
+                    $currentYear = now()->year;
+                    for ($i = $currentYear - 2; $i <= $currentYear + 2; $i++) {
+                        echo "<option value='{$i}'" . ($i == $currentYear ? ' selected' : '') . ">{$i}</option>";
+                    }
+                @endphp
+            </select>
+        </div>
+        <div class="container-chart">
+            <div class="card-chart">
+                <div class="card-header-chart">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h4>Grafik Keseluruhan Surat Masuk</h4>
                 </div>
-                <div class="chart-container-chart">
-                    <div class="chart-header">
-                        <h3><i class="fa fa-chart-area"></i> Grafik Surat Masuk</h3>
-                        <!-- Dropdown untuk tahun -->
-                        <select id="filterTahun" class="form-control-chart" onchange="updateChart()"></select>
-                    </div>
-                    <canvas id="suratMasukChart" width="400" height="200"></canvas>
+                <div class="card-body-chart">
+                    <canvas id="chartSemua" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="card-chart">
+                <div class="card-header-chart">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h4>Grafik Surat Masuk Pegawai</h4>
+                </div>
+                <div class="card-body-chart">
+                    <canvas id="chartPegawai" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="card-chart">
+                <div class="card-header-chart">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h4>Grafik Surat Masuk Penyedia Jasa</h4>
+                </div>
+                <div class="card-body-chart">
+                    <canvas id="chartPenyedia" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="card-chart">
+                <div class="card-header-chart">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h4>Grafik Surat Masuk Pengguna Jasa</h4>
+                </div>
+                <div class="card-body-chart">
+                    <canvas id="chartPengguna" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="card-chart">
+                <div class="card-header-chart">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h4>Grafik Surat Masuk Auditor</h4>
+                </div>
+                <div class="card-body-chart">
+                    <canvas id="chartAuditor" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="card-chart">
+                <div class="card-header-chart">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h4>Grafik Laporan SPG</h4>
+                </div>
+                <div class="card-body-chart">
+                    <canvas id="chartSpg" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -115,6 +160,6 @@
         var monthlyDataLaporSpg = {!! json_encode(array_values($monthlyDataLaporSpg)) !!}; // Tambahkan data LaporSpg
     </script>
 
-
     <script src="{{ asset('script/script-admin.js') }}"></script>
+
 @endsection

@@ -51,7 +51,8 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 
 // Admin Routes
 Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function () {
-    Route::get('/api/getDataSurat', [PaktaIntegritasController::class, 'getDataSurat']);
+    Route::get('/admin-home', [AdminController::class, 'index']);
+    Route::get('/get-data-surat', [PaktaIntegritasController::class, 'getDataSurat']);
 
     Route::post('/store', [AdminAuthController::class, 'storeAdmin'])->name('admin.store');
     Route::get('/account', [AdminAuthController::class, 'showAdminAccount'])->name('admin.account');

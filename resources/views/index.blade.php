@@ -398,7 +398,6 @@
                     </div>
                 </div>
 
-                <!-- Form Container -->
                 <form action="{{ route('integritas.store', ['role' => 'null']) }}" method="POST" id="form-container"
                     enctype="multipart/form-data" class="form-container" style="display: none;">
                     @csrf
@@ -410,68 +409,23 @@
                         <span class="error">{{ $errors->first('role') }}</span>
                     @endif
 
+                    <input type="hidden" id="role-input-hidden" name="role">
 
                     <!-- Form Fields -->
                     <div class="form-group">
                         <label for="nama">Nama Lengkap <span>*</span></label>
                         <input type="text" id="nama" name="nama" max-length="100" required>
                     </div>
-                    <!-- Dropdown Jabatan Pegawai -->
-                    <div class="form-group" id="form-jabatan-pegawai" style="display: none;">
-                        <label for="jabatan">Jabatan <span>*</span></label>
-                        <select id="jabatan" name="jabatan">
-                            <option value="">--- Pilih Jabatan ---</option>
-                            <option value="Kepala Balai">Kepala Balai</option>
-                            <option value="Kepala Subbagian Tata Usaha">Kepala Subbagian Tata Usaha</option>
-                            <option value="Bendahara Pengeluaran">Bendahara Pengeluaran</option>
-                            <option value="Bendahara Penerimaan">Bendahara Penerimaan</option>
-                            <option value="PPK (Pejabat Pembuat Komitmen)">PPK (Pejabat Pembuat Komitmen)</option>
-                            <option value="Pejabat Pengadaan Barang dan Jasa">Pejabat Pengadaan Barang dan Jasa</option>
-                            <option value="Penyusun Rencana Kegiatan dan Anggaran">Penyusun Rencana Kegiatan dan Anggaran
-                            </option>
-                            <option value="Petugas Pemelihara Kendaraan Dinas">Petugas Pemelihara Kendaraan Dinas</option>
-                            <option value="Pengadministrasi Keuangan">Pengadministrasi Keuangan</option>
-                            <option value="Arsiparis Terampil">Arsiparis Terampil</option>
-                            <option value="Pengadministrasi dan Penyaji Data">Pengadministrasi dan Penyaji Data</option>
-                            <option value="Pengadministrasi Umum">Pengadministrasi Umum</option>
-                            <option value="Pekarya Taman">Pekarya Taman</option>
-                            <option value="Medik Muda Selaku Subkoordinator Substansi Penyiapan Sampel">Medik Muda Selaku
-                                Subkoordinator Substansi Penyiapan Sampel</option>
-                            <option value="Medik Veteriner Madya">Medik Veteriner Madya</option>
-                            <option value="Paramedik Veteriner Terampil">Paramedik Veteriner Terampil</option>
-                            <option value="Medik Veteriner Muda">Medik Veteriner Muda</option>
-                            <option value="Medik Veteriner Pertama">Medik Veteriner Pertama</option>
-                            <option value="PMHP Muda">PMHP Muda</option>
-                            <option value="PMHP Madya">PMHP Madya</option>
-                            <option value="PMHP Penyelia">PMHP Penyelia</option>
-                            <option value="PMHP Terampil">PMHP Terampil</option>
-                            <option value="Teknisi Gedung">Teknisi Gedung</option>
-                            <option value="Medik Muda Selaku Subkoordinator Substansi Pelayanan Teknik">Medik Muda Selaku
-                                Subkoordinator Substansi Pelayanan Teknik</option>
-                            <option value="Paramedik Pelaksana Lanjutan">Paramedik Pelaksana Lanjutan</option>
-                            <option value="Medik Veteriner Ahli Pertama">Medik Veteriner Ahli Pertama</option>
-                            <option value="Pengadministrasi dan Penyaji Data">Pengadministrasi dan Penyaji Data</option>
-                            <option value="Calon Pengolah Data">Calon Pengolah Data</option>
-                            <option value="Calon Paramedik Veteriner">Calon Paramedik Veteriner</option>
-                            <option value="Paramedik Veteriner Mahir">Paramedik Veteriner Mahir</option>
-                        </select>
+                    {{-- --------------------- --}}
+                    <div class="form-group" id="form-jabatan">
+                        {{-- isinya di js bang --}}
                     </div>
-                    <!-- Input Manual Jabatan -->
-                    <div class="form-group" id="form-jabatan-manual" style="display: none;">
-                        <label for="jabatan">Jabatan <span>*</span></label>
-                        <input type="text" id="jabatan-manual" name="jabatan">
+
+                    <div class="form-group" id="form-instansi">
+                        {{-- isinya di js bang --}}
                     </div>
-                    <!-- Instansi Otomatis -->
-                    <div class="form-group" id="form-instansi" style="display: none;">
-                        <label for="instansi">Instansi <span>*</span></label>
-                        <input type="text" id="instansi" name="instansi"
-                            value="Balai Pengujian Mutu dan Sertifikasi Produk Hewan" readonly>
-                    </div>
-                    <!-- Input Manual Instansi -->
-                    <div class="form-group" id="form-instansi-manual" style="display: none;">
-                        <label for="instansi">Instansi <span>*</span></label>
-                        <input type="text" id="instansi-manual" name="instansi">
-                    </div>
+                    {{-- --------------------- --}}
+
                     <div class="form-group">
                         <label for="alamat">Alamat Lengkap <span>*</span></label>
                         <textarea id="alamat" name="alamat" required></textarea>

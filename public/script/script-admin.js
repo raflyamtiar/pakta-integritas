@@ -309,120 +309,177 @@ function toggleDropdown() {
     }
 }
 
-// Tutup dropdown ketika klik di luar area dropdown
-document.addEventListener("click", function (event) {
-    const dropdownContent = document.getElementById("dropdownContent");
-    const adminDropdown = document.getElementById("adminDropdown");
-    const caretIcon = document.getElementById("caretIcon");
-
-    if (
-        !adminDropdown.contains(event.target) &&
-        !dropdownContent.contains(event.target)
-    ) {
-        dropdownContent.style.display = "none";
-        caretIcon.classList.remove("rotate-icon"); // Kembalikan ikon ke posisi semula jika dropdown tertutup
-    }
-});
-
 document.addEventListener("DOMContentLoaded", function () {
-    const chartCanvas = document.getElementById("suratMasukChart");
-    if (chartCanvas) {
-        var ctx = chartCanvas.getContext("2d");
-        // Inisialisasi Chart.js
-        var suratMasukChart = new Chart(ctx, {
+    const yearSelect = document.getElementById("yearSelect");
+    const charts = {}; // Untuk menyimpan referensi chart agar bisa di-update
+
+    // Fungsi untuk membuat grafik
+    function createChart(ctx, label, data, backgroundColor) {
+        // Jika chart sudah ada, hancurkan sebelum membuat yang baru
+        if (charts[label]) {
+            charts[label].destroy();
+        }
+
+        return new Chart(ctx, {
             type: "line",
             data: {
                 labels: [
-                    "Januari",
-                    "Februari",
-                    "Maret",
-                    "April",
-                    "Mei",
-                    "Juni",
-                    "Juli",
-                    "Agustus",
-                    "September",
-                    "Oktober",
-                    "November",
-                    "Desember",
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
                 ],
                 datasets: [
                     {
-                        label: "Jumlah Surat Masuk",
-                        data: monthlyData,
-                        backgroundColor: "rgba(54, 162, 235, 0.2)",
-                        borderColor: "rgba(54, 162, 235, 1)",
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: "#8DC741",
-                        pointBorderColor: "rgba(54, 162, 235, 1)",
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 7,
-                        pointHitRadius: 10,
+                        label: label,
+                        data: data,
+                        backgroundColor: backgroundColor,
+                        borderColor: backgroundColor,
+                        borderWidth: 1,
+                        fill: false,
                     },
                 ],
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 scales: {
                     x: {
-                        grid: { display: false },
-                        ticks: {
-                            font: { size: 12 },
-                            padding: 15,
-                        },
+                        beginAtZero: true,
                     },
-                    y: { beginAtZero: true },
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        labels: { font: { size: 14 } },
-                    },
-                    tooltip: {
-                        backgroundColor: "rgba(0, 0, 0, 0.7)",
-                        titleColor: "#fff",
-                        bodyColor: "#fff",
-                        borderColor: "#fff",
-                        borderWidth: 1,
+                    y: {
+                        beginAtZero: true,
                     },
                 },
             },
         });
-
-        // Dropdown Tahun
-        const currentYear = new Date().getFullYear();
-        const dropdownTahun = document.getElementById("filterTahun");
-
-        if (dropdownTahun) {
-            for (let year = currentYear; year >= currentYear - 10; year--) {
-                let option = document.createElement("option");
-                option.value = year;
-                option.textContent = year;
-                dropdownTahun.appendChild(option);
-            }
-        }
-
-        // Fungsi untuk memperbarui chart
-        window.updateChart = function () {
-            var selectedCategory = document.getElementById("filterSurat").value;
-            var selectedYear = document.getElementById("filterTahun").value;
-
-            fetch(
-                `/admin/api/getDataSurat?year=${selectedYear}&category=${selectedCategory}`
-            )
-                .then((response) => response.json())
-                .then((data) => {
-                    suratMasukChart.data.datasets[0].data = data.monthlyData;
-                    suratMasukChart.update();
-                })
-                .catch((error) => console.error("Error fetching data:", error));
-        };
-
-        // Inisialisasi chart pertama kali
-        updateChart();
     }
+
+    function updateCharts(year) {
+        fetch(`/admin/get-data-surat?year=${year}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch data");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Data received:", JSON.stringify(data, null, 2)); // Log data yang diterima secara mendetail
+                const datasets = [
+                    {
+                        id: "chartSemua",
+                        data: data.monthlyData.semua,
+                        label: "Keseluruhan Surat",
+                        color: "rgba(54, 162, 235, 1)",
+                    },
+                    {
+                        id: "chartPegawai",
+                        data: data.monthlyData.pegawai,
+                        label: "Surat Masuk Pegawai",
+                        color: "rgba(75, 192, 192, 1)",
+                    },
+                    {
+                        id: "chartPenyedia",
+                        data: data.monthlyData.penyedia,
+                        label: "Surat Masuk Penyedia Jasa",
+                        color: "rgba(255, 206, 86, 1)",
+                    },
+                    {
+                        id: "chartPengguna",
+                        data: data.monthlyData.pengguna,
+                        label: "Surat Masuk Pengguna Jasa",
+                        color: "rgba(153, 102, 255, 1)",
+                    },
+                    {
+                        id: "chartAuditor",
+                        data: data.monthlyData.auditor,
+                        label: "Surat Masuk Auditor",
+                        color: "rgba(255, 99, 132, 1)",
+                    },
+                    {
+                        id: "chartSpg",
+                        data: data.monthlyData.laporspg,
+                        label: "Laporan SPG",
+                        color: "rgba(201, 203, 207, 1)",
+                    },
+                ];
+
+                datasets.forEach((dataset) => {
+                    console.log(
+                        `Updating chart: ${dataset.id} with data:`,
+                        dataset.data
+                    ); // Log data yang digunakan untuk update
+                    if (charts[dataset.id]) {
+                        charts[dataset.id].data.datasets[0].data = dataset.data;
+                        charts[dataset.id].update();
+                    } else {
+                        charts[dataset.id] = createChart(
+                            document
+                                .getElementById(dataset.id)
+                                .getContext("2d"),
+                            dataset.label,
+                            dataset.data,
+                            dataset.color
+                        );
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Error updating charts:", error);
+            });
+    }
+    // Event listener untuk dropdown tahun
+    yearSelect.addEventListener("change", (e) => {
+        const selectedYear = e.target.value;
+        console.log(`Year selected: ${selectedYear}`); // Debugging
+        updateCharts(selectedYear);
+    });
+
+    // Inisialisasi grafik
+    charts["chartSemua"] = createChart(
+        document.getElementById("chartSemua").getContext("2d"),
+        "Keseluruhan Surat",
+        monthlyData,
+        "rgba(54, 162, 235, 1)"
+    );
+    charts["chartPegawai"] = createChart(
+        document.getElementById("chartPegawai").getContext("2d"),
+        "Surat Masuk Pegawai",
+        monthlyDataPegawai,
+        "rgba(75, 192, 192, 1)"
+    );
+    charts["chartPenyedia"] = createChart(
+        document.getElementById("chartPenyedia").getContext("2d"),
+        "Surat Masuk Penyedia Jasa",
+        monthlyDataPenyedia,
+        "rgba(255, 206, 86, 1)"
+    );
+    charts["chartPengguna"] = createChart(
+        document.getElementById("chartPengguna").getContext("2d"),
+        "Surat Masuk Pengguna Jasa",
+        monthlyDataPengguna,
+        "rgba(153, 102, 255, 1)"
+    );
+    charts["chartAuditor"] = createChart(
+        document.getElementById("chartAuditor").getContext("2d"),
+        "Surat Masuk Auditor",
+        monthlyDataAuditor,
+        "rgba(255, 99, 132, 1)"
+    );
+    charts["chartSpg"] = createChart(
+        document.getElementById("chartSpg").getContext("2d"),
+        "Laporan SPG",
+        monthlyDataLaporSpg,
+        "rgba(201, 203, 207, 1)"
+    );
+
+    // Load data awal (tahun default)
+    updateCharts(yearSelect.value);
 });
