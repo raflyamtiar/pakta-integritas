@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaktaIntegritasController;
+use App\Http\Controllers\RiwayatVerifikasiController;
 use App\Http\Controllers\LaporSpgController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Middleware\AdminMiddleware;
@@ -38,9 +39,9 @@ Route::get('/laporan/preview/{id}', [LaporSpgController::class, 'previewPdf'])->
 Route::prefix('user')->group(function () {
     // Rute untuk menyimpan Pakta Integritas
     Route::post('/integritas/store', [PaktaIntegritasController::class, 'store'])->name('integritas.store');
-
-    // Rute untuk menyimpan laporan SPG (dapat diakses oleh user biasa)
     Route::post('/spg/lapor', [LaporSpgController::class, 'store'])->name('lapor.submit.user');
+    Route::get('/{role}/download-pdf/{id}', [PaktaIntegritasController::class, 'downloadPdf'])->name('integritas.download-pdf');
+
 });
 
 
@@ -51,7 +52,6 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 
 // Admin Routes
 Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function () {
-    Route::get('/admin-home', [AdminController::class, 'index']);
     Route::get('/get-data-surat', [PaktaIntegritasController::class, 'getDataSurat']);
 
     Route::post('/store', [AdminAuthController::class, 'storeAdmin'])->name('admin.store');
@@ -60,6 +60,10 @@ Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function () {
     Route::delete('/{id}', [AdminAuthController::class, 'destroy'])->name('admin.destroy');
 
     Route::get('/home', [PaktaIntegritasController::class, 'index'])->name('admin.home');
+
+    Route::get('/verification', [RiwayatVerifikasiController::class, 'index']);
+    Route::put('/verification/store/{id}', [RiwayatVerifikasiController::class, 'store'])->name('verification.store');
+    Route::delete('/admin/verification/{id}', [RiwayatVerifikasiController::class, 'destroy'])->name('riwayat-verifikasi.destroy');
 
     // SPG Routes
     Route::get('/lapor/add', [LaporSpgController::class, 'create'])->name('lapor.add');
@@ -78,6 +82,6 @@ Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function () {
     Route::get('/{role}/edit/{id}', [PaktaIntegritasController::class, 'edit'])->name('integritas.edit');
     Route::put('/{role}/{id}', [PaktaIntegritasController::class, 'update'])->name('integritas.update');
     Route::get('/{role}/export', [PaktaIntegritasController::class, 'export'])->name('integritas.export');
-    Route::get('/{role}/download-pdf/{id}', [PaktaIntegritasController::class, 'downloadPdf'])->name('integritas.download-pdf');
+    Route::get('/{role}/download-pdf/{id}', [PaktaIntegritasController::class, 'downloadPdf'])->name('admin.integritas.download-pdf');
     Route::get('/{role}/view-surat/{id}', [PaktaIntegritasController::class, 'viewSurat'])->name('integritas.view-surat');
 });

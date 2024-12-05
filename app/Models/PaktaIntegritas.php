@@ -21,8 +21,9 @@ class PaktaIntegritas extends Model
         'tanggal',
         'no_whatsapp',
         'role',
+        'status',
         'tanggal_akhir',
-        'identitas_diri', // Tambahkan identitas_diri
+        'identitas_diri',
     ];
 
     protected $dates = ['tanggal', 'tanggal_akhir'];

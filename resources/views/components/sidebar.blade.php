@@ -39,6 +39,11 @@
         <h4>Formulir SPG</h4>
     </a>
 
+    <a href="/admin/verification" class="box-admin-akun">
+        <i class="fas fa-file-alt"></i>
+        <h4>Verifikasi</h4>
+    </a>
+
     <a href="{{ route('admin.account') }}" class="box-admin-akun">
         <i class="fa-solid fa-gear"></i>
         <h4>Pengaturan Akun</h4>

@@ -11,10 +11,11 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\PaktaIntegritasMail;
 use App\Models\LaporSpg;
 use Carbon\Carbon;
+use App\Models\RiwayatVerifikasi;
+use App\Mail\PaktaIntegritasMail;
+use Illuminate\Support\Facades\Mail;
 
 class PaktaIntegritasController extends Controller
 {
@@ -96,7 +97,7 @@ class PaktaIntegritasController extends Controller
         }
 
         // Filter status
- if ($request->has('status')) {
+        if ($request->has('status')) {
             $currentDate = \Carbon\Carbon::now();
 
             if ($request->input('status') === 'aktif') {
@@ -104,6 +105,12 @@ class PaktaIntegritasController extends Controller
                     ->orWhereNull('tanggal_akhir');
             } elseif ($request->input('status') === 'tidak-aktif') {
                 $query->where('tanggal_akhir', '<', $currentDate->toDateString());
+            } elseif ($request->input('status') === 'diterima') {
+                $query->where('status', 'diterima');
+            } elseif ($request->input('status') === 'ditolak') {
+                $query->where('status', 'ditolak');
+            } elseif ($request->input('status') === 'pending') {
+                $query->where('status', 'pending');
             }
         }
 
@@ -308,21 +315,23 @@ class PaktaIntegritasController extends Controller
             'tanggal' => $tanggal_pembuatan,
             'no_whatsapp' => $noWhatsapp,
             'role' => $request->input('role'),
-            'tanggal_akhir' => $tanggal_akhir, // Simpan tanggal akhir yang dihitung otomatis
-            'identitas_diri' => $identitasDiriPath, // Use the correct variable
+            'status' => "pending",
+            'tanggal_akhir' => $tanggal_akhir,
+            'identitas_diri' => $identitasDiriPath,
+        ]);
+
+        RiwayatVerifikasi::create([
+            'pakta_integritas_id' => $paktaIntegritas->id,
+            'admin_id' => null,
+            'status' => "belum_ditindak_lanjuti",
+            'catatan' => "",
+            'tanggal_pengajuan' => now(),
         ]);
 
         // Cek apakah yang melakukan request adalah admin
         if ($request->input('is_admin') == 'true') {
             return redirect()->route('admin.role', strtolower(str_replace(' ', '-', $request->role)))->with('success', 'Data Berhasil Disimpan');
         } else {
-            // Buat link download surat
-            $downloadLink = route('integritas.download-pdf', ['role' => $paktaIntegritas->role, 'id' => $paktaIntegritas->id]);
-
-            // Kirim email dengan mailable yang telah di-update
-            Mail::to($request->input('email'))->send(new PaktaIntegritasMail($paktaIntegritas, $downloadLink));
-
-            // Redirect ke halaman user setelah mengirim email
             return redirect()->back()->with('success', 'Pakta Integritas berhasil dikirim!');
         }
     }
@@ -438,6 +447,11 @@ class PaktaIntegritasController extends Controller
             $data = PaktaIntegritas::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('admin.role', $role)->withErrors(['message' => 'Data tidak ditemukan']);
+        }
+
+            // Pastikan role yang diberikan sesuai, misalnya hanya pengguna dengan role terkait yang bisa mengunduh
+        if ($data->role !== $role) {
+            return redirect()->route('integritas.index')->withErrors(['message' => 'Role tidak sesuai untuk mengunduh file ini']);
         }
 
         // Temukan data Pakta Integritas berdasarkan ID yang diberikan
@@ -589,22 +603,20 @@ class PaktaIntegritasController extends Controller
     }
 
     public function previewEmail()
-{
-    // Dummy data untuk simulasi tampilan
-    $paktaIntegritas = (object) [
-        'nama' => 'John Doe',
-        'jabatan' => 'Manajer',
-        'instansi' => 'PT. ABC',
-        'email' => 'johndoe@example.com',
-        'no_whatsapp' => '08123456789',
-    ];
+    {
+        // Dummy data untuk simulasi tampilan
+        $paktaIntegritas = (object) [
+            'nama' => 'John Doe',
+            'jabatan' => 'Manajer',
+            'instansi' => 'PT. ABC',
+            'email' => 'johndoe@example.com',
+            'no_whatsapp' => '08123456789',
+        ];
 
-    // Buat link download dummy
-    $downloadLink = '#';
+        // Buat link download dummy
+        $downloadLink = '#';
 
-    // Return view template email dengan data dummy
-    return view('template.template_email', compact('paktaIntegritas', 'downloadLink'));
-}
-
-
+        // Return view template email dengan data dummy
+        return view('template.template_email', compact('paktaIntegritas', 'downloadLink'));
+    }
 }

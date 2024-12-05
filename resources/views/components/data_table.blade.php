@@ -52,26 +52,28 @@
                         $tanggalMulai = \Carbon\Carbon::parse($item->tanggal);
                     @endphp
                     @if ($currentDate->between($tanggalMulai, $tanggalAkhir))
-                        <span style="color:green;">Aktif</span>
+                        <span style="color:green;">Active</span>
                     @else
-                        <span style="color: red;">Tidak Aktif</span>
+                        <span style="color: red;">Expired</span>
                     @endif
                 </td>
                 <td>
-                    <label for="pengajuan_surat_{{ $item->id }}" style="display: none;">Status Pengajuan
+                    <label for="status_pengajuan_{{ $item->id }}" style="display: none;">Status Pengajuan
                         Surat</label>
-                    <select id="pengajuan_surat_{{ $item->id }}" name="pengajuan_surat" class="dropdown-pengajuan"
-                        data-id="{{ $item->id }}">
-                        <option value="pending" {{ $item->status_surat == 'pending' ? 'selected' : '' }}>Pending
-                        </option>
-                        <option value="diterima" {{ $item->status_surat == 'diterima' ? 'selected' : '' }}>Diterima
-                        </option>
-                        <option value="ditolak" {{ $item->status_surat == 'ditolak' ? 'selected' : '' }}>Ditolak
-                        </option>
-                    </select>
+                    <span id="status_pengajuan_{{ $item->id }}">
+                        @if ($item->status == 'pending')
+                            <span class="badge badge-pending">Pending</span>
+                        @elseif ($item->status == 'diterima')
+                            <span class="badge ditindaklanjuti">Diterima</span>
+                        @elseif ($item->status == 'ditolak')
+                            <span class="badge ditolak">Ditolak</span>
+                        @else
+                            <span class="badge">N/A</span>
+                        @endif
+                    </span>
                 </td>
                 <td class="action-cell">
-                    <a href="{{ route('integritas.download-pdf', ['role' => $role, 'id' => $item->id]) }}">
+                    <a href="{{ route('admin.integritas.download-pdf', ['role' => $role, 'id' => $item->id]) }}">
                         <div class="icon-action print"><i class="fa fa-print"></i></div>
                     </a>
                     <a href="{{ route('integritas.edit', ['role' => $role, 'id' => $item->id]) }}">

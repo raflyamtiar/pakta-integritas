@@ -870,6 +870,26 @@ header h1 {
     color: #000; /* Warna ikon saat di-hover */
 }
 
+/* Status Badge Styling */
+.badge {
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.badge.ditindaklanjuti {
+    background-color: #34d399;
+    color: white;
+}
+
+.badge.ditolak {
+    background-color: #f87171;
+    color: white;
+}
+
 .alert {
     padding: 10px;
     margin-bottom: 15px;
@@ -1286,4 +1306,20 @@ input:required {
 
 .table-admin-account button:hover i {
     color: #000; /* Warna ikon saat di-hover */
+}
+
+.circle {
+    width: 30px; /* Ukuran lingkaran */
+    height: 30px; /* Ukuran lingkaran */
+    border-radius: 50%; /* Membuat lingkaran */
+    background-color: #007bff; /* Warna latar belakang lingkaran (biru) */
+    color: white; /* Warna teks di dalam lingkaran */
+    display: flex; /* Menggunakan Flexbox untuk centering */
+    justify-content: center; /* Center horizontal */
+    align-items: center; /* Center vertical */
+    font-size: 14px; /* Ukuran font */
+    font-weight: bold; /* Tebalkan angka */
+    position: absolute;
+    top: 0;
+    right: -10px; /* Sesuaikan posisinya */
 }

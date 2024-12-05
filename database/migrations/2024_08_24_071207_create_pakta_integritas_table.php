@@ -21,7 +21,8 @@ return new class extends Migration
         $table->string('kota');
         $table->date('tanggal');
         $table->string('no_whatsapp');
-        $table->string('role'); // Kolom untuk menyimpan role
+        $table->string('role');
+        $table->enum('status', ['pending', 'diterima', 'ditolak']);
         $table->date('tanggal_akhir')->nullable();
         $table->timestamps();
     });
