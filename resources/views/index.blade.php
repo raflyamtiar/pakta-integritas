@@ -461,7 +461,9 @@
                     </div>
                     <!-- Upload File (Identitas Diri) -->
                     <div class="form-group">
-                        <label for="identitas_diri">Identitas Diri</label>
+                        <label for="identitas_diri">Identitas Diri <span>*</span>
+                            <small style="color:red;">Contoh: Kartu Nama, Kartu Identitas, KTP, SIM, Paspor,
+                                dll</small></label>
                         <input type="file" name="identitas_diri" id="identitas_diri" required>
                     </div>
                     <div class="btn-send-form">

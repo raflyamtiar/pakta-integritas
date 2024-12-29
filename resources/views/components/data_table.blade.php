@@ -44,17 +44,34 @@
                         Tidak ada file
                     @endif
                 </td>
-                <td
-                    style="background-color: {{ \Carbon\Carbon::now()->between(\Carbon\Carbon::parse($item->tanggal), \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay()) ? '#dff0d8' : '#f8d7da' }}">
-                    @php
-                        $currentDate = \Carbon\Carbon::now();
-                        $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay();
-                        $tanggalMulai = \Carbon\Carbon::parse($item->tanggal);
-                    @endphp
-                    @if ($currentDate->between($tanggalMulai, $tanggalAkhir))
+                @php
+                    $currentDate = \Carbon\Carbon::now();
+                    $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_akhir)->endOfDay();
+                    $tanggalMulai = \Carbon\Carbon::parse($item->tanggal);
+                    $isActive = false;
+
+                    // Logika untuk menentukan status aktif atau tidak aktif
+                    if ($item->status == 'diterima') {
+                        $isActive = true;
+                    } elseif ($item->status == 'pending' || $item->status == 'ditolak') {
+                        $isActive = false;
+                    } else {
+                        // Status lainnya, bisa dianggap tidak aktif
+                        $isActive = false;
+                    }
+
+                    // Menentukan warna latar belakang
+                    $backgroundColor = '#f8d7da'; // Default untuk tidak aktif
+                    if ($isActive && $currentDate->between($tanggalMulai, $tanggalAkhir)) {
+                        $backgroundColor = '#dff0d8'; // Warna untuk aktif
+                    }
+                @endphp
+
+                <td style="background-color: {{ $backgroundColor }}">
+                    @if ($isActive && $currentDate->between($tanggalMulai, $tanggalAkhir))
                         <span style="color:green;">Active</span>
                     @else
-                        <span style="color: red;">Expired</span>
+                        <span style="color: red;">Expired / Not Active</span>
                     @endif
                 </td>
                 <td>

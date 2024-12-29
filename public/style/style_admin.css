@@ -571,6 +571,23 @@ header h1 {
     width: 10%;
     padding-right: 10px;
 }
+.dropdown-chart-status {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    padding-right: 40px;
+}
+
+.dropdown-chart-status label {
+    margin-right: 10px;
+    color: #000;
+}
+
+.dropdown-chart-status select {
+    width: 10%;
+    padding-right: 10px;
+}
 
 .container-chart {
     max-width: calc(100% - 0); /* Adjust to account for the sidebar */
@@ -890,6 +907,10 @@ header h1 {
     color: white;
 }
 
+.badge.badge-pending {
+    background-color: #ffb921; /* Warna kuning agak oranye */
+    color: white;
+}
 .alert {
     padding: 10px;
     margin-bottom: 15px;

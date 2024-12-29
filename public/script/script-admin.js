@@ -311,8 +311,8 @@ function toggleDropdown() {
 
 document.addEventListener("DOMContentLoaded", function () {
     const yearSelect = document.getElementById("yearSelect");
+    const statusSelect = document.getElementById("statusSelect");
     const charts = {}; // Untuk menyimpan referensi chart agar bisa di-update
-
     // Fungsi untuk membuat grafik
     function createChart(ctx, label, data, backgroundColor) {
         // Jika chart sudah ada, hancurkan sebelum membuat yang baru
@@ -362,8 +362,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function updateCharts(year) {
-        fetch(`/admin/get-data-surat?year=${year}`)
+    function updateCharts(year, status) {
+        const url = `/admin/get-data-surat?year=${year}&status=${status}`; // Definisikan url di sini
+        console.log("Fetching data from:", url); // Pindahkan log ke sini
+
+        fetch(url) // Gunakan url yang sudah didefinisikan
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
@@ -371,7 +374,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 return response.json();
             })
             .then((data) => {
-                console.log("Data received:", JSON.stringify(data, null, 2)); // Log data yang diterima secara mendetail
                 const datasets = [
                     {
                         id: "chartSemua",
@@ -412,10 +414,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 ];
 
                 datasets.forEach((dataset) => {
-                    console.log(
-                        `Updating chart: ${dataset.id} with data:`,
-                        dataset.data
-                    ); // Log data yang digunakan untuk update
                     if (charts[dataset.id]) {
                         charts[dataset.id].data.datasets[0].data = dataset.data;
                         charts[dataset.id].update();
@@ -435,11 +433,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Error updating charts:", error);
             });
     }
+
     // Event listener untuk dropdown tahun
     yearSelect.addEventListener("change", (e) => {
         const selectedYear = e.target.value;
-        console.log(`Year selected: ${selectedYear}`); // Debugging
-        updateCharts(selectedYear);
+        const selectedStatus = statusSelect.value;
+        updateCharts(selectedYear, selectedStatus);
+    });
+
+    // Event listener untuk dropdown status
+    statusSelect.addEventListener("change", (e) => {
+        const selectedStatus = e.target.value;
+        const selectedYear = yearSelect.value;
+        updateCharts(selectedYear, selectedStatus);
     });
 
     // Inisialisasi grafik
@@ -480,6 +486,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "rgba(201, 203, 207, 1)"
     );
 
-    // Load data awal (tahun default)
-    updateCharts(yearSelect.value);
+    // Load data awal (tahun default dan status default)
+    updateCharts(yearSelect.value, statusSelect.value);
 });

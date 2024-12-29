@@ -86,6 +86,14 @@
                 @endphp
             </select>
         </div>
+        <div class="dropdown-chart-status">
+            <label for="statusSelect">Pilih Status Surat:</label>
+            <select id="statusSelect">
+                <option value="semua">Semua</option>
+                <option value="diterima">Diterima</option>
+                <option value="ditolak">Ditolak</option>
+            </select>
+        </div>
         <div class="container-chart">
             <div class="card-chart">
                 <div class="card-header-chart">

@@ -11,12 +11,11 @@
         <form action="{{ route('admin.role', ['role' => $role]) }}" method="GET" style="display: inline-block;">
             <select name="status" id="status-filter" onchange="this.form.submit()">
                 <option value="">-- Semua --</option>
-                <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>Active</option>
-                <option value="tidak-aktif" {{ request('status') == 'tidak-aktif' ? 'selected' : '' }}>Expired
-                </option>
+                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                 <option value="diterima" {{ request('status') == 'diterima' ? 'selected' : '' }}>Diterima</option>
                 <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
             </select>
         </form>
     @endif
